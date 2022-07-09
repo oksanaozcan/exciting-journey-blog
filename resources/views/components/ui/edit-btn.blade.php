@@ -1,0 +1,1 @@
+<a href={{ route($path, $id) }} type="button" class="btn btn-secondary mr-1">Изменить</a>

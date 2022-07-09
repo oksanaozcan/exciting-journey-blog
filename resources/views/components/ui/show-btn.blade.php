@@ -1,0 +1,1 @@
+<a href={{ route($path, $id) }} type="button" class="btn btn-info mr-1">{{ $slot }}</a>
