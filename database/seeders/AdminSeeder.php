@@ -6,6 +6,7 @@ use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Str;
 use App\Models\User;
+use App\Types\RoleType;
 
 class AdminSeeder extends Seeder
 {
@@ -22,6 +23,6 @@ class AdminSeeder extends Seeder
         'email_verified_at' => now(),
         'password' => bcrypt('123456789'),
         'remember_token' => Str::random(10),
-      ])->assignRole('admin');
+      ])->assignRole(RoleType::ADMIN);
     }
 }

@@ -26,9 +26,13 @@ class RoleAndPermissionSeeder extends Seeder
       Permission::create(['name' => PermissionType::CAN_UPDATE_POST]);
       Permission::create(['name' => PermissionType::CAN_DELETE_POST]);
 
+      Permission::create(['name' => PermissionType::CAN_READ_POST]);
+
       $adminRole = Role::create(['name' => RoleType::ADMIN]);
       $writerRole = Role::create(['name' => RoleType::WRITER]);
       $editorRole = Role::create(['name' => RoleType::EDITOR]);
+      
+      $readerRole = Role::create(['name' => RoleType::READER]);
 
       $adminRole->givePermissionTo([
         PermissionType::CAN_CREATE_USER,
@@ -37,6 +41,7 @@ class RoleAndPermissionSeeder extends Seeder
         PermissionType::CAN_CREATE_POST,
         PermissionType::CAN_UPDATE_POST,
         PermissionType::CAN_DELETE_POST,
+        PermissionType::CAN_READ_POST
       ]);
 
       $writerRole->givePermissionTo([
@@ -46,5 +51,10 @@ class RoleAndPermissionSeeder extends Seeder
       $editorRole->givePermissionTo([
         PermissionType::CAN_UPDATE_POST,
       ]);
+
+      $readerRole->givePermissionTo([
+        PermissionType::CAN_READ_POST
+      ]);
+
     }
 }

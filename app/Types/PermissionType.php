@@ -12,4 +12,6 @@ class PermissionType
   public const CAN_UPDATE_POST = 'update-post';
   public const CAN_DELETE_POST = 'delete-post';
 
+  public const CAN_READ_POST = 'read-post';
+
 }
