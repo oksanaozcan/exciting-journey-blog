@@ -2,6 +2,8 @@
 
 namespace Database\Seeders;
 
+use App\Types\PermissionType;
+use App\Types\RoleType;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use Spatie\Permission\Models\Permission;
@@ -16,33 +18,33 @@ class RoleAndPermissionSeeder extends Seeder
      */
     public function run()
     {
-      Permission::create(['name' => 'create-user']);
-      Permission::create(['name' => 'edit-user']);
-      Permission::create(['name' => 'delete-user']);
+      Permission::create(['name' => PermissionType::CAN_CREATE_USER]);
+      Permission::create(['name' => PermissionType::CAN_UPDATE_USER]);
+      Permission::create(['name' => PermissionType::CAN_DELETE_USER]);
 
-      Permission::create(['name' => 'create-post']);
-      Permission::create(['name' => 'edit-post']);
-      Permission::create(['name' => 'delete-post']);
+      Permission::create(['name' => PermissionType::CAN_CREATE_POST]);
+      Permission::create(['name' => PermissionType::CAN_UPDATE_POST]);
+      Permission::create(['name' => PermissionType::CAN_DELETE_POST]);
 
-      $adminRole = Role::create(['name' => 'admin']);
-      $writerRole = Role::create(['name' => 'writer']);
-      $editorRole = Role::create(['name' => 'editor']);
+      $adminRole = Role::create(['name' => RoleType::ADMIN]);
+      $writerRole = Role::create(['name' => RoleType::WRITER]);
+      $editorRole = Role::create(['name' => RoleType::EDITOR]);
 
       $adminRole->givePermissionTo([
-        'create-user',
-        'edit-user',
-        'delete-user',
-        'create-post',
-        'edit-post',
-        'delete-post',
+        PermissionType::CAN_CREATE_USER,
+        PermissionType::CAN_UPDATE_USER,
+        PermissionType::CAN_DELETE_USER,
+        PermissionType::CAN_CREATE_POST,
+        PermissionType::CAN_UPDATE_POST,
+        PermissionType::CAN_DELETE_POST,
       ]);
 
       $writerRole->givePermissionTo([
-        'create-post',
+        PermissionType::CAN_CREATE_POST,
       ]);
 
       $editorRole->givePermissionTo([
-        'edit-post',
+        PermissionType::CAN_UPDATE_POST,
       ]);
     }
 }
