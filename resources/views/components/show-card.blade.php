@@ -13,7 +13,7 @@
        
   </ul>
   <div class="card-body d-flex">
-    <x-ui.edit-btn path='admin.user.edit' :id="$id" >Изменить</x-ui.show-btn>           
-    <x-ui.delete-btn path='admin.user.delete' :id="$id" />     
+    <x-ui.edit-btn path='{{ $pathEdit }}' :id="$id" >Изменить</x-ui.show-btn>           
+    <x-ui.delete-btn path='{{ $pathDelete }}' :id="$id" />     
   </div>
 </div>        

@@ -36,6 +36,36 @@
           </ul>
         </li>       
 
+        <li class="nav-item">
+          <a href={{ route('admin.category.index') }} class="nav-link">
+            <i class="nav-icon fas fa-list"></i>
+            <p>
+              Категории
+              <i class="fas fa-angle-left right"></i>
+            </p>
+          </a>
+          <ul class="nav nav-treeview">
+            <li class="nav-item">
+              <a href={{ route('admin.category.index') }} class="nav-link">
+                <i class="far fa-circle nav-icon"></i>
+                <p>Список</p>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a href="{{ route('admin.category.create') }}" class="nav-link">
+                <i class="far fa-circle nav-icon"></i>
+                <p>Добавить</p>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a href="{{ route('admin.category.deleted') }}" class="nav-link">
+                <i class="far fa-circle nav-icon"></i>
+                <p>Удаленные</p>
+              </a>
+            </li>
+          </ul>
+        </li>
+
         <li class="nav-item">          
           <a class="nav-link" href="{{ route('logout') }}"
               onclick="event.preventDefault();

@@ -10,13 +10,18 @@ class ShowCard extends Component
   public $id;
   public array $text;
   public array $list;
+  public string $pathEdit;
+  public string $pathDelete;
 
-  public function __construct(string $title, array $text, array $list, $id)
+  public function __construct(string $title, array $text = [], array $list = [], $id, $pathEdit, $pathDelete)
   {
     $this->title = $title;    
     $this->text = $text;    
     $this->list = $list;    
     $this->id = $id;
+    $this->pathEdit = $pathEdit;
+    $this->pathDelete = $pathDelete;
+
   }
 
   public function render()
