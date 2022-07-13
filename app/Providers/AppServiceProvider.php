@@ -2,7 +2,7 @@
 
 namespace App\Providers;
 
-use Carbon\Carbon;
+use Illuminate\Http\Resources\Json\JsonResource;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -24,6 +24,6 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-      Carbon::setlocale(LC_TIME, 'Turkish');
+      JsonResource::withoutWrapping();
     }
 }

@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Admin\AdminController;
 use App\Http\Controllers\Admin\CategoryController;
+use App\Http\Controllers\Admin\PostController;
 use App\Http\Controllers\Admin\TagController;
 use App\Http\Controllers\Admin\UserController;
 use App\Types\PermissionType;
@@ -56,6 +57,10 @@ Route::middleware(['auth'])->group(function () {
       Route::get('/{tag}/edit', [TagController::class, 'edit'])->middleware(['can:'.PermissionType::CAN_UPDATE_USER])->name('admin.tag.edit');
       Route::patch('/{tag}', [TagController::class, 'update'])->middleware(['can:'.PermissionType::CAN_UPDATE_USER])->name('admin.tag.update');
       Route::delete('/{tag}', [TagController::class, 'delete'])->middleware(['can:'.PermissionType::CAN_DELETE_USER])->name('admin.tag.delete');
+    });
+
+    Route::prefix('posts')->group(function () {
+      Route::get('/', [PostController::class, 'index'])->middleware(['can:'.PermissionType::CAN_UPDATE_POST])->name('admin.post.index');
     });
 
   });
