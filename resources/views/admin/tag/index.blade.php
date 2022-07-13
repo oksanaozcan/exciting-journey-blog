@@ -25,7 +25,8 @@
             @endforeach               
           </x-table>          
         </div>
-      </div>     
+      </div>   
+      <div> React component  </div>
     </div> 
     
 @endsection
