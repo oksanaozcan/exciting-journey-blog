@@ -1,10 +1,18 @@
 import React from 'react';
 import Authenticated from '@/Layouts/Authenticated';
-import { Head } from '@inertiajs/inertia-react';
+import { Head, InertiaLink, Link } from '@inertiajs/inertia-react';
 import Sidebar from '@/Layouts/Sidebar';
 
 export default function IndexPost(props) {
-  const {test, posts} = props;
+  const {posts, permissions} = props;
+  console.log(props.auth);
+  
+  const isAllowedCreate = permissions.post_create.some(el => {
+    if (el.id === props.auth.user.id) {
+      return true;
+    } 
+    return false;
+  }) 
 
     return (
       <Authenticated
@@ -14,13 +22,20 @@ export default function IndexPost(props) {
       >        
         <div className="grid grid-cols-5 gap-1">          
           <div className="..."> 
-            <Sidebar/>
+            <Sidebar auth={props.auth} />
           </div>
           <div className="col-span-4 ...">
           <div className="py-12">
           <div className="max-w-7xl mx-auto sm:px-6 lg:px-8">
             <div className="bg-white overflow-hidden shadow-sm sm:rounded-lg">
-              <div className="p-6 bg-white border-b border-gray-200">{test}</div>
+              <Link 
+                href='/admin/posts/create'
+                style={ isAllowedCreate ? { display:'block'} : {display : 'none'} }                 
+              >
+                Add Post
+              </Link>       
+              <a style={props.auth.user.roles[0].name === 'admin' ? { display:'block'} : {display : 'none'} } href="/admin">Admin</a>    
+
               <ul>
                 {
                   posts.map(p => (

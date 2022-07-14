@@ -12,9 +12,14 @@ class PostController extends Controller
 {
   public function index()
   {
-    $posts = PostResource::collection(Post::all()); 
-    $test = "Test string";  
+    $posts = PostResource::collection(Post::all());    
     // Debugbar::debug($posts);
-    return inertia('Admin/Posts/IndexPost', compact('posts', 'test'));
+    return inertia('Admin/Posts/IndexPost', compact('posts'));
   }
+
+  public function create()
+  {    
+    return inertia('Admin/Posts/CreatePost');
+  }
+
 }

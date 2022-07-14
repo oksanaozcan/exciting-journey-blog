@@ -61,6 +61,7 @@ Route::middleware(['auth'])->group(function () {
 
     Route::prefix('posts')->group(function () {
       Route::get('/', [PostController::class, 'index'])->middleware(['can:'.PermissionType::CAN_UPDATE_POST])->name('admin.post.index');
+      Route::get('/create', [PostController::class, 'create'])->middleware(['can:'.PermissionType::CAN_CREATE_POST])->name('admin.post.create');
     });
 
   });

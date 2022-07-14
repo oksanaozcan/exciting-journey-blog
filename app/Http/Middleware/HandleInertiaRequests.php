@@ -2,6 +2,9 @@
 
 namespace App\Http\Middleware;
 
+use App\Models\User;
+use App\Types\PermissionType;
+use App\Types\RoleType;
 use Illuminate\Http\Request;
 use Inertia\Middleware;
 use Tightenco\Ziggy\Ziggy;
@@ -44,8 +47,8 @@ class HandleInertiaRequests extends Middleware
                 ]);
             },
             'permissions' => [
-              'posts_view' => true,
-              'posts_manage' => true,
+              'post_view' => User::permission(PermissionType::CAN_UPDATE_POST)->get(['id']),
+              'post_create' => User::permission(PermissionType::CAN_CREATE_POST)->get(['id']),
             ]
         ]);
     }
