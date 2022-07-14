@@ -14,7 +14,7 @@ class PostController extends Controller
   {
     $posts = PostResource::collection(Post::all()); 
     $test = "Test string";  
-    Debugbar::debug($posts);
+    // Debugbar::debug($posts);
     return inertia('Admin/Posts/IndexPost', compact('posts', 'test'));
   }
 }

@@ -43,6 +43,10 @@ class HandleInertiaRequests extends Middleware
                     'location' => $request->url(),
                 ]);
             },
+            'permissions' => [
+              'posts_view' => true,
+              'posts_manage' => true,
+            ]
         ]);
     }
 }
