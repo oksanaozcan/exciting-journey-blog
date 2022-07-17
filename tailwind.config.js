@@ -10,10 +10,19 @@ module.exports = {
     ],
 
     theme: {
+      screens: {
+        sm: '480px',
+        md: '768px',
+        lg: '976px',
+        xl: '1440px'
+      },
         extend: {
-            fontFamily: {
-                sans: ['Nunito', ...defaultTheme.fontFamily.sans],
-            },
+          fontFamily: {
+            sans: ['Nunito', ...defaultTheme.fontFamily.sans],
+          },
+          letterSpacing: {
+            widest: '.3em'
+          }
         },
     },
 
