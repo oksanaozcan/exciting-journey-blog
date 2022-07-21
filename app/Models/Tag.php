@@ -8,6 +8,11 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Tag extends Model
 {
-    use HasFactory, SoftDeletes;
-    protected $guarded = [];
+  use HasFactory, SoftDeletes;
+  protected $guarded = [];
+
+  public function posts()
+  {
+    return $this->belongsToMany(Post::class, 'post_tags', 'tag_id', 'post_id');
+  }    
 }

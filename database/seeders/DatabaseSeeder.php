@@ -22,8 +22,10 @@ class DatabaseSeeder extends Seeder
         AdminSeeder::class
       ]);
 
-      Category::factory(5)->create();
-      Tag::factory(10)->create();
-      Post::factory(5)->create();
+      Category::factory(8)->create();       
+
+      for ($i=0; $i < 10; $i++) { 
+        Post::factory()->hasTags(3)->create();
+      }
     }
 }

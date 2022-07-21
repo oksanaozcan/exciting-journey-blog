@@ -16,11 +16,9 @@ class PostFactory extends Factory
      */
     public function definition()
     {
-        return [
-          'preview' => $this->faker->imageUrl(),
-          'title' => $this->faker->unique()->sentence(),
-          'content' => $this->faker->text(),
-          'category_id' => $this->faker->numberBetween(1, 8),
+        return [          
+          'post_id' => $this->faker->numberBetween(1, 5),
+          'tag_id' => $this->faker->numberBetween(1, 10)
         ];
     }
 }
