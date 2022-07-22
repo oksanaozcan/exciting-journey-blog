@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
 import { Link, Head } from '@inertiajs/inertia-react';
-import CategoryItem from '@/Components/CategoryItem';
-import Navbar from '@/Components/Navbar';
-import Footer from '@/Components/Footer';
-import CommentsGrid from '@/Components/CommentsGrid';
+import CategoryItem from '@/Components/client/CategoryItem';
+import Navbar from '@/Components/client/Navbar';
+import Footer from '@/Components/client/Footer';
+import CommentsGrid from '@/Components/client/CommentsGrid';
 
 export default function Welcome(props) {
   const [isOpen, setIsOpen] = useState(false);

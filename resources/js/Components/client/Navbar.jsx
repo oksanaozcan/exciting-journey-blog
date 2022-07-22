@@ -1,6 +1,6 @@
 import React from "react";
 import ApplicationLogo from '@/Components/ApplicationLogo';
-import MyNavlink from '@/Components/MyNavlink';
+import MyNavlink from '@/Components/client/MyNavlink';
 
 export default function Navbar ({isOpen, navToggle}) {
   

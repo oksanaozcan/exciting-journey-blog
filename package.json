@@ -23,7 +23,9 @@
         "vite": "^2.9.11"
     },
     "dependencies": {
+        "@heroicons/react": "^1.0.6",
         "@tanstack/react-table": "^8.3.0",
+        "date-fns": "^2.29.0",
         "react-table": "^7.8.0"
     }
 }

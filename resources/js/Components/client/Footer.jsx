@@ -1,7 +1,7 @@
 import React from "react";
 import ApplicationLogo from '@/Components/ApplicationLogo';
-import MyNavlink from '@/Components/MyNavlink';
-import SmmIcon from '@/Components/SmmIcon';
+import MyNavlink from '@/Components/client/MyNavlink';
+import SmmIcon from '@/Components/client/SmmIcon';
 
 export default function Footer () {
   return (

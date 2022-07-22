@@ -2,7 +2,7 @@ import React from 'react';
 import Authenticated from '@/Layouts/Authenticated';
 import { Head, InertiaLink, Link } from '@inertiajs/inertia-react';
 import Sidebar from '@/Layouts/Sidebar';
-import PostTable from '@/Components/PostTable';
+import PostTable from '@/Components/admin/PostTable';
 
 export default function IndexPost(props) {
   const {posts, permissions} = props;  
