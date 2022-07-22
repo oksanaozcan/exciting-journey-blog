@@ -2,10 +2,10 @@ import React from 'react';
 import Authenticated from '@/Layouts/Authenticated';
 import { Head, InertiaLink, Link } from '@inertiajs/inertia-react';
 import Sidebar from '@/Layouts/Sidebar';
+import PostTable from '@/Components/PostTable';
 
 export default function IndexPost(props) {
-  const {posts, permissions} = props;
-  console.log(props.auth);
+  const {posts, permissions} = props;  
   
   const isAllowedCreate = permissions.post_create.some(el => {
     if (el.id === props.auth.user.id) {
@@ -27,22 +27,16 @@ export default function IndexPost(props) {
           <div className="col-span-4 ...">
           <div className="py-12">
           <div className="max-w-7xl mx-auto sm:px-6 lg:px-8">
+            <Link 
+              href='/admin/posts/create'
+              style={ isAllowedCreate ? { display:'block'} : {display : 'none'} }                 
+            >
+              Add Post
+            </Link>       
+            <a style={props.auth.user.roles[0].name === 'admin' ? { display:'block'} : {display : 'none'} } href="/admin">Admin</a>    
+            
             <div className="bg-white overflow-hidden shadow-sm sm:rounded-lg">
-              <Link 
-                href='/admin/posts/create'
-                style={ isAllowedCreate ? { display:'block'} : {display : 'none'} }                 
-              >
-                Add Post
-              </Link>       
-              <a style={props.auth.user.roles[0].name === 'admin' ? { display:'block'} : {display : 'none'} } href="/admin">Admin</a>    
-
-              <ul>
-                {
-                  posts.map(p => (
-                    <li key={p.id}>{p.title} created at {p.created_at}</li>
-                  ))
-                }
-              </ul>                    
+              <PostTable posts={posts}/>                     
             </div>
           </div>
         </div>         

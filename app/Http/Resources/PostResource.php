@@ -17,7 +17,10 @@ class PostResource extends JsonResource
     {
         return [
           'id' => $this->id,
+          'preview' => $this->preview,
           'title' => $this->title,
+          'category' => $this->category->title,
+          'tags' => $this->tags->pluck(['title']),
           'content' => substr($this->content, 0, 10) . '...',
           'created_at' => Carbon::parse($this->created_at)->diffForHumans(),
         ];
