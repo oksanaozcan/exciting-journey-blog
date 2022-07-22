@@ -1,9 +1,12 @@
 import React, { useMemo } from "react";
-import { useTable, useSortBy, useGlobalFilter } from "react-table";
+import { useTable, useSortBy, useGlobalFilter, useFilters, usePagination } from "react-table";
 import GlobalFilter from "./GlobalFilter";
 import SortAsc from "../icons/SortAsc";
 import SortDesc from "../icons/SortDesc";
 import { format } from "date-fns";
+import ColumnFilter from "./ColumnFilter";
+import PreviousArrow from "../icons/PreviousArrow";
+import NextArrow from "../icons/NextArrow";
 
 const COLUMNS = [
   {
@@ -11,27 +14,29 @@ const COLUMNS = [
     accessor: 'preview',
     Cell: tableProps => (
       <img src={tableProps.row.original.preview} alt="preview"/>
-    )
+    ),   
+    disableFilters: true
   },
   {
     Header: 'Title',    
-    accessor: 'title',
+    accessor: 'title',   
   },
   {
     Header: 'Category',   
-    accessor: 'category',
+    accessor: 'category',   
   },
   {
     Header: 'Tags',   
-    accessor: 'tags',
+    accessor: 'tags',    
   },  
   {
     Header: 'Created at',   
     accessor: 'created_at',
-    Cell: ({value}) => { return format(new Date(value), 'dd/MM/yyyy')}
+    Cell: ({value}) => { return format(new Date(value), 'dd/MM/yyyy')},   
   },
   {
-    Header: 'Options',   
+    Header: 'Options',       
+    disableFilters: true
   },
 ]
 
@@ -39,15 +44,24 @@ export default function PostTable ({posts}) {
   const columns = useMemo(() => COLUMNS, []);
   const data = useMemo(() => posts, []);
 
-  const {getTableProps, getTableBodyProps, headerGroups, rows, prepareRow, state, setGlobalFilter} = useTable({
+  const defaultColumn = useMemo(() => ({
+    Filter: ColumnFilter
+  }), []);
+
+  const {getTableProps, getTableBodyProps, headerGroups, 
+    page, nextPage, previousPage, canNextPage, canPreviousPage, pageOptions,
+    prepareRow, state, setGlobalFilter} = useTable({
     columns,
-    data
+    data,
+    defaultColumn
   }, 
+  useFilters,
   useGlobalFilter,
-  useSortBy
+  useSortBy,
+  usePagination
   );
 
-  const {globalFilter} = state;
+  const {globalFilter, pageIndex} = state;
 
   return (
     <div className="flex flex-col">
@@ -67,12 +81,12 @@ export default function PostTable ({posts}) {
                             className="text-sm font-bold text-gray-900 px-6 py-4 text-left"
                           >
                             <div className="w-full flex flex-row align-middle">
-                              {column.render('Header')}
+                              {column.render('Header')}                              
                               <span>
                                 {column.isSorted ? (column.isSortedDesc ? <SortAsc/> : <SortDesc/>) : ''}
                               </span>
                             </div>
-                            
+                            <div>{column.canFilter ? column.render('Filter') : null}</div>                                                                
                           </th>
                         ))
                       }                     
@@ -82,7 +96,7 @@ export default function PostTable ({posts}) {
                 </thead>              
               <tbody {...getTableBodyProps()}>
                 {
-                  rows.map(row => {
+                  page.map(row => {
                     prepareRow(row)
                     return (
                       <tr {...row.getRowProps()} className="border-b">
@@ -102,6 +116,30 @@ export default function PostTable ({posts}) {
                 }             
               </tbody>             
             </table>
+            <div className="flex items-center justify-center">
+              <span>
+                Page{' '}
+                <strong>
+                  {pageIndex + 1} of {pageOptions.length}
+                </strong>{' '}
+              </span>
+              <button 
+                type="button"
+                className={canPreviousPage ? 'page-icon' : 'page-icon-disabled'}
+                onClick={() => previousPage()} 
+                disabled={!canPreviousPage}
+              >
+                <PreviousArrow/>
+              </button>
+              <button 
+                type="button"
+                className={canNextPage ? 'page-icon' : 'page-icon-disabled'}
+                onClick={() => nextPage()} 
+                disabled={!canNextPage}
+                >
+                  <NextArrow/>
+              </button>
+            </div>
           </div>
         </div>
       </div>
