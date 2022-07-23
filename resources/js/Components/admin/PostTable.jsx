@@ -9,40 +9,10 @@ import PreviousArrow from "../icons/PreviousArrow";
 import NextArrow from "../icons/NextArrow";
 import DoubleRight from "../icons/DoubleRight";
 import DoubleLeft from "../icons/DoubleLeft";
+import SelectRowPerPage from "../ui/SelectRowPerPage";
+import NavPageBtn from "../ui/NavPageBtn";
 
-const COLUMNS = [
-  {
-    Header: 'Preview',   
-    accessor: 'preview',
-    Cell: tableProps => (
-      <img src={tableProps.row.original.preview} alt="preview"/>
-    ),   
-    disableFilters: true
-  },
-  {
-    Header: 'Title',    
-    accessor: 'title',   
-  },
-  {
-    Header: 'Category',   
-    accessor: 'category',   
-  },
-  {
-    Header: 'Tags',   
-    accessor: 'tags',    
-  },  
-  {
-    Header: 'Created at',   
-    accessor: 'created_at',
-    Cell: ({value}) => { return format(new Date(value), 'dd/MM/yyyy')},   
-  },
-  {
-    Header: 'Options',       
-    disableFilters: true
-  },
-]
-
-export default function PostTable ({posts}) {
+const PostTable = ({posts}) => {
   const columns = useMemo(() => COLUMNS, []);
   const data = useMemo(() => posts, []);
 
@@ -119,17 +89,7 @@ export default function PostTable ({posts}) {
               </tbody>             
             </table>
             <div className="flex items-center justify-center">
-              <select 
-                  className="bg-gray-50 border mr-4 border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-1/6 p-2 mt-3 mx-2 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                  value={pageSize}
-                  onChange={e => setPageSize(Number(e.target.value))}
-                >
-                  {
-                    [10,25,50].map(pageSize => (
-                      <option key={pageSize} value={pageSize}>Show {pageSize}</option>
-                    ))
-                  }
-              </select>
+              <SelectRowPerPage pageSize={pageSize} setPageSize={setPageSize}/>
               <span className="mt-3">
                 Page{' '}
                 <strong>
@@ -146,38 +106,11 @@ export default function PostTable ({posts}) {
                     gotoPage(pageNumber);
                   }}
                 />
-              </span>              
-              <button 
-                onClick={() => gotoPage(0)} 
-                disabled={!canPreviousPage}
-                type="button"
-                className={canPreviousPage ? 'page-icon' : 'page-icon-disabled'}
-              >
-                <DoubleLeft/>
-              </button>
-              <button 
-                type="button"
-                className={canPreviousPage ? 'page-icon' : 'page-icon-disabled'}
-                onClick={() => previousPage()} 
-                disabled={!canPreviousPage}
-              >
-                <PreviousArrow/>
-              </button>
-              <button 
-                type="button"
-                className={canNextPage ? 'page-icon' : 'page-icon-disabled'}
-                onClick={() => nextPage()} 
-                disabled={!canNextPage}
-                >
-                  <NextArrow/>
-              </button>
-              <button 
-                type="button"
-                className={canNextPage ? 'page-icon' : 'page-icon-disabled'}
-                onClick={() => gotoPage(pageCount - 1)} disabled={!canNextPage}
-              >
-                <DoubleRight/>
-              </button>
+              </span>                           
+              <NavPageBtn onClick={() => gotoPage(0)} disabled={!canPreviousPage} classes={canPreviousPage ? 'page-icon' : 'page-icon-disabled'} icon={<DoubleLeft/>}/>
+              <NavPageBtn onClick={() => previousPage()} disabled={!canPreviousPage} classes={canPreviousPage ? 'page-icon' : 'page-icon-disabled'} icon={<PreviousArrow/>}/>             
+              <NavPageBtn onClick={() => nextPage()} disabled={!canNextPage} classes={canNextPage ? 'page-icon' : 'page-icon-disabled'} icon={<NextArrow/>}/>                           
+              <NavPageBtn onClick={() => gotoPage(pageCount - 1)} disabled={!canNextPage} classes={canNextPage ? 'page-icon' : 'page-icon-disabled'} icon={<DoubleRight/>}/>                                         
             </div>
           </div>
         </div>
@@ -185,3 +118,37 @@ export default function PostTable ({posts}) {
     </div>
   );
 }
+
+const COLUMNS = [
+  {
+    Header: 'Preview',   
+    accessor: 'preview',
+    Cell: tableProps => (
+      <img src={tableProps.row.original.preview} alt="preview"/>
+    ),   
+    disableFilters: true
+  },
+  {
+    Header: 'Title',    
+    accessor: 'title',   
+  },
+  {
+    Header: 'Category',   
+    accessor: 'category',   
+  },
+  {
+    Header: 'Tags',   
+    accessor: 'tags',    
+  },  
+  {
+    Header: 'Created at',   
+    accessor: 'created_at',
+    Cell: ({value}) => { return format(new Date(value), 'dd/MM/yyyy')},   
+  },
+  {
+    Header: 'Options',       
+    disableFilters: true
+  },
+]
+
+export default PostTable;
