@@ -11,6 +11,7 @@ import DoubleRight from "../icons/DoubleRight";
 import DoubleLeft from "../icons/DoubleLeft";
 import SelectRowPerPage from "../ui/SelectRowPerPage";
 import NavPageBtn from "../ui/NavPageBtn";
+import { data } from "autoprefixer";
 
 const PostTable = ({posts}) => {
   const columns = useMemo(() => COLUMNS, []);
@@ -88,7 +89,7 @@ const PostTable = ({posts}) => {
                 }             
               </tbody>             
             </table>
-            <div className="flex items-center justify-center">
+            <div className="flex items-center">
               <SelectRowPerPage pageSize={pageSize} setPageSize={setPageSize}/>
               <span className="mt-3">
                 Page{' '}
@@ -138,7 +139,10 @@ const COLUMNS = [
   },
   {
     Header: 'Tags',   
-    accessor: 'tags',    
+    accessor: 'tags',          
+    Cell: ({value}) => {      
+      return value.join(', ');
+    }    
   },  
   {
     Header: 'Created at',   
