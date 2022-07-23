@@ -7,6 +7,8 @@ import { format } from "date-fns";
 import ColumnFilter from "./ColumnFilter";
 import PreviousArrow from "../icons/PreviousArrow";
 import NextArrow from "../icons/NextArrow";
+import DoubleRight from "../icons/DoubleRight";
+import DoubleLeft from "../icons/DoubleLeft";
 
 const COLUMNS = [
   {
@@ -49,7 +51,7 @@ export default function PostTable ({posts}) {
   }), []);
 
   const {getTableProps, getTableBodyProps, headerGroups, 
-    page, nextPage, previousPage, canNextPage, canPreviousPage, pageOptions,
+    page, nextPage, previousPage, canNextPage, canPreviousPage, pageOptions, gotoPage, pageCount, setPageSize,
     prepareRow, state, setGlobalFilter} = useTable({
     columns,
     data,
@@ -61,7 +63,7 @@ export default function PostTable ({posts}) {
   usePagination
   );
 
-  const {globalFilter, pageIndex} = state;
+  const {globalFilter, pageIndex, pageSize} = state;
 
   return (
     <div className="flex flex-col">
@@ -117,12 +119,42 @@ export default function PostTable ({posts}) {
               </tbody>             
             </table>
             <div className="flex items-center justify-center">
-              <span>
+              <select 
+                  className="bg-gray-50 border mr-4 border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-1/6 p-2 mt-3 mx-2 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                  value={pageSize}
+                  onChange={e => setPageSize(Number(e.target.value))}
+                >
+                  {
+                    [10,25,50].map(pageSize => (
+                      <option key={pageSize} value={pageSize}>Show {pageSize}</option>
+                    ))
+                  }
+              </select>
+              <span className="mt-3">
                 Page{' '}
                 <strong>
                   {pageIndex + 1} of {pageOptions.length}
                 </strong>{' '}
               </span>
+              <span className="ml-2">
+                | Go to page: {' '}
+                <input 
+                  className="bg-gray-50 mr-2 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 w-12 p-2 mt-3 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                  type="number" defaultValue={pageIndex + 1}
+                  onChange={e => {
+                    const pageNumber = e.target.value ? Number(e.target.value) - 1 : 0;
+                    gotoPage(pageNumber);
+                  }}
+                />
+              </span>              
+              <button 
+                onClick={() => gotoPage(0)} 
+                disabled={!canPreviousPage}
+                type="button"
+                className={canPreviousPage ? 'page-icon' : 'page-icon-disabled'}
+              >
+                <DoubleLeft/>
+              </button>
               <button 
                 type="button"
                 className={canPreviousPage ? 'page-icon' : 'page-icon-disabled'}
@@ -138,6 +170,13 @@ export default function PostTable ({posts}) {
                 disabled={!canNextPage}
                 >
                   <NextArrow/>
+              </button>
+              <button 
+                type="button"
+                className={canNextPage ? 'page-icon' : 'page-icon-disabled'}
+                onClick={() => gotoPage(pageCount - 1)} disabled={!canNextPage}
+              >
+                <DoubleRight/>
               </button>
             </div>
           </div>
