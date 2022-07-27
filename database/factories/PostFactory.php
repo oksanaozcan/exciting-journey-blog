@@ -19,7 +19,21 @@ class PostFactory extends Factory
         return [
           'preview' => $this->faker->imageUrl(),
           'title' => $this->faker->unique()->sentence(),
-          'content' => $this->faker->text(),
+          // 'content' => $this->faker->text(),
+          'content' => json_encode([       
+            0 => [
+              "text" => $this->faker->text(),       
+            ],    
+            1 => [
+              "images" => [
+                $this->faker->imageUrl(),
+                $this->faker->imageUrl(),
+              ],           
+            ],
+            2 => [
+              "text" => $this->faker->text(),       
+            ],             
+            ]),
           'category_id' => $this->faker->numberBetween(1, 8),
         ];
     }

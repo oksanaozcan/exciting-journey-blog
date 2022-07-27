@@ -3,6 +3,8 @@ import Authenticated from '@/Layouts/Authenticated';
 import Sidebar from '@/Layouts/Sidebar';
 
 export default function CreatePost(props) {
+  const {categories} = props;  
+  console.log(categories);
     return (
       <Authenticated
         auth={props.auth}
