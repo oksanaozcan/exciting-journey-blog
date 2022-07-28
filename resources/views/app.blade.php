@@ -19,3 +19,6 @@
         @inertia
     </body>
 </html>
+<script>
+  const global = globalThis;
+</script>

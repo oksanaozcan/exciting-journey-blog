@@ -4,16 +4,24 @@ import React, {useEffect, useMemo, useState} from 'react';
 import Select from 'react-select';
 import Authenticated from '@/Layouts/Authenticated';
 import Sidebar from '@/Layouts/Sidebar';
+import { EditorState } from 'draft-js';
+import { Editor } from "react-draft-wysiwyg";
+import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
 
 export default function CreatePost(props) {  
   const categories = useMemo(() => props.categories, []);      
   const [selectedCategory, setSelectedCategory] = useState(''); 
+
+  const [editorState, setEditorState] = useState(
+    () => EditorState.createEmpty(),
+  ); 
 
   const { errors } = usePage().props;
 
   const { data, setData, post, progress, processing } = useForm({
     title: "",
     preview: "",
+    description: "",
     content: "",
     category_id: "",
     // tags: []
@@ -25,6 +33,7 @@ export default function CreatePost(props) {
   
   function submit(e) {
     e.preventDefault()   
+    console.log(data)
     post('/admin/posts')
   } 
 
@@ -64,11 +73,11 @@ export default function CreatePost(props) {
                 <textarea                
                   rows="4" 
                   className="block p-2.5 mb-4 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" 
-                  placeholder="Test text content..."
-                  onChange={e => setData('content', e.target.value)}
+                  placeholder="Description of post..."
+                  onChange={e => setData('description', e.target.value)}
                 >
                 </textarea>
-                {errors.content && <div className='text-sm text-red-800 mb-4'>{errors.content}</div>}
+                {errors.description && <div className='text-sm text-red-800 mb-4'>{errors.description}</div>}
 
                 <label htmlFor="select_category" className="">Select Category</label>
                 <Select
@@ -84,6 +93,14 @@ export default function CreatePost(props) {
                   options={categories}              
                 />
                 {errors.category_id && <div className='text-sm text-red-800 mb-4'>{errors.category_id}</div>}
+
+                <Editor
+                  editorState={editorState}
+                  onEditorStateChange={setEditorState}
+                  toolbarClassName="toolbarClassName"
+                  wrapperClassName="wrapperClassName"
+                  editorClassName="editorClassName"
+                />
 
                 {progress && (
                   <progress value={progress.percentage} max="100">

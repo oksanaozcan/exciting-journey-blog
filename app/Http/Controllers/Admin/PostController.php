@@ -37,7 +37,8 @@ class PostController extends Controller
     $post = Post::create([
       'preview' => url('/storage/' . $pathPreview),
       'title' => $data['title'],
-      'content' => json_encode([0 => ["text" => $data['content']]]),
+      'description' => $data['description'],
+      'content' => json_encode([0 => ["text" => $data['description']]]),     
       'category_id' => $data['category_id']['id'],
     ]);
     

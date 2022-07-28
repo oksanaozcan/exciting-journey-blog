@@ -19,7 +19,7 @@ class PostFactory extends Factory
         return [
           'preview' => $this->faker->imageUrl(),
           'title' => $this->faker->unique()->sentence(),
-          // 'content' => $this->faker->text(),
+          'description' => $this->faker->text(),
           'content' => json_encode([       
             0 => [
               "text" => $this->faker->text(),       

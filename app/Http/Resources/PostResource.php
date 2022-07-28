@@ -21,7 +21,8 @@ class PostResource extends JsonResource
           'title' => $this->title,
           'category' => $this->category->title,
           'tags' => $this->tags->pluck(['title']),
-          'content' => substr($this->content, 0, 10) . '...',
+          'description' => substr($this->description, 0, 50) . '...',
+          'content' => $this->content,
           // 'created_at' => Carbon::parse($this->created_at)->diffForHumans(),
           'created_at' => $this->created_at,
         ];

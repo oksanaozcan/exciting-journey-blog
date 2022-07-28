@@ -26,7 +26,8 @@ class StoreRequest extends FormRequest
         return [
           'preview' => 'required|file',
           'title' => 'required|string',
-          'content' => 'required|string',
+          'description' => 'required|string',
+          'content' => 'nullable',
           'category_id' => 'required',
         ];
     }
