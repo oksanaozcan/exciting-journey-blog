@@ -1,4 +1,4 @@
-import { Inertia } from '@inertiajs/inertia';
+import { usePage } from '@inertiajs/inertia-react';
 import { useForm } from '@inertiajs/inertia-react';
 import React, {useEffect, useMemo, useState} from 'react';
 import Select from 'react-select';
@@ -9,7 +9,9 @@ export default function CreatePost(props) {
   const categories = useMemo(() => props.categories, []);      
   const [selectedCategory, setSelectedCategory] = useState(''); 
 
-  const { data, setData, post, progress } = useForm({
+  const { errors } = usePage().props;
+
+  const { data, setData, post, progress, processing } = useForm({
     title: "",
     preview: "",
     content: "",
@@ -22,9 +24,8 @@ export default function CreatePost(props) {
   }, [selectedCategory, setSelectedCategory])
   
   function submit(e) {
-    e.preventDefault()    
-    console.log(data)
-    // post('/users')
+    e.preventDefault()   
+    post('/admin/posts')
   } 
 
   return (
@@ -48,6 +49,7 @@ export default function CreatePost(props) {
                   required
                   onChange={e => setData('title', e.target.value)}
                 />
+                {errors.title && <div className='text-sm text-red-800 mb-4'>{errors.title}</div>}
 
                 <label className="block mb-4">
                   <span className="sr-only">Choose File Preview</span>
@@ -56,6 +58,7 @@ export default function CreatePost(props) {
                     className="upload-file-input"
                     onChange={e => setData('preview', e.target.files[0])}
                   />
+                  {errors.preview && <div className='text-sm text-red-800 mb-4'>{errors.preview}</div>}
                 </label> 
                 
                 <textarea                
@@ -65,6 +68,7 @@ export default function CreatePost(props) {
                   onChange={e => setData('content', e.target.value)}
                 >
                 </textarea>
+                {errors.content && <div className='text-sm text-red-800 mb-4'>{errors.content}</div>}
 
                 <label htmlFor="select_category" className="">Select Category</label>
                 <Select
@@ -79,6 +83,7 @@ export default function CreatePost(props) {
                   getOptionValue={option => option.id}
                   options={categories}              
                 />
+                {errors.category_id && <div className='text-sm text-red-800 mb-4'>{errors.category_id}</div>}
 
                 {progress && (
                   <progress value={progress.percentage} max="100">
@@ -88,6 +93,7 @@ export default function CreatePost(props) {
 
                 <button 
                   className="relative inline-flex items-center justify-center p-0.5 mb-2 mr-2 overflow-hidden text-sm font-medium text-gray-900 rounded-lg group bg-gradient-to-br from-purple-600 to-blue-500 group-hover:from-purple-600 group-hover:to-blue-500 hover:text-white dark:text-white focus:ring-4 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800"
+                  disabled={processing}
                 >
                   <span className="relative px-5 py-2.5 transition-all ease-in duration-75 bg-white dark:bg-gray-900 rounded-md group-hover:bg-opacity-0">
                     Submit

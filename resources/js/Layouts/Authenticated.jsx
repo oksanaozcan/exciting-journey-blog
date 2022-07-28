@@ -4,9 +4,12 @@ import Dropdown from '@/Components/Dropdown';
 import NavLink from '@/Components/NavLink';
 import ResponsiveNavLink from '@/Components/ResponsiveNavLink';
 import { Link } from '@inertiajs/inertia-react';
+import { usePage } from '@inertiajs/inertia-react'
 
 export default function Authenticated({ auth, header, children }) {
-    const [showingNavigationDropdown, setShowingNavigationDropdown] = useState(false);
+    const [showingNavigationDropdown, setShowingNavigationDropdown] = useState(false);   
+
+    const { flash } = usePage().props
 
     return (
         <div className="min-h-screen bg-gray-100">
@@ -117,7 +120,11 @@ export default function Authenticated({ auth, header, children }) {
                 </header>
             )}
 
-            <main>{children}</main>
+            <main>
+            {flash.message && (
+              <div className='absolute top-20 left-1/2 text-lg bg-green-600 text-white py-2 px-5'>{flash.message}</div>           
+            )}
+              {children}</main>
         </div>
     );
 }
