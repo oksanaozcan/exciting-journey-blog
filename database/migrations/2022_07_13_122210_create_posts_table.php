@@ -18,7 +18,7 @@ return new class extends Migration
             $table->string('preview');
             $table->string('title');
             $table->text('description');
-            $table->json('content')->nullable();
+            $table->text('content');
             $table->unsignedBigInteger('category_id');
             $table->timestamps();
             $table->softDeletes();

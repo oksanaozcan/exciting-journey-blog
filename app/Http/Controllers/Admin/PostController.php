@@ -7,6 +7,7 @@ use App\Http\Requests\Admin\Post\StoreRequest;
 use App\Http\Resources\CategoryResource;
 use App\Http\Resources\PostResource;
 use App\Models\Category;
+use App\Models\Picture;
 use App\Models\Post;
 use Barryvdh\Debugbar\Facades\Debugbar;
 use Illuminate\Http\Request;
@@ -30,18 +31,27 @@ class PostController extends Controller
   public function store(StoreRequest $request)
   {
     $data = $request->validated();   
-    dd($data);
 
     $preview = $data['preview'];    
-    $pathPreview = Storage::disk('public')->put('previews', $preview); 
+    $pathPreview = Storage::disk('public')->put('previews', $preview);   
 
     $post = Post::create([
       'preview' => url('/storage/' . $pathPreview),
       'title' => $data['title'],
       'description' => $data['description'],
-      'content' => json_encode([0 => ["text" => $data['description']]]),     
+      'content' => $data['content'],     
       'category_id' => $data['category_id']['id'],
     ]);
+
+    $pictures = $data['pictures'];
+    foreach ($pictures as $picture) {
+      $filePath = Storage::disk('public')->put('images', $picture);      
+      
+      Picture::create([
+        'path' => url('/storage/' . $filePath),            
+        'post_id' => $post->id,
+      ]);
+    }
     
     return Redirect::route('admin.post.index')->with('message', 'Post created successfully!');
   }
