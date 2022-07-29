@@ -4,11 +4,11 @@ import React, {useEffect, useMemo, useState, useCallback} from 'react';
 import Select from 'react-select';
 import Authenticated from '@/Layouts/Authenticated';
 import Sidebar from '@/Layouts/Sidebar';
-import { EditorState } from 'draft-js';
+import { convertToRaw, EditorState } from 'draft-js';
 import { Editor } from "react-draft-wysiwyg";
 import {useDropzone} from 'react-dropzone';
 import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
-import { convertToHTML } from 'draft-convert';
+import draftToHtml from 'draftjs-to-html';
 
 // DropzoneFix.tsx
 import Dropzone from 'react-dropzone-uploader';
@@ -54,8 +54,9 @@ export default function CreatePost(props) {
   }, [selectedCategory, setSelectedCategory])
 
   useEffect(() => {
-    let content = convertToHTML(editorState.getCurrentContent());    
+    let content = draftToHtml(convertToRaw(editorState.getCurrentContent()));
     setData('content', content)
+    console.log(data.content);
   }, [editorState, setEditorState])
 
   useEffect(() => {

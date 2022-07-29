@@ -26,15 +26,17 @@ class PostService
         'category_id' => $data['category_id']['id'],
       ]);
 
-      $pictures = $data['pictures'];
-      foreach ($pictures as $picture) {
-        $filePath = Storage::disk('public')->put('images', $picture);      
-        
-        Picture::create([
-          'path' => url('/storage/' . $filePath),            
-          'post_id' => $post->id,
-        ]);
-      }
+      if (isset($data['pictures'])) {
+        $pictures = $data['pictures'];
+        foreach ($pictures as $picture) {
+          $filePath = Storage::disk('public')->put('images', $picture);      
+          
+          Picture::create([
+            'path' => url('/storage/' . $filePath),            
+            'post_id' => $post->id,
+          ]);
+        }
+      }      
       
       DB::commit();
 
