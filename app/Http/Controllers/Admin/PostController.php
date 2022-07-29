@@ -30,6 +30,7 @@ class PostController extends Controller
   public function store(StoreRequest $request)
   {
     $data = $request->validated();   
+    dd($data);
 
     $preview = $data['preview'];    
     $pathPreview = Storage::disk('public')->put('previews', $preview); 

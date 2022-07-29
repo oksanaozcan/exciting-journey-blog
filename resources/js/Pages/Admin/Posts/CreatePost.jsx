@@ -1,20 +1,41 @@
 import { usePage } from '@inertiajs/inertia-react';
 import { useForm } from '@inertiajs/inertia-react';
-import React, {useEffect, useMemo, useState} from 'react';
+import React, {useEffect, useMemo, useState, useCallback} from 'react';
 import Select from 'react-select';
 import Authenticated from '@/Layouts/Authenticated';
 import Sidebar from '@/Layouts/Sidebar';
 import { EditorState } from 'draft-js';
 import { Editor } from "react-draft-wysiwyg";
+import {useDropzone} from 'react-dropzone';
 import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
+import { convertToHTML } from 'draft-convert';
+
+// DropzoneFix.tsx
+import Dropzone from 'react-dropzone-uploader';
+import CrossIcon from '@/Components/icons/CrossIcon';
+function fixComponent(component) {
+    return (component).default ?? component;
+}
+export const DropzoneFix = fixComponent(Dropzone);
+
+function bytesToHuman(bytes)
+{
+  const units = ['B', 'KB', 'MB', 'GB', 'TB', 'PB'];
+  let i;
+  for (i = 0; bytes > 1024; i++) {
+    bytes /= 1024;
+  }
+  return `${Math.round(bytes)} ${units[i]}`;   
+}
 
 export default function CreatePost(props) {  
   const categories = useMemo(() => props.categories, []);      
-  const [selectedCategory, setSelectedCategory] = useState(''); 
-
+  
+  const [selectedCategory, setSelectedCategory] = useState('');
   const [editorState, setEditorState] = useState(
     () => EditorState.createEmpty(),
-  ); 
+  );
+  const [dropedFiles, setDropedFiles] = useState([]);
 
   const { errors } = usePage().props;
 
@@ -24,18 +45,50 @@ export default function CreatePost(props) {
     description: "",
     content: "",
     category_id: "",
+    pictures: [],
     // tags: []
   })
 
   useEffect(() => {
     setData('category_id', selectedCategory)
   }, [selectedCategory, setSelectedCategory])
+
+  useEffect(() => {
+    let content = convertToHTML(editorState.getCurrentContent());    
+    setData('content', content)
+  }, [editorState, setEditorState])
+
+  useEffect(() => {
+    setData('pictures', dropedFiles)
+  }, [dropedFiles, setDropedFiles])
   
   function submit(e) {
-    e.preventDefault()   
-    console.log(data)
+    e.preventDefault()
     post('/admin/posts')
   } 
+
+  const onDrop = useCallback(acceptedFiles => {   
+    setDropedFiles(acceptedFiles.map(file => 
+      Object.assign(file, {
+        preview:URL.createObjectURL(file)
+      })
+      ))
+  }, []);
+  const {getRootProps, getInputProps, isDragActive} = useDropzone({onDrop})
+
+  const handleRemoveFile = (preview) => {    
+    setDropedFiles(dropedFiles.filter(item => item.preview !== preview)); 
+  }
+
+  const selected_images = dropedFiles?.map(img => (
+    <div key={img.preview}>
+      <img src={img.preview} className="" style={{ width:"150px" }} alt="alt attr"/>
+      <span className='m-auto'>
+        {img.path} size: {bytesToHuman(img.size)}
+      </span>
+      <button onClick={() => handleRemoveFile(img.preview)} type='button' className='btn ml-2 mb-2'><CrossIcon/></button>
+    </div>    
+  ))
 
   return (
     <Authenticated
@@ -95,12 +148,20 @@ export default function CreatePost(props) {
                 {errors.category_id && <div className='text-sm text-red-800 mb-4'>{errors.category_id}</div>}
 
                 <Editor
-                  editorState={editorState}
-                  onEditorStateChange={setEditorState}
-                  toolbarClassName="toolbarClassName"
-                  wrapperClassName="wrapperClassName"
-                  editorClassName="editorClassName"
+                  editorState={editorState}                  
+                  wrapperClassName="bg-white p-2 mb-4"                  
+                  onEditorStateChange={setEditorState}                   
                 />
+
+                <div className='h-36 bg-white mb-4 border-4 border-dotted border-indigo-500/100 rounded-md font-bold text-center flex justify-center items-center' {...getRootProps()}>
+                  <input {...getInputProps()} />
+                  {
+                    isDragActive ?
+                    <p>Drop the files here ...</p> :
+                    <p>Drag 'n' drop some files here, or click to select files</p>
+                  }
+                </div>
+                {selected_images}
 
                 {progress && (
                   <progress value={progress.percentage} max="100">
@@ -121,8 +182,7 @@ export default function CreatePost(props) {
             </div>
           </div>        
         </div>
-      </div>   
-                  
+      </div>                     
     </Authenticated>
   );
 }

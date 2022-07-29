@@ -26,8 +26,11 @@
         "@heroicons/react": "^1.0.6",
         "@tanstack/react-table": "^8.3.0",
         "date-fns": "^2.29.0",
+        "draft-convert": "^2.1.12",
         "draft-js": "^0.11.7",
         "react-draft-wysiwyg": "^1.15.0",
+        "react-dropzone": "^14.2.2",
+        "react-dropzone-uploader": "^2.11.0",
         "react-select": "^5.4.0",
         "react-table": "^7.8.0",
         "regenerator-runtime": "^0.13.9"
