@@ -13,7 +13,7 @@ class PostService
   public function store($data)
   {
     try {
-      DB::beginTransaction();
+      DB::beginTransaction();      
 
       $preview = $data['preview'];    
       $pathPreview = Storage::disk('public')->put('previews', $preview);   
@@ -37,6 +37,11 @@ class PostService
           ]);
         }
       }      
+
+      if (isset($data['tags'])) {
+        $tagIds = $data['tags'];        
+        $post->tags()->attach($tagIds);
+      }     
       
       DB::commit();
 

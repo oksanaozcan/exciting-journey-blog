@@ -28,10 +28,20 @@ function bytesToHuman(bytes)
   return `${Math.round(bytes)} ${units[i]}`;   
 }
 
+function getFields (array) {
+  let output = [];
+  array.map(item => {
+    output.push(item.id)
+  })
+  return output;
+}
+
 export default function CreatePost(props) {  
   const categories = useMemo(() => props.categories, []);      
+  const tags = useMemo(() => props.tags, []);      
   
   const [selectedCategory, setSelectedCategory] = useState('');
+  const [selectedTags, setSelectedTags] = useState([]);
   const [editorState, setEditorState] = useState(
     () => EditorState.createEmpty(),
   );
@@ -46,7 +56,7 @@ export default function CreatePost(props) {
     content: "",
     category_id: "",
     pictures: [],
-    // tags: []
+    tags: []
   })
 
   useEffect(() => {
@@ -54,9 +64,12 @@ export default function CreatePost(props) {
   }, [selectedCategory, setSelectedCategory])
 
   useEffect(() => {
+    setData('tags', getFields(selectedTags))   
+  }, [selectedTags, setSelectedTags]) 
+
+  useEffect(() => {
     let content = draftToHtml(convertToRaw(editorState.getCurrentContent()));
     setData('content', content)
-    console.log(data.content);
   }, [editorState, setEditorState])
 
   useEffect(() => {
@@ -65,6 +78,7 @@ export default function CreatePost(props) {
   
   function submit(e) {
     e.preventDefault()
+    // console.log(data)
     post('/admin/posts')
   } 
 
@@ -147,6 +161,21 @@ export default function CreatePost(props) {
                   options={categories}              
                 />
                 {errors.category_id && <div className='text-sm text-red-800 mb-4'>{errors.category_id}</div>}
+
+                <label htmlFor="select_tags" className="">Select Tags</label>
+                <Select
+                  name='tags[]'
+                  id='select_tags'
+                  className='mb-4'
+                  isMulti                 
+                  defaultValue={selectedTags}
+                  onChange={setSelectedTags}            
+                  getOptionLabel={option => option.title}
+                  getOptionValue={option => option.id}
+                  options={tags}              
+                />
+                {errors.tags && <div className='text-sm text-red-800 mb-4'>{errors.tags}</div>}
+
 
                 <Editor
                   editorState={editorState}                  
