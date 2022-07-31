@@ -4,6 +4,7 @@ import CategoryItem from '@/Components/client/CategoryItem';
 import Navbar from '@/Components/client/Navbar';
 import Footer from '@/Components/client/Footer';
 import CommentsGrid from '@/Components/client/CommentsGrid';
+import LatestPostsSlider from '@/Components/client/LatestPostsSlider';
 
 export default function Welcome(props) {
   const [isOpen, setIsOpen] = useState(false);
@@ -18,7 +19,7 @@ export default function Welcome(props) {
        
           <section id='hero'>
             <div className="container max-w-6xl mx-auto px-6 py-12">
-              <Navbar isOpen={isOpen} navToggle={navToggle}/>
+              <Navbar isOpen={isOpen} navToggle={navToggle} authProps={props.auth.user}/>
               <div className='max-w-lg mt-32 mb-32 p-4 font-sans text-4xl text-white uppercase border-2 border-slate-500/50 md:p-10 md:m-32 md:mx-0 md:text-6xl bg-slate-900/50'>
                 {
                   props.auth.user ? 
@@ -43,22 +44,24 @@ export default function Welcome(props) {
                 }
               </div>
             </div>
-          </section>
+          </section>  
 
-          <section id='feature'>
-            <div className='relative container flex flex-col max-w-6xl mx-auto my-32 px-6 text-gray-900 md:flex-row md:px-0'>
-              <img className='contrast-75' src="images/camper.jpg" alt="" />
-              <div className="top-40 pr-0 bg-white md:absolute md:right-0 md:py-10 md:pl-20">
-                <h2 className='max-w-lg mt-10 mb-6 font-sans text-4xl text-center text-gray-900 uppercase md:text-5xl md:mt-0 md:text-left'>
-                The standard Lorem Ipsum passage.
+          <section id='feature'>         
+            <div className="container max-w-6xl mx-auto mt-32 px-6 text-gray-900 md:px-0">
+              <div className='flex justify-center md:justify-between'>
+                <h2 className='text-4xl text-center uppercase md:text-left md:text-5xl'>
+                  Latest Posts
                 </h2>
-                <p className='max-w-md text-center md:text-left'>
-                Lorem Ipsum is simply dummy text of the printing and typesetting industry. 
-                Lorem Ipsum has been the industry's standard dummy text ever since the 1500s.
-                Aldus PageMaker including versions of Lorem Ipsum.
-                </p>
+                <button 
+                  className='hidden btn md:block'>
+                    See All
+                </button>
+              </div>             
+              <div className='flex justify-center mt-10 md:hidden'>
+              <button className='btn w-full md:hidden'>See All</button>
               </div>
             </div>
+            <LatestPostsSlider latestPosts={props.latestPosts}/>           
           </section>
 
           <section id='categories'>

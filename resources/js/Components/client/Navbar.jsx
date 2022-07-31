@@ -2,7 +2,7 @@ import React from "react";
 import ApplicationLogo from '@/Components/ApplicationLogo';
 import MyNavlink from '@/Components/client/MyNavlink';
 
-export default function Navbar ({isOpen, navToggle}) {
+export default function Navbar ({isOpen, navToggle, authProps}) {
   
   const isOpenHandler = () => {
     navToggle();
@@ -13,10 +13,17 @@ export default function Navbar ({isOpen, navToggle}) {
       <nav className="flex items-center justify-between font-bold text-white">
         <ApplicationLogo className="fill-current text-gray-500 rounded-full"/>
         <div className="hidden h-10 md:flex md:space-x-8">
-          <MyNavlink path={'#'} title={"About"}/>
+          <MyNavlink path={'#'} title={"Home"}/>
+          <MyNavlink path={'#'} title={"All Posts"}/>
           <MyNavlink path={'#'} title={"Categories"}/>
-          <MyNavlink path={'#'} title={"Posts"}/>
-          <MyNavlink path={'#'} title={"Events"}/>
+          {
+            authProps ?
+              <MyNavlink path={route('dashboard')} title={"Dashboard"}/> :
+              <>
+                <MyNavlink path={route('login')} title={"Login"}/>
+                <MyNavlink path={route('register')} title={"Register"}/>            
+              </> 
+          }                   
           <MyNavlink path={'#'} title={"Support"}/>                  
         </div>
 
