@@ -24,6 +24,7 @@ class PostService
         'description' => $data['description'],
         'content' => $data['content'],     
         'category_id' => $data['category_id']['id'],
+        'user_id' => auth()->user()->id,
       ]);
 
       if (isset($data['pictures'])) {

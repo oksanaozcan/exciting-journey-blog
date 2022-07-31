@@ -34,8 +34,8 @@ class PostController extends PostServiceController
     $data = $request->validated();   
     $res = $this->service->store($data);
     
-    if ($res) {
-      return Redirect::route('admin.post.index')->with('message', 'Post created successfully!');
+    if ($res) {      
+      return Redirect::back()->with('message', 'Post created successfully!');
     }    
   }
 
