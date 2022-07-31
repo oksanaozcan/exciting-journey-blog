@@ -9,6 +9,7 @@ import { Editor } from "react-draft-wysiwyg";
 import {useDropzone} from 'react-dropzone';
 import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
 import draftToHtml from 'draftjs-to-html';
+import { getFields,bytesToHuman } from '@/helpers/helperFunctions';
 
 // DropzoneFix.tsx
 import Dropzone from 'react-dropzone-uploader';
@@ -17,24 +18,6 @@ function fixComponent(component) {
     return (component).default ?? component;
 }
 export const DropzoneFix = fixComponent(Dropzone);
-
-function bytesToHuman(bytes)
-{
-  const units = ['B', 'KB', 'MB', 'GB', 'TB', 'PB'];
-  let i;
-  for (i = 0; bytes > 1024; i++) {
-    bytes /= 1024;
-  }
-  return `${Math.round(bytes)} ${units[i]}`;   
-}
-
-function getFields (array) {
-  let output = [];
-  array.map(item => {
-    output.push(item.id)
-  })
-  return output;
-}
 
 export default function CreatePost(props) {  
   const categories = useMemo(() => props.categories, []);      
@@ -77,8 +60,7 @@ export default function CreatePost(props) {
   }, [dropedFiles, setDropedFiles])
   
   function submit(e) {
-    e.preventDefault()
-    // console.log(data)
+    e.preventDefault()    
     post('/admin/posts')
   } 
 
