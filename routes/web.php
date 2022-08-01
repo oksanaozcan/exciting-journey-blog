@@ -5,7 +5,9 @@ use App\Http\Controllers\Admin\CategoryController;
 use App\Http\Controllers\Admin\PostController;
 use App\Http\Controllers\Admin\TagController;
 use App\Http\Controllers\Admin\UserController;
+use App\Http\Resources\CategoryResource;
 use App\Http\Resources\PostResource;
+use App\Models\Category;
 use App\Models\Post;
 use App\Types\PermissionType;
 use Barryvdh\Debugbar\Facades\Debugbar;
@@ -19,7 +21,8 @@ Route::get('/', function () {
         'canRegister' => Route::has('register'),
         'laravelVersion' => Application::VERSION,
         'phpVersion' => PHP_VERSION,
-        'latestPosts' => PostResource::collection(Post::latest()->limit(4)->get())
+        'latestPosts' => PostResource::collection(Post::latest()->limit(4)->get()),
+        'categories' => CategoryResource::collection(Category::inRandomOrder()->limit(8)->get())
     ]);
 });
 

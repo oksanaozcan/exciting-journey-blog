@@ -27,7 +27,7 @@ export default function LatestPostsSlider (props) {
               <div className="pr-10 mb-3">
                 <p className='max-w-md text-center md:text-left'>{item.description}</p>
               </div>     
-              <button type="button" className="btn">Read More...</button>       
+              <button type="button" className="w-full btn md:w-2/4">Read More...</button>       
             </div>
           </div>
         ))

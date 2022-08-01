@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useMemo, useEffect } from 'react';
 import { Link, Head } from '@inertiajs/inertia-react';
 import CategoryItem from '@/Components/client/CategoryItem';
 import Navbar from '@/Components/client/Navbar';
@@ -8,6 +8,15 @@ import LatestPostsSlider from '@/Components/client/LatestPostsSlider';
 
 export default function Welcome(props) {
   const [isOpen, setIsOpen] = useState(false);
+  const categories = useMemo(() => props.categories, []); 
+  const [firstHalfCat, setFirstHalfCat] = useState([]);
+  const [secondHalfCat, setSecondHalfCat] = useState([]);
+
+  useEffect(() => {
+    const middleIndex = Math.ceil(categories.length / 2);
+    setFirstHalfCat(categories.splice(0, middleIndex));
+    setSecondHalfCat(categories.splice(-middleIndex));
+  }, [])
 
   const navToggle = () => {
     setIsOpen(!isOpen);    
@@ -58,7 +67,7 @@ export default function Welcome(props) {
                 </button>
               </div>             
               <div className='flex justify-center mt-10 md:hidden'>
-              <button className='btn w-full md:hidden'>See All</button>
+                <button className='btn w-full md:hidden'>See All</button>
               </div>
             </div>
             <LatestPostsSlider latestPosts={props.latestPosts}/>           
@@ -76,16 +85,18 @@ export default function Welcome(props) {
                 </button>
               </div>
               <div className='category-container'>
-                <CategoryItem img={'images/feature.jpg'} title={'Name of Category'}/>
-                <CategoryItem img={'images/feature.jpg'} title={'Name of Category'}/>
-                <CategoryItem img={'images/feature.jpg'} title={'Name of Category'}/>
-                <CategoryItem img={'images/feature.jpg'} title={'Name of Category'}/>               
+                {
+                  firstHalfCat.map(category => (
+                    <CategoryItem key={category.id} img={category.preview} title={category.title}/>
+                  ))
+                }           
               </div>
               <div className='category-container mt-10'>
-                <CategoryItem img={'images/feature.jpg'} title={'Name of Category'}/>
-                <CategoryItem img={'images/feature.jpg'} title={'Name of Category'}/>
-                <CategoryItem img={'images/feature.jpg'} title={'Name of Category'}/>
-                <CategoryItem img={'images/feature.jpg'} title={'Name of Category'}/>               
+                {
+                  secondHalfCat.map(category => (
+                    <CategoryItem key={category.id} img={category.preview} title={category.title}/>
+                  ))
+                }       
               </div>
               <div className='flex justify-center mt-10 md:hidden'>
               <button className='btn w-full md:hidden'>See All</button>
@@ -101,23 +112,3 @@ export default function Welcome(props) {
         </>
     );
 }
-
-{/* <div className="relative flex items-top justify-center min-h-screen bg-gray-100 dark:bg-gray-900 sm:items-center sm:pt-0">
-                <div className="fixed top-0 right-0 px-6 py-4 sm:block">
-                    {props.auth.user ? (
-                        <Link href={route('dashboard')} className="text-sm text-gray-700 underline">
-                            Dashboard
-                        </Link>
-                    ) : (
-                        <>
-                            <Link href={route('login')} className="text-sm text-gray-700 underline">
-                                Log in
-                            </Link>
-
-                            <Link href={route('register')} className="ml-4 text-sm text-gray-700 underline">
-                                Register
-                            </Link>
-                        </>
-                    )}
-                </div>               
-            </div> */}
