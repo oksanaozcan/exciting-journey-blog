@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\Category;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 class CategoryController extends Controller
 {
@@ -28,10 +29,17 @@ class CategoryController extends Controller
   public function store(Request $request)
   {
     $data = $request->validate([
-      'title' => 'required'
+      'title' => 'required',
+      'preview' => 'required|file'
     ]);
 
-    Category::firstOrCreate($data);
+    $preview = $data['preview'];    
+    $pathPreview = Storage::disk('public')->put('categories', $preview);   
+
+    Category::create([
+      'title' => $data['title'],
+      'preview' => url('/storage/' . $pathPreview)
+    ]);
     
     return redirect()->route('admin.category.index');    
   }
@@ -47,11 +55,23 @@ class CategoryController extends Controller
   }
 
   public function update(Request $request, Category $category)
-  {
+  {    
     $data = $request->validate([
-      'title' => 'required'
+      'title' => 'required',
+      'preview' => 'nullable|file'
     ]);
-    $category->update($data);
+
+    if (isset($data['preview'])) {
+      $preview = $data['preview'];    
+      $pathPreview = Storage::disk('public')->put('categories', $preview);  
+
+      $category->update([
+        'title' => $data['title'],
+        'preview' => url('/storage/' . $pathPreview),
+      ]);
+    } else {
+      $category->update($data);
+    }  
     
     return view('admin.category.show', compact('category'));
   }

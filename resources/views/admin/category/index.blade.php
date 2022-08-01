@@ -10,12 +10,13 @@
     <div class="container-fluid">          
       <div class="row">
         <div class="col-sm-12">        
-          <x-table :headers="['Наименование', 'Дата создания', 'Кол-во постов', 'Действия']">
+          <x-table :headers="['Preview', 'Наименование', 'Дата создания', 'Кол-во постов', 'Действия']">
             @foreach ($categories as $item)
               <tr>
+                <th><img style="width: 140px" src="{{ $item->preview }}" alt="{{ $item->title }}"/></th>                         
                 <th>{{ $item->title }}</th>                         
                 <td>{{ $item->created_at }}</td>               
-                <td>#####</td>               
+                <td>{{ $item->posts->count() }}</td>               
                 <td class="d-flex">
                   <x-ui.show-btn path='admin.category.show' :id="$item->id" >Смотреть</x-ui.show-btn>               
                   <x-ui.edit-btn path='admin.category.edit' :id="$item->id" >Изменить</x-ui.show-btn>                   
