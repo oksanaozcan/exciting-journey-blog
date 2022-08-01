@@ -36,8 +36,17 @@ body {
   background-size: cover;  
 }
 
+#posts {  
+  background-image: url('../../public/images/header-posts.jpg');
+  background-repeat: no-repeat;
+  background-size: cover;  
+}
+
 @media(max-width: 576px) {
   #hero {  
+    background-position: center;
+  }
+  #posts {  
     background-position: center;
   }
 }

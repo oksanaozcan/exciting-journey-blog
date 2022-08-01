@@ -5,25 +5,16 @@ use App\Http\Controllers\Admin\CategoryController;
 use App\Http\Controllers\Admin\PostController;
 use App\Http\Controllers\Admin\TagController;
 use App\Http\Controllers\Admin\UserController;
-use App\Http\Resources\CategoryResource;
-use App\Http\Resources\PostResource;
-use App\Models\Category;
-use App\Models\Post;
+use App\Http\Controllers\Client\PostPageController;
+use App\Http\Controllers\Client\WelcomePageController;
 use App\Types\PermissionType;
-use Barryvdh\Debugbar\Facades\Debugbar;
-use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
-Route::get('/', function () {  
-    return Inertia::render('Welcome', [
-        'canLogin' => Route::has('login'),
-        'canRegister' => Route::has('register'),
-        'laravelVersion' => Application::VERSION,
-        'phpVersion' => PHP_VERSION,
-        'latestPosts' => PostResource::collection(Post::latest()->limit(4)->get()),
-        'categories' => CategoryResource::collection(Category::inRandomOrder()->limit(8)->get())
-    ]);
+Route::get('/', [WelcomePageController::class, 'index']);
+
+Route::prefix('posts')->group(function () {
+  Route::get('/', [PostPageController::class, 'index'])->name('client.post.index');
 });
 
 Route::get('/dashboard', function () {
