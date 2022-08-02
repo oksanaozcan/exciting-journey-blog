@@ -14,10 +14,14 @@ class PostPageController extends Controller
 {
   public function index()
   {
+    // $posts = PostResource::collection(Post::latest()->get());   
+    $posts = Post::latest()->paginate(5);
+    $collection = PostResource::collection($posts);   
+
     return Inertia::render('AllPosts', [
       'canLogin' => Route::has('login'),
-      'canRegister' => Route::has('register'),
-      'posts' => PostResource::collection(Post::orderBy('created_at', 'desc')->get())
+      'canRegister' => Route::has('register'),      
+      'posts' => $collection
     ]);
   }
 }

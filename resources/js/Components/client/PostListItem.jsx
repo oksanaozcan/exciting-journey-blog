@@ -21,8 +21,8 @@ export default function PostListItem ({post}) {
         </div>
         <div className='w-4/5 h-0.5 bg-slate-500 my-4'></div>
         <div className='w-full flex flex-row justify-between'>
-          <a href="#!" class="text-gray-800 underline decoration-1 decoration-rose-600 decoration-dotted hover:text-gray-900 hover:decoration-4 transition duration-300 ease-in-out mb-4">Read More</a>
-          <a href="#!" class="text-gray-800 underline decoration-1 decoration-rose-600 decoration-dotted hover:text-gray-900 hover:decoration-4 transition duration-300 ease-in-out mb-4">Comments: 15</a>
+          <a href="#!" className="text-gray-800 underline decoration-1 decoration-rose-600 decoration-dotted hover:text-gray-900 hover:decoration-4 transition duration-300 ease-in-out mb-4">Read More</a>
+          <a href="#!" className="text-gray-800 underline decoration-1 decoration-rose-600 decoration-dotted hover:text-gray-900 hover:decoration-4 transition duration-300 ease-in-out mb-4">Comments: 15</a>
         </div>
       </div>
     </div>
