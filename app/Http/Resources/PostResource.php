@@ -20,11 +20,12 @@ class PostResource extends JsonResource
           'preview' => $this->preview,
           'title' => $this->title,
           'category' => $this->category->title,
+          'category_preview' => $this->category->preview,
           'tags' => $this->tags->pluck(['title']),
-          'description' => substr($this->description, 0, 100) . '...',
-          'content' => $this->content,
+          'description' => substr($this->description, 0, 300) . '...',          
           'for_human_date' => Carbon::parse($this->created_at)->diffForHumans(),
           'created_at' => $this->created_at,
+          'author' => $this->user->name,
         ];
     }
 }
