@@ -13,9 +13,9 @@ export default function Navbar ({isOpen, navToggle, authProps}) {
       <nav className="flex items-center justify-between font-bold text-white">
         <ApplicationLogo className="fill-current text-gray-500 rounded-full"/>
         <div className="hidden h-10 md:flex md:space-x-8">
-          <MyNavlink path={'#'} title={"Home"}/>
-          <MyNavlink path={'#'} title={"All Posts"}/>
-          <MyNavlink path={'#'} title={"Categories"}/>
+          <MyNavlink path={route('main')} title={"Home"}/>
+          <MyNavlink path={route('client.post.index')} title={"All Posts"}/>
+          <MyNavlink path={route('client.category.index')} title={"Categories"}/>
           {
             authProps ?
               <MyNavlink path={route('dashboard')} title={"Dashboard"}/> :

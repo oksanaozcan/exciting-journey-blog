@@ -14,10 +14,11 @@ class CategoryResource extends JsonResource
      */
     public function toArray($request)
     {
-        return [
-          'id' => $this->id,
-          'title' => $this->title,
-          'preview' => $this->preview,
-        ];
+      return [
+        'id' => $this->id,
+        'title' => $this->title,
+        'preview' => $this->preview,
+        'count_posts' => $this->posts->count()
+      ];
     }
 }

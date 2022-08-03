@@ -5,16 +5,22 @@ use App\Http\Controllers\Admin\CategoryController;
 use App\Http\Controllers\Admin\PostController;
 use App\Http\Controllers\Admin\TagController;
 use App\Http\Controllers\Admin\UserController;
+use App\Http\Controllers\Client\CategoryPageController;
 use App\Http\Controllers\Client\PostPageController;
 use App\Http\Controllers\Client\WelcomePageController;
 use App\Types\PermissionType;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
-Route::get('/', [WelcomePageController::class, 'index']);
+Route::get('/', [WelcomePageController::class, 'index'])->name('main');
 
 Route::prefix('posts')->group(function () {
-  Route::get('/', [PostPageController::class, 'index'])->name('client.post.index');
+  Route::get('/', [PostPageController::class, 'index'])->name('client.post.index');  
+});
+
+Route::prefix('categories')->group(function () {
+  Route::get('/', [CategoryPageController::class, 'index'])->name('client.category.index');  
+  Route::get('/{category}', [CategoryPageController::class, 'show'])->name('client.category.show');
 });
 
 Route::get('/dashboard', function () {

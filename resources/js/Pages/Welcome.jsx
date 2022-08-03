@@ -87,14 +87,19 @@ export default function Welcome(props) {
               <div className='category-container'>
                 {
                   firstHalfCat.map(category => (
-                    <CategoryItem key={category.id} img={category.preview} title={category.title}/>
+                    <CategoryItem key={category.id} 
+                      category={category}
+                    />
                   ))
                 }           
               </div>
               <div className='category-container mt-10'>
                 {
                   secondHalfCat.map(category => (
-                    <CategoryItem key={category.id} img={category.preview} title={category.title}/>
+                    <CategoryItem key={category.id} 
+                      category={category}
+                      forPage={'Welcome'}
+                    />
                   ))
                 }       
               </div>

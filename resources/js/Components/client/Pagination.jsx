@@ -3,7 +3,7 @@ import { Link } from "@inertiajs/inertia-react";
 import PreviousArrow from '@/Components/icons/PreviousArrow';
 import NextArrow from '@/Components/icons/NextArrow';
 
-export default function Pagination ({posts}) {
+export default function Pagination ({items}) {
   return(   
     <div className="px-4 py-3 flex items-center justify-between border-t border-gray-200 sm:px-6">
     <div className="flex-1 flex justify-between sm:hidden">
@@ -14,19 +14,19 @@ export default function Pagination ({posts}) {
       <div>
         <p className="text-sm text-gray-700">
           Showing {' '}
-          <span className="font-medium">{posts.meta.from}</span>
+          <span className="font-medium">{items.meta.from}</span>
           {' '}to{' '}
-          <span className="font-medium">{posts.meta.from + (posts.meta.per_page-1)}</span>
+          <span className="font-medium">{items.meta.from + (items.meta.per_page-1)}</span>
           {' '}of{' '}
-          <span className="font-medium">{posts.meta.total}</span>
+          <span className="font-medium">{items.meta.total}</span>
           {' '}results
         </p>
       </div>
       <div>
         <nav className="relative z-0 inline-flex rounded-md shadow-sm -space-x-px" aria-label="Pagination">
           {
-            posts.meta.links.map((link, i) => {
-              if (i === 0 || i === posts.meta.links.length-1) {
+            items.meta.links.map((link, i) => {
+              if (i === 0 || i === items.meta.links.length-1) {
                 return(
                   <Link
                     key={i}

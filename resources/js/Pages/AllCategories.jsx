@@ -2,16 +2,12 @@ import React, { useState, useMemo } from 'react';
 import { Head } from '@inertiajs/inertia-react';
 import Navbar from '@/Components/client/Navbar';
 import Footer from '@/Components/client/Footer';
-import PostListItem from '@/Components/client/PostListItem';
-
 import Pagination from '@/Components/client/Pagination';
+import CategoryItem from '@/Components/client/CategoryItem';
 
-export default function AllPosts(props) {
-  const posts = useMemo(() => props.posts, []);  
-  const [isOpen, setIsOpen] = useState(false);  
-
-  // console.log(posts.links);
-  console.log(posts.meta.links);
+export default function AllCategories(props) {
+  const categories = useMemo(() => props.categories, []);  
+  const [isOpen, setIsOpen] = useState(false);   
 
   const navToggle = () => {
     setIsOpen(!isOpen);    
@@ -26,14 +22,18 @@ export default function AllPosts(props) {
             </div>
           </section>
 
-          <section id='post-list'>
+          <section id='category-list'>
             <div className="container max-w-6xl mx-auto px-6 py-12">
               {
-                posts.data.map(item => (
-                  <PostListItem key={item.id} post={item}/>
+                categories.data.map(cat => (                    
+                  <CategoryItem
+                    key={cat.id}
+                    category={cat}
+                    forPage={'AllCategories'}
+                  />   
                 ))
-              }  
-              <Pagination items={posts}/>
+              }
+              <Pagination items={categories}/>              
             </div>
           </section>
           <Footer/>
