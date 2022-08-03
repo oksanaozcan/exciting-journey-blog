@@ -16,6 +16,7 @@ Route::get('/', [WelcomePageController::class, 'index'])->name('main');
 
 Route::prefix('posts')->group(function () {
   Route::get('/', [PostPageController::class, 'index'])->name('client.post.index');  
+  Route::get('/{post}', [PostPageController::class, 'show'])->name('client.post.show');  
 });
 
 Route::prefix('categories')->group(function () {

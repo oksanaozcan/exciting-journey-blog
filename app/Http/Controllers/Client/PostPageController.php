@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Client;
 
 use App\Http\Controllers\Controller;
 use App\Http\Resources\PostResource;
+use App\Http\Resources\SinglePostResource;
 use App\Models\Category;
 use App\Models\Post;
 use Illuminate\Http\Request;
@@ -25,4 +26,15 @@ class PostPageController extends Controller
       'posts' => $collection
     ]);
   }  
+
+  public function show (Post $post)
+  {
+    $collection = new SinglePostResource($post);       
+
+    return Inertia::render('SinglePost', [
+      'canLogin' => Route::has('login'),
+      'canRegister' => Route::has('register'),      
+      'post' => $collection
+    ]);
+  }
 }

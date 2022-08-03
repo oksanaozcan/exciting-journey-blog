@@ -20,10 +20,10 @@ export default function Footer () {
           </div>
           <div className="flex flex-col items-start justify-between space-y-4 text-gray-500">
           <div className="flex items-center justify-center mx-auto space-x-4 md:justify-end md:mx-0">
-            <SmmIcon path={'#'} img={'images/icon-facebook.svg'}/>
-            <SmmIcon path={'#'} img={'images/icon-twitter.svg'}/>
-            <SmmIcon path={'#'} img={'images/icon-instagram.svg'}/>                                    
-            <SmmIcon path={'#'} img={'images/icon-pinterest.svg'}/>                                    
+            <SmmIcon path={'#'} img={'../images/icon-facebook.svg'}/>
+            <SmmIcon path={'#'} img={'../images/icon-twitter.svg'}/>
+            <SmmIcon path={'#'} img={'../images/icon-instagram.svg'}/>                                    
+            <SmmIcon path={'#'} img={'../images/icon-pinterest.svg'}/>                                    
           </div>
           <div className='font-bold'>
             &copy; 2022 Exciting Journey. All Rights Reserved

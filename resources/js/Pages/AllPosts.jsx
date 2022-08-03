@@ -10,9 +10,6 @@ export default function AllPosts(props) {
   const posts = useMemo(() => props.posts, []);  
   const [isOpen, setIsOpen] = useState(false);  
 
-  // console.log(posts.links);
-  console.log(posts.meta.links);
-
   const navToggle = () => {
     setIsOpen(!isOpen);    
   }  
