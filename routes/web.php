@@ -7,6 +7,7 @@ use App\Http\Controllers\Admin\TagController;
 use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\Client\CategoryPageController;
 use App\Http\Controllers\Client\PostPageController;
+use App\Http\Controllers\Client\TagPageController;
 use App\Http\Controllers\Client\WelcomePageController;
 use App\Types\PermissionType;
 use Illuminate\Support\Facades\Route;
@@ -22,6 +23,11 @@ Route::prefix('posts')->group(function () {
 Route::prefix('categories')->group(function () {
   Route::get('/', [CategoryPageController::class, 'index'])->name('client.category.index');  
   Route::get('/{category}', [CategoryPageController::class, 'show'])->name('client.category.show');
+});
+
+Route::prefix('tags')->group(function () {
+  Route::get('/', [TagPageController::class, 'index'])->name('client.tag.index');  
+  Route::get('/{tag}', [TagPageController::class, 'show'])->name('client.tag.show');  
 });
 
 Route::get('/dashboard', function () {

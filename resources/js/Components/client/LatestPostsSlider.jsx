@@ -2,6 +2,7 @@ import React, {useMemo} from "react";
 import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
+import SeeAllLink from "../ui/SeeAllLink";
 
 export default function LatestPostsSlider (props) {
   const latestPosts = useMemo(() => props.latestPosts, []); 
@@ -27,7 +28,8 @@ export default function LatestPostsSlider (props) {
               <div className="pr-10 mb-3">
                 <p className='max-w-md text-center md:text-left'>{item.description}</p>
               </div>     
-              <button type="button" className="w-full btn md:w-2/4">Read More...</button>       
+              {/* <button type="button" className="w-full btn md:w-2/4">Read More...</button>       */}
+              <SeeAllLink classes={'w-full md:w-2/4'} route={`/posts/${item.id}`} title={'Read More'}/> 
             </div>
           </div>
         ))

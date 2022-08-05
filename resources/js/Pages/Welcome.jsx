@@ -5,6 +5,7 @@ import Navbar from '@/Components/client/Navbar';
 import Footer from '@/Components/client/Footer';
 import CommentsGrid from '@/Components/client/CommentsGrid';
 import LatestPostsSlider from '@/Components/client/LatestPostsSlider';
+import SeeAllLink from '@/Components/ui/SeeAllLink';
 
 export default function Welcome(props) {
   const [isOpen, setIsOpen] = useState(false);
@@ -61,13 +62,10 @@ export default function Welcome(props) {
                 <h2 className='text-4xl text-center uppercase md:text-left md:text-5xl'>
                   Latest Posts
                 </h2>
-                <button 
-                  className='hidden btn md:block'>
-                    See All
-                </button>
+                <SeeAllLink classes={'hidden md:block'} route={route('client.post.index')}/>
               </div>             
               <div className='flex justify-center mt-10 md:hidden'>
-                <button className='btn w-full md:hidden'>See All</button>
+                <SeeAllLink classes={'w-full md:hidden'} route={route('client.post.index')}/>
               </div>
             </div>
             <LatestPostsSlider latestPosts={props.latestPosts}/>           
@@ -79,10 +77,7 @@ export default function Welcome(props) {
                 <h2 className='text-4xl text-center uppercase md:text-left md:text-5xl'>
                   Our Category
                 </h2>
-                <button 
-                  className='hidden btn md:block'>
-                    See All
-                </button>
+                <SeeAllLink classes={'hidden md:block'} route={route('client.category.index')}/>                
               </div>
               <div className='category-container'>
                 {
@@ -104,7 +99,7 @@ export default function Welcome(props) {
                 }       
               </div>
               <div className='flex justify-center mt-10 md:hidden'>
-              <button className='btn w-full md:hidden'>See All</button>
+                <SeeAllLink classes={'w-full md:hidden'} route={route('client.category.index')}/>
               </div>
             </div>
           </section>

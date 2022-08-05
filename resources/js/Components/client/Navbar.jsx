@@ -16,6 +16,7 @@ export default function Navbar ({isOpen, navToggle, authProps}) {
           <MyNavlink path={route('main')} title={"Home"}/>
           <MyNavlink path={route('client.post.index')} title={"All Posts"}/>
           <MyNavlink path={route('client.category.index')} title={"Categories"}/>
+          <MyNavlink path={route('client.tag.index')} title={"Tags"}/>
           {
             authProps ?
               <MyNavlink path={route('dashboard')} title={"Dashboard"}/> :

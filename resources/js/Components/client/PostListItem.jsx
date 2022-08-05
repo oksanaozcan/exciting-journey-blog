@@ -1,11 +1,17 @@
 import React from "react";
+import CategoryLink from "../ui/CategoryLink";
 
 export default function PostListItem ({post}) {
+  const category = {
+    title: post.category,
+    id: post.category_id,
+    preview: post.category_preview
+  }
   return (
     <div className='border-b-4 border-black flex flex-col items-center my-4 py-4'>
       <div className='w-full flex flex-row justify-between'>                  
         <h6 className='text-lg w-full mr-2 font-bold text-sky-900 md:text-2xl'>{post.title}</h6>                                  
-        <img className='w-1/5 object-cover h-14 rounded-lg md:h-16' src={post.category_preview}/>                
+        <CategoryLink category={category}/>                  
       </div>
       <div className='flex flex-row w-full justify-between mt-4'>
         <small className='text-gray-900 text-sm font-mono md:text-base'>{post.author}</small>
