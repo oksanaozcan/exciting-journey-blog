@@ -1,14 +1,21 @@
-import React, { useState, useMemo } from 'react';
+import React, { useState, useMemo, useEffect } from 'react';
 import { Head } from '@inertiajs/inertia-react';
 import Navbar from '@/Components/client/Navbar';
 import Footer from '@/Components/client/Footer';
 import Tag from '@/Components/ui/Tag';
 import SinglePostSlider from '@/Components/client/SinglePostSlider';
 import CategoryLink from '@/Components/ui/CategoryLink';
+import CommentList from '@/Components/client/CommentList';
+import CommentForm from '@/Components/client/CommentForm';
 
 export default function SinglePost (props) {
-  const post = useMemo(() => props.post, []);  
-  const [isOpen, setIsOpen] = useState(false);   
+  const post = useMemo(() => props.post, []);    
+  const [isOpen, setIsOpen] = useState(false); 
+  const [comments, setComments] = useState([]);
+  
+  useEffect(() => {
+    setComments(props.comments.data);
+  }, []);
 
   const navToggle = () => {   
     setIsOpen(!isOpen);    
@@ -63,8 +70,12 @@ export default function SinglePost (props) {
               <div>
                 <Content/>
               </div>            
-            </div>       
+            </div>          
+          </section>
           
+          <section id='comment-list'>
+            <CommentForm/>
+            <CommentList comments={comments}/>
           </section>
           <Footer/>
         </>

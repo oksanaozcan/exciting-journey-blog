@@ -19,8 +19,9 @@ return new class extends Migration
             $table->unsignedBigInteger('post_id');
             $table->unsignedBigInteger('user_id');
             $table->boolean('responsive')->default(false);
-            $table->integer('message_id')->nullable();
+            $table->integer('parent_id')->nullable();
             $table->timestamps();
+            $table->softDeletes();
 
             $table->foreign('post_id')->references('id')->on('posts');
             $table->foreign('user_id')->references('id')->on('users');
