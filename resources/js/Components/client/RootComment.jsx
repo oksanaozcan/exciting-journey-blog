@@ -1,6 +1,12 @@
-import React from "react";
+import React, { useState } from "react";
+import ReplyComment from "./ReplyComment";
 
 export default function RootComment ({comment,replies}) {
+  const [isVisibleReplyComment, setIsVisibleReplyComment] = useState(false);
+
+  const toggleVisibleReplyComment = () => {
+    setIsVisibleReplyComment(!isVisibleReplyComment);
+  }
   
   return (
     <div className="flex">     
@@ -9,12 +15,32 @@ export default function RootComment ({comment,replies}) {
         <p className="text-sm">
           {comment.message}
         </p>
-        <div className="mt-4 flex items-center">          
-          <div className="text-sm text-gray-500 font-semibold">
+        <div className="mt-4 flex items-center justify-between my-2">
+          <button 
+            type="button" 
+            className="text-sm text-gray-500 font-semibold"
+            onClick={toggleVisibleReplyComment}
+          > 
             {replies.length} Replies ...
-          </div>
+          </button>    
+          <button type="button" className="text-sm text-gray-500 font-semibold"> Reply</button>            
         </div>
+        {
+          replies.length > 0 && (
+            <div className={isVisibleReplyComment ? 'space-y-4' : 'space-y-4 hidden'}>
+              {
+                replies.map(reply => (
+                 <ReplyComment key={reply.id} reply={reply}/>
+                ))
+              }
+            </div>
+          )
+          }       
       </div>
+
+      
+
+
     </div>
   )
 }
