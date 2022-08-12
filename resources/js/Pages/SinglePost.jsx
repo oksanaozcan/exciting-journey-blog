@@ -9,6 +9,7 @@ import SinglePostSlider from '@/Components/client/SinglePostSlider';
 import CategoryLink from '@/Components/ui/CategoryLink';
 import CommentList from '@/Components/client/CommentList';
 import { Inertia } from '@inertiajs/inertia';
+import Pagination from '@/Components/client/Pagination';
 
 export default function SinglePost (props) {
   const post = useMemo(() => props.post, []);    
@@ -135,6 +136,7 @@ export default function SinglePost (props) {
             </div>         
 
             <CommentList comments={comments}/>
+            <Pagination items={props.comments}/>
           </section>
           <Footer/>
         </>

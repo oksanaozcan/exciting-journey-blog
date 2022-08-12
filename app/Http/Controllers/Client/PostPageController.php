@@ -29,7 +29,7 @@ class PostPageController extends Controller
   {
     $collection = new SinglePostResource($post);   
 
-    $comments = Comment::latest()->where('post_id', $post->id)->paginate(5);  
+    $comments = Comment::latest()->where('post_id', $post->id)->paginate(10);  
     $commentsCollection = CommentResource::collection($comments);    
 
     return Inertia::render('SinglePost', [
