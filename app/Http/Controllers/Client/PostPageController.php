@@ -8,11 +8,8 @@ use App\Http\Resources\PostResource;
 use App\Http\Resources\SinglePostResource;
 use App\Models\Comment;
 use App\Models\Post;
-use Illuminate\Http\Request;
-use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
-use PhpParser\Node\Expr\AssignOp\Pow;
 
 class PostPageController extends Controller
 {

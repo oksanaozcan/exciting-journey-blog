@@ -1,3 +1,5 @@
+import { useForm } from '@inertiajs/inertia-react';
+import { usePage } from '@inertiajs/inertia-react';
 import React, { useState, useMemo, useEffect } from 'react';
 import { Head } from '@inertiajs/inertia-react';
 import Navbar from '@/Components/client/Navbar';
@@ -6,20 +8,48 @@ import Tag from '@/Components/ui/Tag';
 import SinglePostSlider from '@/Components/client/SinglePostSlider';
 import CategoryLink from '@/Components/ui/CategoryLink';
 import CommentList from '@/Components/client/CommentList';
-import CommentForm from '@/Components/client/CommentForm';
+import { Inertia } from '@inertiajs/inertia';
 
 export default function SinglePost (props) {
   const post = useMemo(() => props.post, []);    
   const [isOpen, setIsOpen] = useState(false); 
   const [comments, setComments] = useState([]);
+
+  const [newComment, setNewComment] = useState('');
   
   useEffect(() => {
     setComments(props.comments.data);
-  }, []);
+  }, [props]);
 
   const navToggle = () => {   
     setIsOpen(!isOpen);    
   }  
+
+  const { data, setData, progress, processing } = useForm({
+    message: '',
+    parent_id: null,   
+    post_id: post.id,   
+  })
+
+  useEffect(() => {
+    setData('message', newComment)    
+  }, [newComment, setNewComment])
+
+  const { errors } = usePage().props;
+
+  function submit(e) {
+    e.preventDefault();
+    Inertia.post('/comments', data, {
+      preserveScroll: true,
+      onSuccess: () => {
+        setNewComment('');
+      },
+      onFinish: () => {
+        Inertia.reload({ only: ['comments'] })
+      }
+    });  
+    
+  } 
 
   const Content = () => <div dangerouslySetInnerHTML={{ __html: post.content }}/>
 
@@ -74,7 +104,36 @@ export default function SinglePost (props) {
           </section>
           
           <section id='comment-list'>
-            <CommentForm/>
+
+            <div className="container bg-white max-w-6xl mx-auto px-4 py-4 mt-4 shadow-xl">
+              <form onSubmit={submit} className="w-full p-4">
+                <div className="mb-2">         
+                  <textarea 
+                    className="w-full h-20 p-4 border rounded focus:outline-none focus:ring-gray-300 focus:ring-1"
+                    placeholder="Add a comment"
+                    required
+                    onChange={e => setNewComment(e.target.value)}
+                    value={newComment}
+                    ></textarea>
+                    {errors.message && <div className='text-sm text-red-800 mb-4'>{errors.message}</div>}
+                </div>               
+
+                {progress && (
+                  <progress value={progress.percentage} max="100">
+                    {progress.percentage}%
+                  </progress>
+                )}
+
+                <button 
+                  type="submit"
+                  className=" btn"
+                  disabled={processing}
+                  >
+                    Add comment
+                </button>
+              </form>
+            </div>         
+
             <CommentList comments={comments}/>
           </section>
           <Footer/>
