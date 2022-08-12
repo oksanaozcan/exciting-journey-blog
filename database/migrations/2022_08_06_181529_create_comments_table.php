@@ -18,7 +18,6 @@ return new class extends Migration
             $table->text('message');
             $table->unsignedBigInteger('post_id');
             $table->unsignedBigInteger('user_id');
-            $table->boolean('responsive')->default(false);
             $table->integer('parent_id')->nullable();
             $table->timestamps();
             $table->softDeletes();

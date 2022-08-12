@@ -45,19 +45,35 @@ export default function Pagination ({items}) {
                   </Link>
                 )                  
               } else {
-                return (
-                  <Link
-                    key={i}
-                    className={
-                      link.active ?
-                      'z-10 bg-indigo-50 border-indigo-500 text-indigo-600 relative inline-flex items-center px-4 py-2 border text-sm font-medium' :
-                      "bg-white border-gray-300 text-gray-500 hover:bg-gray-50 relative inline-flex items-center px-4 py-2 border text-sm font-medium"
-                    }
-                    href={link.url}                  
-                  >
-                    {link.label}         
-                  </Link>
-                )
+                if (i < 8) {
+                  return (
+                    <Link
+                      key={i}
+                      className={
+                        link.active ?
+                        'z-10 bg-indigo-50 border-indigo-500 text-indigo-600 relative inline-flex items-center px-4 py-2 border text-sm font-medium' :
+                        "bg-white border-gray-300 text-gray-500 hover:bg-gray-50 relative inline-flex items-center px-4 py-2 border text-sm font-medium"
+                      }
+                      href={link.url}                  
+                    >
+                      {link.label}         
+                    </Link>
+                  )          
+                } else if (i == 8 && items.meta.links.length-1 > 8) {
+                  return (
+                    <Link
+                      key={i}
+                      className={
+                        link.active ?
+                        'z-10 bg-indigo-50 border-indigo-500 text-indigo-600 relative inline-flex items-center px-4 py-2 border text-sm font-medium' :
+                        "bg-white border-gray-300 text-gray-500 hover:bg-gray-50 relative inline-flex items-center px-4 py-2 border text-sm font-medium"
+                      }
+                      href={link.url}                  
+                    >
+                      {link.label}...         
+                    </Link>
+                  )
+                }            
               }
             })  
           }            

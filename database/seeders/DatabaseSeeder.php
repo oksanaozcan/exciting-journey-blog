@@ -25,7 +25,7 @@ class DatabaseSeeder extends Seeder
 
       Category::factory(8)->create();       
 
-      for ($i=0; $i < 50; $i++) { 
+      for ($i=0; $i < 15; $i++) { 
         Post::factory()->hasTags(2)->create();
       }
 
