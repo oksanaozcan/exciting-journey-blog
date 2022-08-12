@@ -18,7 +18,9 @@ export default function AddNewCommentForm ({postId, useForm, usePage, commentInp
   const { errors } = usePage().props;
 
   function submit(e) {
-    e.preventDefault();
+    e.preventDefault();     
+    
+    console.log(data)
     Inertia.post('/comments', data, {
       preserveScroll: true,
       onSuccess: () => {
@@ -26,7 +28,9 @@ export default function AddNewCommentForm ({postId, useForm, usePage, commentInp
       },
       onFinish: () => {
         Inertia.reload({ only: ['comments'] })
-        setIsActiveReplyForm(false);
+        if (setIsActiveReplyForm) {
+          setIsActiveReplyForm(false);
+        } 
       }
     });    
   } 
@@ -39,11 +43,13 @@ export default function AddNewCommentForm ({postId, useForm, usePage, commentInp
             className="w-full h-20 p-4 border rounded focus:outline-none focus:ring-gray-300 focus:ring-1"
             placeholder="Add a comment"
             required
+            maxLength={1000}
             onChange={e => setNewComment(e.target.value)}
             value={newComment}
             ref={commentInput}
             ></textarea>
             {errors.message && <div className='text-sm text-red-800 mb-4'>{errors.message}</div>}
+            
         </div>               
 
         {progress && (
@@ -51,14 +57,22 @@ export default function AddNewCommentForm ({postId, useForm, usePage, commentInp
             {progress.percentage}%
           </progress>
         )}
-
-        <button 
-          type="submit"
-          className=" btn"
-          disabled={processing}
+        <div className="flex flex-row justify-between">
+          <button 
+            type="submit"
+            className=" btn"
+            disabled={processing}
+            >
+              Add comment
+          </button>
+          <small
+            className={newComment.length <= 1000 ? 'text-green-800' : 'text-red-800'}
           >
-            Add comment
-        </button>
+            {newComment.length}/1000
+          </small>
+        </div>
+
+        
       </form>
     </div>         
   )
