@@ -1,4 +1,4 @@
-import React, { useState, useMemo, useEffect } from 'react';
+import React, { useState, useMemo, useEffect, useRef } from 'react';
 import { useForm, usePage } from '@inertiajs/inertia-react';
 import { Head } from '@inertiajs/inertia-react';
 import Navbar from '@/Components/client/Navbar';
@@ -9,11 +9,35 @@ import CategoryLink from '@/Components/ui/CategoryLink';
 import CommentList from '@/Components/client/CommentList';
 import Pagination from '@/Components/client/Pagination';
 import AddNewCommentForm from '@/Components/client/AddNewCommentForm';
+import PlusIcon from '@/Components/icons/PlusIcon';
+import ReactTooltip from 'react-tooltip';
 
 export default function SinglePost (props) {
   const post = useMemo(() => props.post, []);    
   const [isOpen, setIsOpen] = useState(false); 
   const [comments, setComments] = useState([]); 
+  const [offset, setOffset] = useState(0);
+  const commentInput = useRef(null);
+
+  const onFocusInput = () => {
+    commentInput.current.focus();
+  } 
+
+  useEffect(() => {
+    const onScroll = () => setOffset(window.pageYOffset);   
+    // clean up code
+    window.removeEventListener('scroll', onScroll);
+    window.addEventListener('scroll', onScroll, { passive: true });
+    return () => window.removeEventListener('scroll', onScroll);
+  }, []);  
+
+  const onVisibleButton = () => {
+    if (offset > window.innerHeight) {
+      return '';
+    } else {
+      return 'hidden';
+    }
+  }
   
   const navToggle = () => {   
     setIsOpen(!isOpen);    
@@ -75,13 +99,27 @@ export default function SinglePost (props) {
           </div>          
         </section>
         
-        <section id='comment-list'>
-
-          <AddNewCommentForm postId={post.id} useForm={useForm} usePage={usePage}/>          
-
+        <section className='relative' id='comment-list'>
+          <AddNewCommentForm 
+            postId={post.id} 
+            useForm={useForm} 
+            usePage={usePage}
+            commentInput={commentInput}
+          /> 
+          <button 
+            data-tip="Comment"
+            data-for="focusBtnTip"
+            data-iscapture="true"
+            type='button' 
+            className={`${onVisibleButton()} fixed px-1 py-1 rounded-full text-white bottom-2/4 right-8 bg-blue-400/50 hover:bg-blue-600 font-bold border border-blue-600/50 duration-150`}
+            onClick={onFocusInput}
+          >            
+            <PlusIcon/>           
+          </button>
+          <ReactTooltip id="focusBtnTip" place="top" type='dark' effect="float" delayShow={300}/>
           <CommentList comments={comments}/>
           <Pagination items={props.comments}/>
-        </section>
+        </section>       
         <Footer/>
       </>
   );

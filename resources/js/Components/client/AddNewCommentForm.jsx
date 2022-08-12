@@ -1,7 +1,7 @@
 import React, {useState, useEffect} from "react";
 import { Inertia } from '@inertiajs/inertia';
 
-export default function AddNewCommentForm ({postId, useForm, usePage}) {
+export default function AddNewCommentForm ({postId, useForm, usePage, commentInput}) {
 
   const [newComment, setNewComment] = useState('');
 
@@ -40,6 +40,7 @@ export default function AddNewCommentForm ({postId, useForm, usePage}) {
             required
             onChange={e => setNewComment(e.target.value)}
             value={newComment}
+            ref={commentInput}
             ></textarea>
             {errors.message && <div className='text-sm text-red-800 mb-4'>{errors.message}</div>}
         </div>               
