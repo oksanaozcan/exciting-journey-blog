@@ -1,7 +1,7 @@
 import React from "react";
 import RootComment from "./RootComment";
 
-export default function CommentList ({comments}) {
+export default function CommentList ({comments, postId, useForm, usePage}) {
   const rootComments = comments.filter(comment => comment.parent_id === null);
   
   const getReplies = commentId => {
@@ -18,6 +18,9 @@ export default function CommentList ({comments}) {
     {
       rootComments.map(comment => (
         <RootComment 
+          postId={postId} 
+          useForm={useForm} 
+          usePage={usePage}
           key={comment.id} 
           comment={comment} 
           replies={getReplies(comment.id)}

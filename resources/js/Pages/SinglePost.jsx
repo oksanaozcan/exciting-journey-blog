@@ -117,7 +117,11 @@ export default function SinglePost (props) {
             <PlusIcon/>           
           </button>
           <ReactTooltip id="focusBtnTip" place="top" type='dark' effect="float" delayShow={300}/>
-          <CommentList comments={comments}/>
+          <CommentList comments={comments}
+            postId={post.id} 
+            useForm={useForm} 
+            usePage={usePage}
+          />
           <Pagination items={props.comments}/>
         </section>       
         <Footer/>

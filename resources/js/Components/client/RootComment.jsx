@@ -1,11 +1,17 @@
 import React, { useState } from "react";
+import AddNewCommentForm from "./AddNewCommentForm";
 import ReplyComment from "./ReplyComment";
 
-export default function RootComment ({comment,replies}) {
+export default function RootComment ({comment,replies, postId, useForm, usePage}) {
   const [isVisibleReplyComment, setIsVisibleReplyComment] = useState(false);
+  const [isActiveReplyForm, setIsActiveReplyForm] = useState(false);
 
   const toggleVisibleReplyComment = () => {
     setIsVisibleReplyComment(!isVisibleReplyComment);
+  }
+
+  const toggleActiveReplyForm = () => {
+    setIsActiveReplyForm(!isActiveReplyForm);
   }
   
   return (
@@ -22,9 +28,26 @@ export default function RootComment ({comment,replies}) {
             onClick={toggleVisibleReplyComment}
           > 
             {replies.length} Replies ...
-          </button>    
-          <button type="button" className="text-sm text-gray-500 font-semibold"> Reply</button>            
+          </button>
+          <button 
+            type="button" 
+            className="text-sm text-gray-500 font-semibold"
+            onClick={toggleActiveReplyForm}
+          > 
+            Reply
+          </button>            
         </div>
+        {
+          isActiveReplyForm ?
+          <AddNewCommentForm 
+            parentId={comment.id}
+            postId={postId} 
+            useForm={useForm} 
+            usePage={usePage}
+            setIsActiveReplyForm={setIsActiveReplyForm}
+          />
+          : null
+        }
         {
           replies.length > 0 && (
             <div className={isVisibleReplyComment ? 'space-y-4' : 'space-y-4 hidden'}>

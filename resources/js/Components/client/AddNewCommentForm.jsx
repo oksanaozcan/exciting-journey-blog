@@ -1,13 +1,13 @@
 import React, {useState, useEffect} from "react";
 import { Inertia } from '@inertiajs/inertia';
 
-export default function AddNewCommentForm ({postId, useForm, usePage, commentInput}) {
+export default function AddNewCommentForm ({postId, useForm, usePage, commentInput, parentId = null, setIsActiveReplyForm = null}) {
 
   const [newComment, setNewComment] = useState('');
 
   const { data, setData, progress, processing } = useForm({
     message: '',
-    parent_id: null,   
+    parent_id: parentId,   
     post_id: postId,   
   })
 
@@ -26,6 +26,7 @@ export default function AddNewCommentForm ({postId, useForm, usePage, commentInp
       },
       onFinish: () => {
         Inertia.reload({ only: ['comments'] })
+        setIsActiveReplyForm(false);
       }
     });    
   } 
