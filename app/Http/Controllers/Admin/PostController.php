@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\PostServiceController;
 use App\Http\Requests\Admin\Post\StoreRequest;
+use App\Http\Requests\Admin\Post\UpdateRequest;
 use App\Http\Resources\CategoryResource;
 use App\Http\Resources\PostResource;
 use App\Http\Resources\TagResourse;
@@ -37,6 +38,21 @@ class PostController extends PostServiceController
     if ($res) {      
       return Redirect::back()->with('message', 'Post created successfully!');
     }    
+  }
+
+  public function edit(Post $post)
+  {
+    //transform post with resource ......
+    $categories = CategoryResource::collection(Category::all());
+    $tags = TagResourse::collection(Tag::all());  
+
+    return inertia('Admin/Posts/EditPost', compact('post', 'categories', 'tags'));
+  }
+
+  public function update(UpdateRequest $request, Post $post)
+  {
+    $data = $request->validated();
+    dd($data);           
   }
 
 }
