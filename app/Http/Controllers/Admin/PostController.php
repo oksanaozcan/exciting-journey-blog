@@ -13,6 +13,7 @@ use App\Models\Post;
 use App\Models\Tag;
 use Barryvdh\Debugbar\Facades\Debugbar;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Redirect;
 
 class PostController extends PostServiceController
@@ -42,11 +43,12 @@ class PostController extends PostServiceController
 
   public function edit(Post $post)
   {
-    //transform post with resource ......
     $categories = CategoryResource::collection(Category::all());
     $tags = TagResourse::collection(Tag::all());  
 
-    return inertia('Admin/Posts/EditPost', compact('post', 'categories', 'tags'));
+    $postTags = TagResourse::collection($post->tags);
+
+    return inertia('Admin/Posts/EditPost', compact('post', 'categories', 'tags', 'postTags'));
   }
 
   public function update(UpdateRequest $request, Post $post)
