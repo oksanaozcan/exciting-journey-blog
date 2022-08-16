@@ -6,6 +6,7 @@ use App\Http\Controllers\PostServiceController;
 use App\Http\Requests\Admin\Post\StoreRequest;
 use App\Http\Requests\Admin\Post\UpdateRequest;
 use App\Http\Resources\CategoryResource;
+use App\Http\Resources\PictureResource;
 use App\Http\Resources\PostResource;
 use App\Http\Resources\TagResourse;
 use App\Models\Category;
@@ -47,14 +48,19 @@ class PostController extends PostServiceController
     $tags = TagResourse::collection(Tag::all());  
 
     $postTags = TagResourse::collection($post->tags);
+    $postPictures = PictureResource::collection($post->pictures);
 
-    return inertia('Admin/Posts/EditPost', compact('post', 'categories', 'tags', 'postTags'));
+    return inertia('Admin/Posts/EditPost', compact('post', 'categories', 'tags', 'postTags', 'postPictures'));
   }
 
   public function update(UpdateRequest $request, Post $post)
   {
     $data = $request->validated();
-    dd($data);           
+    $res = $this->service->update($data, $post);
+    
+    if ($res) {      
+      return Redirect::back()->with('message', 'Post updated successfully!');
+    }    
   }
 
 }

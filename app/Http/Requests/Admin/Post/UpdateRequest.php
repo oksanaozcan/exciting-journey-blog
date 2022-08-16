@@ -30,7 +30,8 @@ class UpdateRequest extends FormRequest
           'content' => 'required',
           'category_id' => 'required',
           'pictures' => 'nullable',
-          'tags' => 'nullable|array'
+          'tags' => 'nullable|array',
+          'removed_pictures' => 'nullable'
         ];
     }
 }

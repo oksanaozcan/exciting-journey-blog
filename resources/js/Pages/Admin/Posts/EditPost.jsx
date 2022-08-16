@@ -11,11 +11,12 @@ import { Editor } from "react-draft-wysiwyg";
 import {useDropzone} from 'react-dropzone';
 import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
 import draftToHtml from 'draftjs-to-html';
-import { bytesToHuman } from '@/helpers/helperFunctions';
+import { bytesToHuman, getFields } from '@/helpers/helperFunctions';
 
 // DropzoneFix.tsx
 import Dropzone from 'react-dropzone-uploader';
 import { convertFromHTML } from 'draft-convert';
+import BanIcon from '@/Components/icons/BanIcon';
 function fixComponent(component) {
     return (component).default ?? component;
 }
@@ -24,6 +25,7 @@ export const DropzoneFix = fixComponent(Dropzone);
 export default function EditPost (props) {
   const categories = useMemo(() => props.categories, []);      
   const tags = useMemo(() => props.tags, []);
+  const bindedPictures = useMemo(() => props.postPictures, []);
   const [newPreview, setNewPreview] = useState({});
   const [selectedCategory, setSelectedCategory] = useState({});
   const [selectedTags, setSelectedTags] = useState([]);
@@ -33,6 +35,7 @@ export default function EditPost (props) {
     }      
   );
   const [dropedFiles, setDropedFiles] = useState([]);
+  const [removedBindedPictures, setRemovedBindedPictures] = useState([]);
   
   const { errors } = usePage().props;
 
@@ -43,7 +46,8 @@ export default function EditPost (props) {
     content: props.post.content,
     category_id: props.post.category,
     pictures: [],
-    tags: props.postTags
+    tags: props.postTags,
+    removed_pictures: []
   })
 
   useEffect(() => {
@@ -56,8 +60,7 @@ export default function EditPost (props) {
   }, [selectedCategory, setSelectedCategory])   
 
   useEffect(() => {
-    setData('tags', selectedTags)   
-    console.log(data.tags)
+    setData('tags', getFields(selectedTags))   
   }, [selectedTags, setSelectedTags]) 
 
   useEffect(() => {    
@@ -77,9 +80,12 @@ export default function EditPost (props) {
     setData('pictures', dropedFiles)
   }, [dropedFiles, setDropedFiles])
 
+  useEffect(() => {
+    setData('removed_pictures', removedBindedPictures)
+  }, [removedBindedPictures, setRemovedBindedPictures])
+
   function submit(e) {
     e.preventDefault()    
-    console.log(data)
     post(`/admin/posts/${props.post.id}`);
   }
 
@@ -94,6 +100,19 @@ export default function EditPost (props) {
 
   const handleRemoveFile = (preview) => {    
     setDropedFiles(dropedFiles.filter(item => item.preview !== preview)); 
+  }
+
+  const toggleRemoveBindedPictures = (picture) => {
+    if (removedBindedPictures.some(obj => obj.id === picture.id)) {
+      let newState = removedBindedPictures.filter(item => item.id !== picture.id);
+      setRemovedBindedPictures(newState); 
+    } else {
+      setRemovedBindedPictures(state => [
+        ...state, 
+        picture
+      ])
+    }
+    
   }
 
   const selected_images = dropedFiles?.map(img => (
@@ -169,8 +188,7 @@ export default function EditPost (props) {
                       <>
                       <h6>Preview Image</h6>
                       <img className='w-full h-1/2 object-cover rounded-lg' src={props.post.preview} alt="preview" />
-                      </>
-                      
+                      </>                      
                     }
                   </div>
                 </div>                
@@ -221,15 +239,42 @@ export default function EditPost (props) {
                   onEditorStateChange={setEditorState}              
                 />
 
-                <div className='h-36 bg-white mb-4 border-4 border-dotted border-indigo-500/100 rounded-md font-bold text-center flex justify-center items-center' {...getRootProps()}>
-                  <input {...getInputProps()} />
-                  {
-                    isDragActive ?
-                    <p>Drop the files here ...</p> :
-                    <p>Drag 'n' drop some files here, or click to select files</p>
-                  }
-                </div>
-                {selected_images}
+                <h6>Edit Pictures</h6>
+                <div className='flex flex-col border-dashed border-2 border-gray-400 px-4 py-4 mb-4'>
+                  <small>Binded Pictures</small>                  
+                  <div className='flex flex-row flex-wrap'>
+                    {
+                      bindedPictures.map(picture => (
+                        removedBindedPictures.some(item => item.id === picture.id) 
+                        ?
+                        <div key={picture.id} className="relative w-16 my-2 mx-auto">
+                          <img src={picture.path} alt="picture" className='filter grayscale blur-sm'/>
+                          <button onClick={() => toggleRemoveBindedPictures(picture)} type='button' className='absolute -right-10 -top-4 btn m-1 p-1'><BanIcon/></button>
+                        </div>
+                        :
+                        <div key={picture.id} className="relative w-16 my-4 mx-auto">
+                          <img src={picture.path} alt="picture" className=''/>
+                          <button onClick={() => toggleRemoveBindedPictures(picture)} type='button' className='absolute -right-10 -top-4 btn m-1 p-1'><CrossIcon/></button>
+                        </div>
+                      ))
+                    }                                                
+                  </div>
+
+                    {
+                      removedBindedPictures.length > 0 && 
+                      <strong className='text-yellow-500 my-4'>Warning: You are about delete checked pictures from this post and database, but not from storage!</strong>
+                    }    
+
+                  <div className='h-36 bg-white mb-4 border-4 border-dotted border-indigo-500/100 rounded-md font-bold text-center flex justify-center items-center' {...getRootProps()}>
+                    <input {...getInputProps()} />
+                    {
+                      isDragActive ?
+                      <p>Drop the files here ...</p> :
+                      <p>Drag 'n' drop some files here, or click to select files</p>
+                    }
+                  </div>
+                  {selected_images}
+                </div>                
 
                 {progress && (
                   <progress value={progress.percentage} max="100">
