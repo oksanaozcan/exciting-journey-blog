@@ -14,4 +14,7 @@ class PermissionType
 
   public const CAN_COMMENT_POST = 'comment-post';
 
+  public const CAN_UPDATE_COMMENT = 'update-comment';
+  public const CAN_DELETE_COMMENT = 'delete-comment';
+
 }

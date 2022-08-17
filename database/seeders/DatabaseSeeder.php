@@ -20,7 +20,9 @@ class DatabaseSeeder extends Seeder
     {
       $this->call([
         RoleAndPermissionSeeder::class,
-        AdminSeeder::class
+        AdminSeeder::class,
+        WriterSeeder::class,
+        EditorSeeder::class
       ]);
 
       Category::factory(8)->create();       
