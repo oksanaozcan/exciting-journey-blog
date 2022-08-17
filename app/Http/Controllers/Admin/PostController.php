@@ -11,11 +11,10 @@ use App\Http\Resources\PostResource;
 use App\Http\Resources\TagResourse;
 use App\Models\Category;
 use App\Models\Post;
+use App\Models\Comment;
 use App\Models\Tag;
-use Barryvdh\Debugbar\Facades\Debugbar;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Redirect;
+use App\Http\Resources\SinglePostResource;
 
 class PostController extends PostServiceController
 {
@@ -42,6 +41,13 @@ class PostController extends PostServiceController
     }    
   }
 
+  public function show(Post $post)
+  {
+    $post = new SinglePostResource($post); 
+    $commentsCount = Comment::where('post_id', $post->id)->count();  
+    return inertia('Admin/Posts/ShowPost', compact('post', 'commentsCount'));
+  }
+
   public function edit(Post $post)
   {
     $categories = CategoryResource::collection(Category::all());
@@ -63,8 +69,12 @@ class PostController extends PostServiceController
     }    
   }
 
+  public function delete(Post $post)
+  {
+    $res = $this->service->delete($post);
+    if ($res) {      
+      return Redirect::route('admin.post.index')->with('message', 'Post deleted!');
+    }    
+  }
+
 }
-
-
-// dd($request);
-    // Debugbar::debug($request);  

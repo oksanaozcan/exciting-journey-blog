@@ -11,7 +11,7 @@ import DoubleRight from "../icons/DoubleRight";
 import DoubleLeft from "../icons/DoubleLeft";
 import SelectRowPerPage from "../ui/SelectRowPerPage";
 import NavPageBtn from "../ui/NavPageBtn";
-import { data } from "autoprefixer";
+import { v4 as uuidv4 } from 'uuid';
 
 const PostTable = ({posts}) => {
   const columns = useMemo(() => COLUMNS, []);
@@ -36,6 +36,10 @@ const PostTable = ({posts}) => {
 
   const {globalFilter, pageIndex, pageSize} = state;
 
+  const onDeletePost = (id) => {
+    console.log(id);
+  }
+
   return (
     <div className="flex flex-col">
       <GlobalFilter filter={globalFilter} setFilter={setGlobalFilter}/>      
@@ -48,8 +52,8 @@ const PostTable = ({posts}) => {
                   headerGroups.map(headerGroup => (
                     <tr {...headerGroup.getHeaderGroupProps()}>
                       {
-                        headerGroup.headers.map((column) => (
-                          <th {...column.getHeaderProps(column.getSortByToggleProps())} 
+                        headerGroup.headers.map((column, i) => (                          
+                          <th key={i} {...column.getHeaderProps(column.getSortByToggleProps())} 
                             scope="col" 
                             className="text-sm font-bold text-gray-900 px-6 py-4 text-left"
                           >
@@ -71,11 +75,11 @@ const PostTable = ({posts}) => {
                 {
                   page.map(row => {
                     prepareRow(row)
-                    return (
-                      <tr {...row.getRowProps()} className="border-b">
+                    return (                      
+                      <tr key={row.original.id} {...row.getRowProps()} className="border-b">
                         {
-                          row.cells.map(cell => {
-                            return <td 
+                          row.cells.map(cell => {                            
+                            return <td key={uuidv4()}
                                 {...cell.getCellProps()}
                                 className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900"
                               >
@@ -83,7 +87,7 @@ const PostTable = ({posts}) => {
                               </td>
                           })
                         }
-                      </tr>
+                      </tr>                                           
                     )
                   })
                 }             
@@ -151,7 +155,14 @@ const COLUMNS = [
   },
   {
     Header: 'Options',       
-    disableFilters: true
+    disableFilters: true,
+    Cell: tableProps => (
+      <>
+        <a href={`/admin/posts/${tableProps.row.original.id}/edit`} className="btn p-2 m-1">Edit</a>        
+        <a href={`/admin/posts/${tableProps.row.original.id}`} className="btn p-2 m-1">Show</a>        
+      </>
+     
+    )
   },
 ]
 

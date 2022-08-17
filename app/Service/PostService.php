@@ -2,6 +2,7 @@
 
 namespace App\Service;
 
+use App\Models\Comment;
 use Exception;
 use Illuminate\Support\Facades\DB;
 use App\Models\Picture;
@@ -115,6 +116,28 @@ class PostService
       DB::commit();
 
       return $post;
+
+    } catch (Exception $exception) {
+      DB::rollBack();
+      abort(500, $exception);
+    }
+  }
+
+  public function delete (Post $post)
+  {
+    try {
+      DB::beginTransaction(); 
+
+      $comments = Comment::where('post_id', $post->id)->get();
+      foreach ($comments as $comment) {
+        $comment->delete();
+      }  
+
+      $post->delete();
+            
+      DB::commit();
+
+      return true;
 
     } catch (Exception $exception) {
       DB::rollBack();
