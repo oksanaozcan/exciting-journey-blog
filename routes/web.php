@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Admin\AdminController;
 use App\Http\Controllers\Admin\CategoryController;
+use App\Http\Controllers\Admin\CommentController as AdminCommentController;
 use App\Http\Controllers\Admin\PostController;
 use App\Http\Controllers\Admin\TagController;
 use App\Http\Controllers\Admin\UserController;
@@ -84,6 +85,15 @@ Route::middleware(['auth', 'verified'])->group(function () {
       Route::post('/{post}', [PostController::class, 'update'])->middleware(['can:'.PermissionType::CAN_UPDATE_POST])->name('admin.post.update');
       Route::delete('/{post}', [PostController::class, 'delete'])->middleware(['can:'.PermissionType::CAN_DELETE_POST])->name('admin.post.delete');
     });    
+
+    Route::prefix('comments')->group(function () {
+      Route::get('/', [AdminCommentController::class, 'index'])->middleware(['can:'.PermissionType::CAN_CREATE_USER])->name('admin.comment.index');
+      Route::get('/deleted', [AdminCommentController::class, 'indexDeleted'])->middleware(['can:'.PermissionType::CAN_CREATE_USER])->name('admin.comment.deleted');     
+      Route::get('/{comment}', [AdminCommentController::class, 'show'])->middleware(['can:'.PermissionType::CAN_CREATE_USER])->name('admin.comment.show');
+      Route::get('/{comment}/edit', [AdminCommentController::class, 'edit'])->middleware(['can:'.PermissionType::CAN_UPDATE_USER])->name('admin.comment.edit');
+      Route::patch('/{comment}', [AdminCommentController::class, 'update'])->middleware(['can:'.PermissionType::CAN_UPDATE_USER])->name('admin.comment.update');
+      Route::delete('/{comment}', [AdminCommentController::class, 'delete'])->middleware(['can:'.PermissionType::CAN_DELETE_USER])->name('admin.comment.delete');
+    });
 
   });
 
