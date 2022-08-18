@@ -47,8 +47,9 @@ class HandleInertiaRequests extends Middleware
                 ]);
             },
             'permissions' => [
-              'post_view' => User::permission(PermissionType::CAN_UPDATE_POST)->get(['id']),
+              'post_update' => User::permission(PermissionType::CAN_UPDATE_POST)->get(['id']),
               'post_create' => User::permission(PermissionType::CAN_CREATE_POST)->get(['id']),
+              'post_delete' => User::permission(PermissionType::CAN_DELETE_POST)->get(['id']),
             ],
             'flash' => [
               'message' => session('message')

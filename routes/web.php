@@ -78,9 +78,9 @@ Route::middleware(['auth', 'verified'])->group(function () {
 
     Route::prefix('posts')->group(function () {
       Route::get('/', [PostController::class, 'index'])->middleware(['can:'.PermissionType::CAN_UPDATE_POST])->name('admin.post.index');
-      Route::get('/{post}', [PostController::class, 'show'])->middleware(['can:'.PermissionType::CAN_UPDATE_POST])->name('admin.post.show');
-      Route::get('/create', [PostController::class, 'create'])->middleware(['can:'.PermissionType::CAN_CREATE_POST])->name('admin.post.create');
+      Route::get('/create', [PostController::class, 'create'])->middleware(['can:'.PermissionType::CAN_CREATE_POST])->name('admin.post.create');            
       Route::post('/', [PostController::class, 'store'])->middleware(['can:'.PermissionType::CAN_CREATE_POST])->name('admin.post.store');
+      Route::get('/{post}', [PostController::class, 'show'])->middleware(['can:'.PermissionType::CAN_UPDATE_POST])->name('admin.post.show');
       Route::get('/{post}/edit', [PostController::class, 'edit'])->middleware(['can:'.PermissionType::CAN_UPDATE_POST])->name('admin.post.edit');
       Route::post('/{post}', [PostController::class, 'update'])->middleware(['can:'.PermissionType::CAN_UPDATE_POST])->name('admin.post.update');
       Route::delete('/{post}', [PostController::class, 'delete'])->middleware(['can:'.PermissionType::CAN_DELETE_POST])->name('admin.post.delete');

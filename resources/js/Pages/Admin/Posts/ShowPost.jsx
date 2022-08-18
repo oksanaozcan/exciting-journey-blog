@@ -15,6 +15,13 @@ export default function ShowPost (props) {
     return false;
   }) 
 
+  const isAllowedDelete = permissions.post_delete.some(el => {
+    if (el.id === props.auth.user.id) {
+      return true;
+    } 
+    return false;
+  }) 
+
   const onDeletePost = (id) => {
     Inertia.delete(`/admin/posts/${id}`);
   }
@@ -40,7 +47,7 @@ export default function ShowPost (props) {
             </Link>       
             <a style={props.auth.user.roles[0].name === 'admin' ? { display:'block'} : {display : 'none'} } href="/admin">Admin</a>                
             <div className="bg-white overflow-hidden shadow-sm sm:rounded-lg">
-              <PostCard post={post} commentsCount={commentsCount} onDeletePost={onDeletePost}/>              
+              <PostCard post={post} commentsCount={commentsCount} onDeletePost={onDeletePost} isAllowedDelete={isAllowedDelete}/>              
             </div>
           </div>
         </div>         

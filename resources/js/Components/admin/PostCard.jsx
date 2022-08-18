@@ -2,7 +2,7 @@ import React from "react";
 import Tag from "@/Components/ui/Tag";
 import SinglePostSlider from "../client/SinglePostSlider";
 
-export default function PostCard ({post, commentsCount, onDeletePost}) {  
+export default function PostCard ({post, commentsCount, onDeletePost, isAllowedDelete}) {  
 
   const Content = () => <div dangerouslySetInnerHTML={{ __html: post.content }}/>
 
@@ -36,7 +36,11 @@ export default function PostCard ({post, commentsCount, onDeletePost}) {
       </div>
       <div className="flex flex-col w-full">
         <a className="btn my-2 text-center" href={`/admin/posts/${post.id}/edit`}>Edit</a>
-        <button type="button" className="btn my-2" onClick={() => onDeletePost(post.id)}>Delete</button>
+        {
+          isAllowedDelete ?
+          <button type="button" className='btn my-2' onClick={() => onDeletePost(post.id)}>Delete</button> :
+          null
+        }       
       </div>
     </div>          
   )
