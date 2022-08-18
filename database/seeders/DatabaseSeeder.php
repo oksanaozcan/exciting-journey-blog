@@ -22,7 +22,9 @@ class DatabaseSeeder extends Seeder
         RoleAndPermissionSeeder::class,
         AdminSeeder::class,
         WriterSeeder::class,
-        EditorSeeder::class
+        EditorSeeder::class,
+        ReaderSeeder::class,
+        ModeratorSeeder::class
       ]);
 
       Category::factory(8)->create();       
