@@ -1,19 +1,16 @@
 @extends('admin.layouts.app')
 @section('content')
 
-<!-- Content Wrapper. Contains page content -->
-<div class="content-wrapper">
-  <!-- Content Header (Page header) -->
+<div class="content-wrapper">  
   <div class="content-header">
     <div class="container-fluid">
       <div class="row mb-2">
         <div class="col-sm-6">
           <h1 class="m-0">Статистика</h1>
-        </div><!-- /.col -->
-      </div><!-- /.row -->
-    </div><!-- /.container-fluid -->
-  </div>
-  <!-- /.content-header -->
+        </div>
+      </div>
+    </div>
+  </div> 
 
   <!-- Main content -->
   <section class="content">
@@ -24,42 +21,27 @@
           <!-- small box -->
           <div class="small-box bg-info">
             <div class="inner">
-              <h3>Клиенты</h3>
-
-              <p>Всего: #### </p>
+              <h3>Пользователи</h3>
+              <p>Всего: {{ $usersCount }} </p>             
             </div>
             <div class="icon">
               <i class="ion ion-person"></i>
             </div>
-            <a href="#" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
+            <a href={{ route('admin.user.index') }} class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
           </div>
         </div>
-        <!-- ./col -->
-        <div class="col-lg-3 col-6">
-          <!-- small box -->
-          <div class="small-box bg-success">
-            <div class="inner">
-              <h3>Заявки</h3>
-              <p>Всего ####</p>                        
-            </div>
-            <div class="icon">
-              <i class="far fa-envelope"></i>
-            </div>
-            <a href="#" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
-          </div>
-        </div>
-        <!-- ./col -->
+
         <div class="col-lg-3 col-6">
           <!-- small box -->
           <div class="small-box bg-warning">
             <div class="inner">
-              <h3>Фотографии</h3>
-              <p>Всего ####</p>
+              <h3>Посты</h3>
+              <p>Всего: {{ $postsCount }}</p>
             </div>
             <div class="icon">
               <i class="ion ion-image"></i>
             </div>
-            <a href="#" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
+            <a href="{{ route('admin.post.index') }}" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
           </div>
         </div>
         <!-- ./col -->
@@ -67,46 +49,70 @@
           <!-- small box -->
           <div class="small-box bg-danger">
             <div class="inner">
-              <h3>Темы</h3>
-              <p>Всего: #### </p>
+              <h3>Категории</h3>
+              <p>Всего: {{ $categoriesCount }} </p>
             </div>
             <div class="icon">
               <i class="ion ion-pie-graph"></i>
             </div>
-            <a href="#" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
+            <a href="{{ route('admin.category.index') }}" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
           </div>
         </div>
 
-        {{-- <div class="col-lg-3 col-6">
+        <div class="col-lg-3 col-6">
           <!-- small box -->
           <div class="small-box bg-primary">
             <div class="inner">
-              <h3>#</h3>
-              <p>Тэги</p>
+              <h3>Тэги</h3>
+              <p>Всего: {{ $tagsCount }}</p>
             </div>
             <div class="icon">
               <i class="fas fa-tag"></i>
             </div>
-            <a href="#" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
+            <a href="{{ route('admin.tag.index') }}" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
           </div>
-        </div> --}}
+        </div>
 
-        {{-- <div class="col-lg-3 col-6">
+        <div class="col-lg-3 col-6">
           <!-- small box -->
-          <div class="small-box bg-dark">
+          <div class="small-box bg-green">
             <div class="inner">
-              <h3>data</h3>
-              <p>Заявки</p>
+              <h3>Комментарии</h3>
+              <p>Всего: {{ $commentsCount }} </p>
             </div>
             <div class="icon">
               <i class="far fa-envelope"></i>
             </div>
-            <a href="#" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
+            <a href="{{ route('admin.comment.index') }}" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
           </div>
-        </div> --}}
+        </div>
         <!-- ./col -->
       </div>
       <!-- /.row -->
-    </section> 
+     
+      <div class="row">
+        <h2 class="mt-2">KPI Писателей:</h2>
+        <div class="col-sm-12">        
+          <x-table :headers="['Имя', 'Кол-во постов', 'Кол-во комментариев', 'Дата последней публикации', 'Кол-во ком-в посл пуб-ции', 'Действия']">
+            @foreach ($writers as $writer)
+              <tr>                                     
+                <th>{{ $writer->name }}</th>                                                 
+                <th>{{ $writer->posts->count() }}</th>                                                 
+                <th>{{ $writer->commentsWriter->count() }}</th>                                                 
+                <th>{{ $writer->latestPublishedPost[0]->created_at}}</th>                                                 
+                <th>{{ $writer->latestPublishedPost[0]->comments->count()}}</th>                                                  
+                <td class="d-flex">
+                  <x-ui.show-btn path='admin.user.show' :id="$writer->id" >Общие сведения</x-ui.show-btn>               
+                  <x-ui.show-btn path='admin.user.showAsWriter' :id="$writer->id" >Сведения как писателя</x-ui.show-btn>                
+                </td>
+              </tr>                         
+            @endforeach               
+          </x-table>          
+        </div>
+      </div>     
+
+
+    </div>
+  </section> 
 
 @endsection

@@ -49,4 +49,26 @@ class User extends Authenticatable implements MustVerifyEmail
     {
       $this->notify(new SendVerifyWithQueueNotification());
     }
+
+    public function posts()
+    {
+      return $this->hasMany(Post::class, 'user_id', 'id');
+    }
+
+    public function commentsWriter()
+    {
+      return $this->hasManyThrough(
+        Comment::class, 
+        Post::class, 
+        'user_id', 
+        'post_id', 
+        'id'
+      );
+    }
+
+    public function latestPublishedPost ()
+    {
+      return $this->hasMany(Post::class, 'user_id', 'id')->latest();
+    }
+    
 }

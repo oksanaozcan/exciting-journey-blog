@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Models\Post;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Spatie\Permission\Models\Role;
@@ -24,6 +25,12 @@ class UserController extends Controller
   public function show(User $user)
   {
     return view('admin.user.show', compact('user'));
+  }
+
+  public function showAsWriter(User $user)
+  {
+    $posts = Post::where('user_id', $user->id)->paginate(15);
+    return view('admin.user.showAsWriter', compact('user', 'posts'));
   }
   
   public function edit(User $user)
