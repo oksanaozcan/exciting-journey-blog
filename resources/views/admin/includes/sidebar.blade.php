@@ -123,20 +123,14 @@
                 <i class="far fa-circle nav-icon"></i>
                 <p>Добавить</p>
               </a>
-            </li>
-            {{-- <li class="nav-item">
-              <a href="{{ route('admin.tag.deleted') }}" class="nav-link">
-                <i class="far fa-circle nav-icon"></i>
-                <p>Удаленные</p>
-              </a>
-            </li> --}}
+            </li>          
           </ul>
         </li>
         @endcan
-
+        
         <li class="nav-item">
           <a href="#" class="nav-link">
-            <i class="nav-icon fas fa-users"></i>
+            <i class="far fa-envelope nav-icon"></i>
             <p>
               Комментарии
               <i class="fas fa-angle-left right"></i>
@@ -156,7 +150,31 @@
               </a>
             </li>
           </ul>
-        </li>       
+        </li>            
+        
+        <li class="nav-item">
+          <a href="#" class="nav-link">
+            <i class="nav-icon fas fa-users"></i>
+            <p>
+              Модерирование
+              <i class="fas fa-angle-left right"></i>
+            </p>
+          </a>
+          <ul class="nav nav-treeview">
+            <li class="nav-item">
+              <a href="{{ route('admin.user.reader') }}" class="nav-link">
+                <i class="far fa-circle nav-icon"></i>
+                <p>Читатели</p>
+              </a>
+            </li>          
+            <li class="nav-item">
+              <a href="{{ route('admin.user.banned') }}" class="nav-link">
+                <i class="far fa-circle nav-icon"></i>
+                <p>Забаненные</p>
+              </a>
+            </li>                    
+          </ul>
+        </li>               
 
         <li class="nav-item">          
           <a class="nav-link" href="{{ route('logout') }}"

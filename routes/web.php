@@ -46,11 +46,14 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/', [AdminController::class, 'index'])->middleware(['can:'.PermissionType::CAN_CREATE_USER])->name('admin.index');
 
     Route::prefix('users')->group(function () {
-      Route::get('/', [UserController::class, 'index'])->middleware(['can:'.PermissionType::CAN_CREATE_USER])->name('admin.user.index');
+      Route::get('/', [UserController::class, 'index'])->middleware(['can:'.PermissionType::CAN_CREATE_USER])->name('admin.user.index');      
       Route::get('/deleted', [UserController::class, 'indexDeleted'])->middleware(['can:'.PermissionType::CAN_CREATE_USER])->name('admin.user.deleted');
-      Route::get('/{user}', [UserController::class, 'show'])->middleware(['can:'.PermissionType::CAN_CREATE_USER])->name('admin.user.show');
+      Route::get('/readers', [UserController::class, 'indexReaders'])->middleware(['can:'.PermissionType::CAN_UPDATE_COMMENT])->name('admin.user.reader');
+      Route::get('/banned-readers', [UserController::class, 'indexBanned'])->middleware(['can:'.PermissionType::CAN_UPDATE_COMMENT])->name('admin.user.banned');
+      Route::get('/{user}', [UserController::class, 'show'])->middleware(['can:'.PermissionType::CAN_DELETE_USER])->name('admin.user.show');
       Route::get('/{user}/writer', [UserController::class, 'showAsWriter'])->middleware(['can:'.PermissionType::CAN_CREATE_USER])->name('admin.user.showAsWriter');
-      Route::get('/{user}/edit', [UserController::class, 'edit'])->middleware(['can:'.PermissionType::CAN_UPDATE_USER])->name('admin.user.edit');
+      Route::get('/{user}/edit', [UserController::class, 'edit'])->middleware(['can:'.PermissionType::CAN_CREATE_USER])->name('admin.user.edit');
+      Route::get('/readers/{user}/edit', [UserController::class, 'editReader'])->middleware(['can:'.PermissionType::CAN_UPDATE_USER])->name('admin.user.edit.reader');
       Route::patch('/{user}', [UserController::class, 'update'])->middleware(['can:'.PermissionType::CAN_UPDATE_USER])->name('admin.user.update');
       Route::delete('/{user}', [UserController::class, 'delete'])->middleware(['can:'.PermissionType::CAN_DELETE_USER])->name('admin.user.delete');
     });

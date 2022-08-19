@@ -69,6 +69,7 @@ class RoleAndPermissionSeeder extends Seeder
 
       $moderatorRole->givePermissionTo([
         PermissionType::CAN_COMMENT_POST,
+        PermissionType::CAN_UPDATE_USER,
         PermissionType::CAN_UPDATE_COMMENT,
         PermissionType::CAN_DELETE_COMMENT,
       ]);

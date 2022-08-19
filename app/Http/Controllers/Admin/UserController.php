@@ -6,8 +6,10 @@ use App\Http\Controllers\Controller;
 use App\Models\Comment;
 use App\Models\Post;
 use App\Models\User;
+use App\Types\RoleType;
 use Illuminate\Http\Request;
 use Spatie\Permission\Models\Role;
+use Exception;
 
 class UserController extends Controller
 {   
@@ -22,6 +24,20 @@ class UserController extends Controller
     $trashedUsers = User::onlyTrashed()->get();
     return view('admin.user.deleted', compact('trashedUsers'));
   }  
+
+  public function indexReaders()
+  {
+    $readers = User::with('roles')->whereHas('roles', function($q) {
+      $q->whereIn('name', [RoleType::READER]);
+    })->get();
+    return view('admin.user.indexReader', compact('readers'));
+  }
+
+  public function indexBanned()
+  {
+    $readers = User::doesntHave('roles')->get();
+    return view('admin.user.indexBanned', compact('readers'));
+  }
  
   public function show(User $user)
   {
@@ -40,15 +56,25 @@ class UserController extends Controller
     $roles = Role::all();
     return view('admin.user.edit', compact('user', 'roles'));
   }
+
+  public function editReader(User $user)
+  {
+    if ($user->hasAnyRole([RoleType::ADMIN, RoleType::EDITOR, RoleType::WRITER, RoleType::MODERATOR])) {
+      throw new Exception("THIS ACTION IS UNAUTHORIZED", 403);
+    } else {
+      $roles = Role::where('name', RoleType::READER)->get();      
+      return view('admin.user.edit', compact('user', 'roles'));
+    }
+  }
     
   public function update(Request $request, User $user)
   {
     $data = $request->validate([
-      'roles' =>'required'
+      'roles' =>'nullable'
     ]);    
     $user->syncRoles($data);
 
-    return redirect()->route('admin.user.show', $user);
+    return redirect()->back();
   }
 
   public function delete(User $user)

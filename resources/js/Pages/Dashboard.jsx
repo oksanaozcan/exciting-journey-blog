@@ -19,6 +19,13 @@ export default function Dashboard(props) {
     return false;
   })
 
+  const isAllowedUpdateComment = permissions.comment_update.some(el => {
+    if (el.id === props.auth.user.id) {
+      return true;
+    } 
+    return false;
+  })
+
     return (
         <Authenticated
             auth={props.auth}
@@ -38,12 +45,19 @@ export default function Dashboard(props) {
                           Add Post
                         </Link>     
 
-                         <Link 
+                        <Link 
                           href='/admin/posts'
                           style={ isAllowedUpdate ? { display:'block'} : {display : 'none'} }  
                         >
                           Edit Posts
                         </Link>        
+
+                        <a
+                          href='/admin/comments'
+                          style={ isAllowedUpdateComment ? { display:'block'} : {display : 'none'} }  
+                        >
+                          Edit Comments
+                        </a>        
 
                     </div>
                 </div>

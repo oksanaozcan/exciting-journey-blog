@@ -50,6 +50,7 @@ class HandleInertiaRequests extends Middleware
               'post_update' => User::permission(PermissionType::CAN_UPDATE_POST)->get(['id']),
               'post_create' => User::permission(PermissionType::CAN_CREATE_POST)->get(['id']),
               'post_delete' => User::permission(PermissionType::CAN_DELETE_POST)->get(['id']),
+              'comment_update' => User::permission(PermissionType::CAN_UPDATE_COMMENT)->get(['id']),
             ],
             'flash' => [
               'message' => session('message')
