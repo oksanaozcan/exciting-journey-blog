@@ -97,10 +97,10 @@
             @foreach ($writers as $writer)
               <tr>                                     
                 <th>{{ $writer->name }}</th>                                                 
-                <th>{{ $writer->posts->count() }}</th>                                                 
-                <th>{{ $writer->commentsWriter->count() }}</th>                                                 
-                <th>{{ $writer->latestPublishedPost[0]->created_at}}</th>                                                 
-                <th>{{ $writer->latestPublishedPost[0]->comments->count()}}</th>                                                  
+                <th>{{ $writer->posts ? $writer->posts->count() : '0' }}</th>                                                 
+                <th>{{ $writer->commentsWriter ? $writer->commentsWriter->count() : '0' }}</th>                                                 
+                <th>{{ $writer->latestPublishedPost->isNotEmpty() ? $writer->latestPublishedPost[0]->created_at : 'no post'}}</th>                                                 
+                <th>{{ $writer->latestPublishedPost->isNotEmpty() ? $writer->latestPublishedPost[0]->comments->count() : 'no post'}}</th>                                                  
                 <td class="d-flex">
                   <x-ui.show-btn path='admin.user.show' :id="$writer->id" >Общие сведения</x-ui.show-btn>               
                   <x-ui.show-btn path='admin.user.showAsWriter' :id="$writer->id" >Сведения как писателя</x-ui.show-btn>                

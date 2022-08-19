@@ -12,11 +12,15 @@
           <x-show-card 
             title="{{ $user->name }}" 
             :id="$user->id" 
-            :text="[$user->roles->pluck('name')[0], $user->email]" 
+            :text="[$user->email]" 
             :list="['created at '.$user->created_at, 'comments: '.$user->comments->count(), 'Post published: '.$user->posts->count()]" 
             pathEdit="admin.user.edit"
             pathDelete="admin.user.delete"       
-          />           
+          />        
+          <h4>Active Roles: </h4>   
+          @foreach ($user->roles as $role)
+            <li class="list-group-item">{{ $role->name }}</li>              
+          @endforeach
         </div>       
       </div>
       <div class="row mb-2">

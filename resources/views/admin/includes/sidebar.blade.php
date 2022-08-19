@@ -11,7 +11,8 @@
       <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
         <!-- Add icons to the links using the .nav-icon class
              with font-awesome or any other icon font library -->
-       
+
+        @can('admin')             
         <li class="nav-item">
           <a href="#" class="nav-link">
             <i class="nav-icon fas fa-users"></i>
@@ -34,8 +35,10 @@
               </a>
             </li>
           </ul>
-        </li>       
+        </li>  
+        @endcan      
 
+        @can('admin')  
         <li class="nav-item">
           <a href={{ route('admin.category.index') }} class="nav-link">
             <i class="nav-icon fas fa-list"></i>
@@ -65,7 +68,9 @@
             </li>
           </ul>
         </li>
-
+        @endcan 
+        
+        @can('admin') 
         <li class="nav-item">
           <a href={{ route('admin.tag.index') }} class="nav-link">
             <i class="nav-icon fas fa-tag"></i>
@@ -95,7 +100,9 @@
             </li>
           </ul>
         </li>
-
+        @endcan
+        
+        @can(['admin', 'editor', 'writer']) 
         <li class="nav-item">
           <a href={{ route('admin.post.index') }} class="nav-link"> 
             <i class="nav-icon fas fa-sticky-note"></i>
@@ -125,6 +132,7 @@
             </li> --}}
           </ul>
         </li>
+        @endcan
 
         <li class="nav-item">
           <a href="#" class="nav-link">

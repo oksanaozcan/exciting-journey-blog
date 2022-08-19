@@ -44,12 +44,11 @@ class UserController extends Controller
   public function update(Request $request, User $user)
   {
     $data = $request->validate([
-      'role' =>'required'
-    ]);
-    $user->removeRole($user->roles->pluck('name')[0]);
-    $user->assignRole($data['role']);
+      'roles' =>'required'
+    ]);    
+    $user->syncRoles($data);
 
-    return view('admin.user.show', compact('user'));
+    return redirect()->route('admin.user.show', $user);
   }
 
   public function delete(User $user)

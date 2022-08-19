@@ -7,6 +7,7 @@
   <div class="content-header">
     <div class="container-fluid">     
       <x-header-content title="Изменение роли" path="admin.user.index" routeTitle="Назад к списку" btnClasses="btn btn-outline-secondary" /> 
+      <div>{{ $user->name }}</div>
       <div class="row mb-2">
         <div class="col-sm-6 mt-2">
           <form action={{ route('admin.user.update', $user->id) }} method="POST">
@@ -15,18 +16,17 @@
 
             <div class="form-group">
               <label>Выберите роль:</label>
-              <select class="form-select form-control" name="role">      
+              <select name="roles[]" class="select2" multiple="multiple" data-placeholder="Выберите roles"  style="width: 100%;">
                 @foreach ($roles as $role)
-                  <option value={{ $role->name }} 
-                    {{ $user->roles->pluck('id')[0] == $role->id ? ' selected' : '' }}
-                  >
-                    {{ $role->name }}
-                  </option>                        
-                @endforeach                                       
+                  <option value="{{ $role->name }}"
+                    {{ is_array($user->roles->pluck('id')->toArray()) && in_array($role->id, $user->roles->pluck('id')->toArray()) ? ' selected' : '' }}
+                  >{{ $role->name }}</option>                    
+                @endforeach               
               </select>
-              @error('role')
+              @error('roles')
                 <small class="form-text text-danger">{{ $message }}</small>                  
-              @enderror  
+              @enderror 
+
             </div>       
               
             <button type="submit" class="btn btn-primary">Назначить</button>

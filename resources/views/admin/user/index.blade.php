@@ -16,7 +16,11 @@
                 <th>{{ $item->name }}</th>
                 <td>{{ $item->email }}</td>                
                 <td>{{ $item->created_at }}</td>               
-                <td>{{ $item->roles->pluck('name')[0] }}</td>               
+                <td>
+                  @foreach ($item->roles as $role)
+                  <li class="list-group-item">{{ $role->name }}</li>                      
+                  @endforeach
+                </td>               
                 <td>{{ $item->comments->count() }}</td>               
                 <td class="d-flex">
                   <x-ui.show-btn path='admin.user.show' :id="$item->id" >Смотреть</x-ui.show-btn>               
