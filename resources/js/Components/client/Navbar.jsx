@@ -24,8 +24,7 @@ export default function Navbar ({isOpen, navToggle, authProps}) {
                 <MyNavlink path={route('login')} title={"Login"}/>
                 <MyNavlink path={route('register')} title={"Register"}/>            
               </> 
-          }                   
-          <MyNavlink path={'#'} title={"Support"}/>                  
+          }                                
         </div>
 
         <div className='md:hidden'>
@@ -51,11 +50,18 @@ export default function Navbar ({isOpen, navToggle, authProps}) {
           `absolute top-0 bottom-0 left-0 flex flex-col self-end w-full min-h-screen py-1 pt-40 pl-12 space-y-3 text-lg text-white uppercase bg-black`                
         }
       >
-        <a href="#" className='hover:text-pink-500'>Link</a>
-        <a href="#" className='hover:text-pink-500'>Link</a>
-        <a href="#" className='hover:text-pink-500'>Link</a>
-        <a href="#" className='hover:text-pink-500'>Link</a>
-        <a href="#" className='hover:text-pink-500'>Link</a>
+        <MyNavlink classes={'hover:text-pink-500'} path={route('main')} title={"Home"}/>
+        <MyNavlink classes={'hover:text-pink-500'} path={route('client.post.index')} title={"All Posts"}/>
+        <MyNavlink classes={'hover:text-pink-500'} path={route('client.category.index')} title={"Categories"}/>
+        <MyNavlink classes={'hover:text-pink-500'} path={route('client.tag.index')} title={"Tags"}/>
+        {
+          authProps ?
+            <MyNavlink classes={'hover:text-pink-500'} path={route('dashboard')} title={"Dashboard"}/> :
+            <>
+              <MyNavlink classes={'hover:text-pink-500'} path={route('login')} title={"Login"}/>
+              <MyNavlink classes={'hover:text-pink-500'} path={route('register')} title={"Register"}/>            
+            </> 
+        }              
       </div>    
     </>
   )

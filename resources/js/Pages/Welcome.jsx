@@ -3,13 +3,14 @@ import { Link, Head } from '@inertiajs/inertia-react';
 import CategoryItem from '@/Components/client/CategoryItem';
 import Navbar from '@/Components/client/Navbar';
 import Footer from '@/Components/client/Footer';
-import CommentsGrid from '@/Components/client/CommentsGrid';
+import PostsGrid from '@/Components/client/PostsGrid';
 import LatestPostsSlider from '@/Components/client/LatestPostsSlider';
 import SeeAllLink from '@/Components/ui/SeeAllLink';
 
 export default function Welcome(props) {
   const [isOpen, setIsOpen] = useState(false);
   const categories = useMemo(() => props.categories, []); 
+  const popularPosts = useMemo(() => props.popularPosts, []); 
   const [firstHalfCat, setFirstHalfCat] = useState([]);
   const [secondHalfCat, setSecondHalfCat] = useState([]);
 
@@ -84,6 +85,7 @@ export default function Welcome(props) {
                   firstHalfCat.map(category => (
                     <CategoryItem key={category.id} 
                       category={category}
+                      forPage={'Welcome'}
                     />
                   ))
                 }           
@@ -104,8 +106,8 @@ export default function Welcome(props) {
             </div>
           </section>
 
-          <section id='comments'>
-            <CommentsGrid/>
+          <section id='popular-posts'>            
+            <PostsGrid popularPosts={popularPosts}/>
           </section>
 
           <Footer/>

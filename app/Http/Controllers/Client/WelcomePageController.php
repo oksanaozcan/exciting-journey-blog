@@ -15,13 +15,16 @@ class WelcomePageController extends Controller
 {
   public function index()
   {
+    $popularPosts = Post::withCount('comments')->orderBy('comments_count', 'DESC')->get()->take(5);
+
     return Inertia::render('Welcome', [
       'canLogin' => Route::has('login'),
       'canRegister' => Route::has('register'),
       'laravelVersion' => Application::VERSION,
       'phpVersion' => PHP_VERSION,
       'latestPosts' => PostResource::collection(Post::latest()->limit(4)->get()),
-      'categories' => CategoryResource::collection(Category::inRandomOrder()->limit(8)->get())
+      'categories' => CategoryResource::collection(Category::inRandomOrder()->limit(8)->get()),
+      'popularPosts' => PostResource::collection($popularPosts)
   ]);
   }
 }
