@@ -28,6 +28,7 @@ class PostResource extends JsonResource
           'for_human_date' => Carbon::parse($this->created_at)->diffForHumans(),
           'created_at' => $this->created_at,
           'author' => $this->user->name,
+          'comments_count' => $this->comments_count,
         ];
     }
 }

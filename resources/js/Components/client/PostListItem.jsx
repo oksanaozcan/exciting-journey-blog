@@ -1,3 +1,4 @@
+import { Link } from "@inertiajs/inertia-react";
 import React from "react";
 import CategoryLink from "../ui/CategoryLink";
 
@@ -9,8 +10,10 @@ export default function PostListItem ({post}) {
   }
   return (
     <div className='border-b-4 border-black flex flex-col items-center my-4 py-4'>
-      <div className='w-full flex flex-row justify-between'>                  
+      <div className='w-full flex flex-row justify-between'>    
+      <Link href={`/posts/${post.id}`}>              
         <h6 className='text-lg w-full mr-2 font-bold text-sky-900 md:text-2xl'>{post.title}</h6>                                  
+      </Link>
         <CategoryLink category={category}/>                  
       </div>
       <div className='flex flex-row w-full justify-between mt-4'>
@@ -27,8 +30,8 @@ export default function PostListItem ({post}) {
         </div>
         <div className='w-4/5 h-0.5 bg-slate-500 my-4'></div>
         <div className='w-full flex flex-row justify-between'>
-          <a href="#!" className="text-gray-800 underline decoration-1 decoration-rose-600 decoration-dotted hover:text-gray-900 hover:decoration-4 transition duration-300 ease-in-out mb-4">Read More</a>
-          <a href="#!" className="text-gray-800 underline decoration-1 decoration-rose-600 decoration-dotted hover:text-gray-900 hover:decoration-4 transition duration-300 ease-in-out mb-4">Comments: 15</a>
+          <Link href={`/posts/${post.id}`} className="text-gray-800 underline decoration-1 decoration-rose-600 decoration-dotted hover:text-gray-900 hover:decoration-4 transition duration-300 ease-in-out mb-4">Read More</Link>
+          <Link href={`/posts/${post.id}`} className="text-gray-800 underline decoration-1 decoration-rose-600 decoration-dotted hover:text-gray-900 hover:decoration-4 transition duration-300 ease-in-out mb-4">Comments: {post.comments_count}</Link>
         </div>
       </div>
     </div>
