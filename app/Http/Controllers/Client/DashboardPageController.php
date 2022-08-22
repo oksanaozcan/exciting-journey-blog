@@ -9,29 +9,26 @@ use App\Models\Post;
 use App\Http\Resources\ShortCommentResource;
 use App\Types\RoleType;
 use Inertia\Inertia;
+use Illuminate\Http\Request;
 
 class DashboardPageController extends Controller
 {
   public function index()
   {    
     $user = auth()->user();
-    $comments = Comment::latest()->where('user_id', $user->id)->take(2)->get();  
+    $comments = Comment::latest()->where('user_id', $user->id)->paginate();  
     
-    $postResource = null;
+    $adminRole = false;
 
-    if ($user->hasAnyRole([RoleType::ADMIN, RoleType::WRITER])) {
-      $posts = Post::latest()->where('user_id', $user->id)->take(5)->get();
-      $postResource = PostResource::collection($posts);
+    if ($user->hasAnyRole([RoleType::ADMIN])) {
+      $adminRole = true;
     }
 
     return Inertia::render('Dashboard', [
       'comments' => ShortCommentResource::collection($comments),
-      'posts' => $postResource
+      'admin' => $adminRole
     ]);
   }
 
-  public function loadMoreComments($value)
-  {
-    dd($value);
-  }
+  
 }

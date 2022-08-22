@@ -6,7 +6,7 @@ import ResponsiveNavLink from '@/Components/ResponsiveNavLink';
 import { Link } from '@inertiajs/inertia-react';
 import { usePage } from '@inertiajs/inertia-react'
 
-export default function Authenticated({ auth, header, children }) {
+export default function Authenticated({ auth, header, children, admin }) {
     const [showingNavigationDropdown, setShowingNavigationDropdown] = useState(false);   
 
     const { flash } = usePage().props
@@ -27,6 +27,13 @@ export default function Authenticated({ auth, header, children }) {
                                 <NavLink href={route('dashboard')} active={route().current('dashboard')}>
                                     Dashboard
                                 </NavLink>
+                                {
+                                  admin ?
+                                  <a className='mt-6 text-sm' href={route('admin.index')}>
+                                    Admin
+                                  </a> : 
+                                  null
+                                }
                             </div>
                         </div>
 

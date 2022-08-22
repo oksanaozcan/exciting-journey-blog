@@ -33,6 +33,6 @@ class DatabaseSeeder extends Seeder
         Post::factory()->hasTags(2)->create();
       }
 
-      Comment::factory(10)->create();
+      Comment::factory(500)->create();
     }
 }

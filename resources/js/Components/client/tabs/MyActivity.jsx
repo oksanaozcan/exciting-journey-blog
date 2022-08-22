@@ -1,13 +1,15 @@
+import { Inertia } from "@inertiajs/inertia";
 import { Link } from "@inertiajs/inertia-react";
 import React from "react";
 import { useEffect } from "react";
 import { useState } from "react";
+import Pagination from "../Pagination";
 
 const MyActivity = ({myComments}) => {
-  const [uploadedComments, setUploadedComments] = useState([]);
+  const [localComments, setLocalComments] = useState([]);
 
   useEffect(() => {
-    setUploadedComments(myComments);
+    setLocalComments(myComments.data);   
   }, [])
 
   return (    
@@ -15,7 +17,7 @@ const MyActivity = ({myComments}) => {
     <h2 className="mb-4">My Comments: </h2>
     <div className="w-full text-sm font-medium text-gray-900 bg-white rounded-lg border border-gray-200 dark:bg-gray-700 dark:border-gray-600 dark:text-white">
       {
-        uploadedComments.map(comment => (
+        localComments.map(comment => (
           <Link 
             key={comment.id}
             href={`/posts/${comment.post_id}`} 
@@ -26,13 +28,9 @@ const MyActivity = ({myComments}) => {
         ))
       }        
     </div>  
-    <div className="my-4">
-    <button className="relative inline-flex items-center justify-center p-0.5 mb-2 mr-2 overflow-hidden text-sm font-medium text-gray-900 rounded-lg group bg-gradient-to-br from-cyan-500 to-blue-500 group-hover:from-cyan-500 group-hover:to-blue-500 hover:text-white dark:text-white focus:ring-4 focus:outline-none focus:ring-cyan-200 dark:focus:ring-cyan-800">
-      <span className="relative px-5 py-2.5 transition-all ease-in duration-75 bg-white dark:bg-gray-900 rounded-md group-hover:bg-opacity-0">
-          Load More...
-      </span>
-    </button>
-    </div>
+    <div>
+      <Pagination items={myComments}/>
+    </div>   
     </>
   )
 }

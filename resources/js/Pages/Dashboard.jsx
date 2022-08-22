@@ -8,9 +8,8 @@ import Writer from '@/Components/client/tabs/Writer';
 import Moderator from '@/Components/client/tabs/Moderator';
 import EditorTabContent from '@/Components/client/tabs/EditorTabContent';
 
-export default function Dashboard({permissions, auth, errors, comments, posts}) {
+export default function Dashboard({permissions, auth, errors, comments, admin}) {
   const myComments = useMemo(() => comments, []); 
-  const myPosts = useMemo(() => posts, []); 
   const isAllowedCreate = permissions.post_create.some(el => {
     if (el.id === auth.user.id) {
       return true;
@@ -39,7 +38,7 @@ export default function Dashboard({permissions, auth, errors, comments, posts}) 
       } else if (item.title === 'My Activity') {
         return {...item, content: <MyActivity myComments={myComments}/>}
       } else if (item.title === 'Writer' && isAllowedCreate) {
-        return {...item, opened: true, content: <Writer myPosts={myPosts}/>}
+        return {...item, opened: true, content: <Writer />}
       } else if (item.title === 'Moderator' && isAllowedUpdateComment) {
         return {...item, opened: true, content: <Moderator/>}
       } else if(item.title === 'Editor' && isAllowedUpdate) {
@@ -67,6 +66,7 @@ export default function Dashboard({permissions, auth, errors, comments, posts}) 
     <Authenticated
       auth={auth}
       errors={errors}
+      admin={admin}
       header={<h2 className="font-semibold text-xl text-gray-800 leading-tight">{auth.user.name}</h2>}
     >
       <Head title="Dashboard" />

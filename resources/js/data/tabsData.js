@@ -3,16 +3,16 @@ import { v4 as uuidv4 } from 'uuid';
 const tabsData = [
   {
     id: uuidv4(),
-    title: 'Profile',   
+    title: 'My Activity', 
     active: true,
-    opened: true,   
+    opened: true,  
   },
   {
     id: uuidv4(),
-    title: 'My Activity', 
+    title: 'Profile',   
     active: false,
-    opened: true,  
-  },
+    opened: true,   
+  },  
   {
     id: uuidv4(),
     title: 'Moderator',  

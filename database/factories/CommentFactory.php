@@ -19,7 +19,7 @@ class CommentFactory extends Factory
       return [
         'message' => $this->faker->paragraph(4),
         'post_id' => $this->faker->numberBetween(1, 15),
-        'user_id' => $this->faker->numberBetween(1,1),
+        'user_id' => $this->faker->numberBetween(1,6),
       ];
     }
 }
