@@ -8,6 +8,7 @@ use App\Http\Controllers\Admin\TagController;
 use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\Client\CategoryPageController;
 use App\Http\Controllers\Client\CommentController;
+use App\Http\Controllers\Client\DashboardPageController;
 use App\Http\Controllers\Client\PostPageController;
 use App\Http\Controllers\Client\TagPageController;
 use App\Http\Controllers\Client\WelcomePageController;
@@ -34,9 +35,7 @@ Route::prefix('tags')->group(function () {
 
 Route::middleware(['auth', 'verified'])->group(function () {
   
-  Route::get('/dashboard', function () {
-    return Inertia::render('Dashboard');
-  })->name('dashboard');
+  Route::get('/dashboard', [DashboardPageController::class, 'index'])->name('dashboard');
 
   Route::prefix('comments')->group(function () {
     Route::post('/', [CommentController::class, 'store'])->middleware(['can:'.PermissionType::CAN_COMMENT_POST])->name('client.comment.store');

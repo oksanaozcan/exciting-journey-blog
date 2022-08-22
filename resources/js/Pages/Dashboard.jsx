@@ -1,67 +1,111 @@
-import React from 'react';
+import React, {useEffect, useState, useMemo} from 'react';
 import Authenticated from '@/Layouts/Authenticated';
 import { Head, Link } from '@inertiajs/inertia-react';
+import Profile from '@/Components/client/tabs/Profile';
+import tabsData from '@/data/tabsData';
+import MyActivity from '@/Components/client/tabs/MyActivity';
+import Writer from '@/Components/client/tabs/Writer';
+import Moderator from '@/Components/client/tabs/Moderator';
+import EditorTabContent from '@/Components/client/tabs/EditorTabContent';
 
-export default function Dashboard(props) { 
-  const {permissions} = props;
-
+export default function Dashboard({permissions, auth, errors, comments, posts}) {
+  const myComments = useMemo(() => comments, []); 
+  const myPosts = useMemo(() => posts, []); 
   const isAllowedCreate = permissions.post_create.some(el => {
-    if (el.id === props.auth.user.id) {
+    if (el.id === auth.user.id) {
       return true;
     } 
     return false;
   })
-
   const isAllowedUpdate = permissions.post_update.some(el => {
-    if (el.id === props.auth.user.id) {
+    if (el.id === auth.user.id) {
       return true;
     } 
     return false;
   })
-
   const isAllowedUpdateComment = permissions.comment_update.some(el => {
-    if (el.id === props.auth.user.id) {
+    if (el.id === auth.user.id) {
       return true;
     } 
     return false;
   })
 
-    return (
-        <Authenticated
-            auth={props.auth}
-            errors={props.errors}
-            header={<h2 className="font-semibold text-xl text-gray-800 leading-tight">Dashboard</h2>}
-        >
-            <Head title="Dashboard" />
+  const [tabs, setTabs] = useState([]); 
 
-            <div className="py-12">
-                <div className="max-w-7xl mx-auto sm:px-6 lg:px-8">
-                    <div className="bg-white overflow-hidden shadow-sm sm:rounded-lg">
-                        <div className="p-6 bg-white border-b border-gray-200">User</div>      
-                        <Link 
-                          href='/admin/posts/create'
-                          style={ isAllowedCreate ? { display:'block'} : {display : 'none'} }  
+  useEffect(() => {
+    let checkPermission = tabsData.map(item => {
+      if (item.title === 'Profile') {
+        return {...item, content: <Profile user={auth.user}/>}
+      } else if (item.title === 'My Activity') {
+        return {...item, content: <MyActivity myComments={myComments}/>}
+      } else if (item.title === 'Writer' && isAllowedCreate) {
+        return {...item, opened: true, content: <Writer myPosts={myPosts}/>}
+      } else if (item.title === 'Moderator' && isAllowedUpdateComment) {
+        return {...item, opened: true, content: <Moderator/>}
+      } else if(item.title === 'Editor' && isAllowedUpdate) {
+        return {...item, opened: true, content: <EditorTabContent />}
+      } else {
+        return item
+      }
+    });    
+    const newData = checkPermission.filter(item => item.opened)
+    setTabs(newData);
+  },[])
+
+  const toggleActiveTab = (id) => {
+    let newTabs = tabs.map(tab => {
+      if (tab.id === id) {
+        return {...tab, active: true}
+      } else {
+        return {...tab, active: false}
+      }
+    });
+    setTabs(newTabs);
+  }  
+
+  return (
+    <Authenticated
+      auth={auth}
+      errors={errors}
+      header={<h2 className="font-semibold text-xl text-gray-800 leading-tight">{auth.user.name}</h2>}
+    >
+      <Head title="Dashboard" />
+        <div className="py-12">
+          <div className="max-w-7xl mx-auto sm:px-6 lg:px-8">
+            <div className="bg-white overflow-hidden shadow-sm sm:rounded-lg"> 
+                                      
+              <div className="mb-4 border-b border-gray-200 dark:border-gray-700">
+                <ul className="flex flex-wrap -mb-px text-sm font-medium text-center" id="myTab" data-tabs-toggle="#myTabContent" role="tablist">
+                  {
+                    tabs.map(tab => (
+                      <li key={tab.id} className="mr-2" role="presentation">
+                        <button 
+                          className={tab.active ? 'tab-btn dashboard-tab__active' : 'tab-btn dashboard-tab'}   
+                          onClick={() => toggleActiveTab(tab.id)}                   
                         >
-                          Add Post
-                        </Link>     
+                          {tab.title}
+                        </button>
+                      </li>
+                    ))
+                  }                   
+                </ul>
+              </div>
 
-                        <Link 
-                          href='/admin/posts'
-                          style={ isAllowedUpdate ? { display:'block'} : {display : 'none'} }  
-                        >
-                          Edit Posts
-                        </Link>        
-
-                        <a
-                          href='/admin/comments'
-                          style={ isAllowedUpdateComment ? { display:'block'} : {display : 'none'} }  
-                        >
-                          Edit Comments
-                        </a>        
-
+              <div id="myTabContent">
+                {
+                  tabs.map(tab => (
+                    <div 
+                      key={tab.id}
+                      className={tab.active ? 'tab-content p-4 bg-gray-50 rounded-lg dark:bg-gray-800' : 'tab-content hidden p-4 bg-gray-50 rounded-lg dark:bg-gray-800'}>
+                      {tab.content}
                     </div>
-                </div>
-            </div>            
-        </Authenticated>
-    );
+                  ))
+                }                
+              </div>
+
+            </div>
+          </div>
+        </div>            
+    </Authenticated>
+  );
 }

@@ -26,6 +26,7 @@
         "@heroicons/react": "^1.0.6",
         "@tanstack/react-table": "^8.3.0",
         "date-fns": "^2.29.0",
+        "dateformat": "^5.0.3",
         "draft-convert": "^2.1.12",
         "draft-js": "^0.11.7",
         "draft-js-import-html": "^1.4.1",

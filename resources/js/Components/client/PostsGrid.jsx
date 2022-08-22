@@ -2,7 +2,6 @@ import { Link } from "@inertiajs/inertia-react";
 import React from "react";
 
 export default function PostsGrid ({popularPosts}) {  
-  console.log(popularPosts);
   return (
     <div className="container mx-auto max-w-6xl p-2 md:p-10">
       <h3 className='text-4xl text-center uppercase mb-4 md:text-left md:text-5xl'>
