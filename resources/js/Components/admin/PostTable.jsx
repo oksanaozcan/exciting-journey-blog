@@ -13,8 +13,8 @@ import SelectRowPerPage from "../ui/SelectRowPerPage";
 import NavPageBtn from "../ui/NavPageBtn";
 import { v4 as uuidv4 } from 'uuid';
 
-const PostTable = ({posts}) => {
-  const columns = useMemo(() => COLUMNS, []);
+const PostTable = ({posts, forTrashed}) => {
+  const columns = useMemo(() => forTrashed ? TRASHED_COLUMNS : COLUMNS, []);
   const data = useMemo(() => posts, []);
 
   const defaultColumn = useMemo(() => ({
@@ -164,6 +164,37 @@ const COLUMNS = [
      
     )
   },
+]
+
+const TRASHED_COLUMNS = [
+  {
+    Header: 'Preview',   
+    accessor: 'preview',
+    Cell: tableProps => (
+      <img src={tableProps.row.original.preview} alt="preview"/>
+    ),   
+    disableFilters: true
+  },
+  {
+    Header: 'Title',    
+    accessor: 'title',   
+  },
+  {
+    Header: 'Category',   
+    accessor: 'category',   
+  },
+  {
+    Header: 'Tags',   
+    accessor: 'tags',          
+    Cell: ({value}) => {      
+      return value.join(', ');
+    }    
+  },  
+  {
+    Header: 'Deleted at',   
+    accessor: 'deleted_at',
+    Cell: ({value}) => { return format(new Date(value), 'dd/MM/yyyy')},   
+  }, 
 ]
 
 export default PostTable;

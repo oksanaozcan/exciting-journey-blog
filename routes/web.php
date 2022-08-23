@@ -14,7 +14,6 @@ use App\Http\Controllers\Client\TagPageController;
 use App\Http\Controllers\Client\WelcomePageController;
 use App\Types\PermissionType;
 use Illuminate\Support\Facades\Route;
-use Inertia\Inertia;
 
 Route::get('/', [WelcomePageController::class, 'index'])->name('main');
 
@@ -81,6 +80,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
 
     Route::prefix('posts')->group(function () {
       Route::get('/', [PostController::class, 'index'])->middleware(['can:'.PermissionType::CAN_UPDATE_POST])->name('admin.post.index');
+      Route::get('/deleted', [PostController::class, 'indexDeleted'])->middleware(['can:'.PermissionType::CAN_DELETE_POST])->name('admin.post.deleted');
       Route::get('/create', [PostController::class, 'create'])->middleware(['can:'.PermissionType::CAN_CREATE_POST])->name('admin.post.create');            
       Route::post('/', [PostController::class, 'store'])->middleware(['can:'.PermissionType::CAN_CREATE_POST])->name('admin.post.store');
       Route::get('/{post}', [PostController::class, 'show'])->middleware(['can:'.PermissionType::CAN_UPDATE_POST])->name('admin.post.show');

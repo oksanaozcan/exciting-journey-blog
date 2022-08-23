@@ -20,8 +20,16 @@ class PostController extends PostServiceController
 {
   public function index()
   {
-    $posts = PostResource::collection(Post::all());     
-    return inertia('Admin/Posts/IndexPost', compact('posts'));
+    $posts = PostResource::collection(Post::all());   
+    $forTrashed = false;  
+    return inertia('Admin/Posts/IndexPost', compact('posts', 'forTrashed'));
+  }
+
+  public function indexDeleted()
+  {
+    $posts = PostResource::collection(Post::onlyTrashed()->get());     
+    $forTrashed = true;  
+    return inertia('Admin/Posts/IndexPost', compact('posts', 'forTrashed'));
   }
 
   public function create()

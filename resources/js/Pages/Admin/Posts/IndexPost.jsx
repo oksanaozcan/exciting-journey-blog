@@ -5,7 +5,7 @@ import Sidebar from '@/Layouts/Sidebar';
 import PostTable from '@/Components/admin/PostTable';
 
 export default function IndexPost(props) {
-  const {posts, permissions} = props;  
+  const {posts, permissions, forTrashed} = props;  
   
   const isAllowedCreate = permissions.post_create.some(el => {
     if (el.id === props.auth.user.id) {
@@ -17,32 +17,25 @@ export default function IndexPost(props) {
     return (
       <Authenticated
         auth={props.auth}
-        errors={props.errors}
-        // header={<h2 className="font-semibold text-xl text-gray-800 leading-tight">Posts</h2>}
+        errors={props.errors}        
       >        
-        <div className="grid grid-cols-5 gap-1">          
-          <div className="..."> 
-            <Sidebar auth={props.auth} />
+        <div className="grid grid-cols-10 gap-1">                    
+          <Sidebar auth={props.auth} />          
+          <div className="col-span-9">               
+            <div className="max-w-7xl mx-auto sm:px-6 lg:px-8">                  
+              <div className="bg-white flex flex-col items-end overflow-hidden shadow-sm sm:rounded-lg">
+                <Link 
+                  href='/admin/posts/create'
+                  className="w-1/4 my-4 mx-4 text-white bg-blue-700 hover:bg-blue-800 focus:outline-none focus:ring-4 focus:ring-blue-300 font-medium rounded-full text-sm px-5 py-2.5 text-center mr-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+                  style={ isAllowedCreate ? { display:'block'} : {display : 'none'} }                 
+                >
+                  Add Post
+                </Link>      
+                <PostTable posts={posts} forTrashed={forTrashed}/>                     
+              </div>
+            </div>        
           </div>
-          <div className="col-span-4 ...">
-          <div className="py-12">
-          <div className="max-w-7xl mx-auto sm:px-6 lg:px-8">
-            <Link 
-              href='/admin/posts/create'
-              style={ isAllowedCreate ? { display:'block'} : {display : 'none'} }                 
-            >
-              Add Post
-            </Link>       
-            <a style={props.auth.user.roles[0].name === 'admin' ? { display:'block'} : {display : 'none'} } href="/admin">Admin</a>    
-            
-            <div className="bg-white overflow-hidden shadow-sm sm:rounded-lg">
-              <PostTable posts={posts}/>                     
-            </div>
-          </div>
-        </div>         
-          </div>
-        </div>   
-                   
+        </div>                      
       </Authenticated>
     );
 }

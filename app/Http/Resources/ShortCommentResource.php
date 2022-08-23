@@ -24,8 +24,8 @@ class ShortCommentResource extends JsonResource
       }
 
       return [
-        'id' => $this->id,
-        'message' => substr($this->message, 0, 100) . '...',
+        'id' => $this->id,        
+        'message' => mb_convert_encoding(substr($this->message, 0, 100) . '...', 'UTF-8', 'UTF-8'),
         'post_id' => $this->post_id,               
         'time_for_human' => Carbon::parse($this->created_at)->diffForHumans(),
       ];

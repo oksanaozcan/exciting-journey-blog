@@ -27,6 +27,7 @@ class PostResource extends JsonResource
           'content' => mb_convert_encoding(substr($this->content, 0, 700) . '...', 'UTF-8', 'UTF-8'),          
           'for_human_date' => Carbon::parse($this->created_at)->diffForHumans(),
           'created_at' => $this->created_at,
+          'deleted_at' => $this->deleted_at,
           'author' => $this->user->name,
           'comments_count' => $this->comments_count,
         ];
