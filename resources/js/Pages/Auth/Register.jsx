@@ -5,6 +5,8 @@ import Input from '@/Components/Input';
 import Label from '@/Components/Label';
 import ValidationErrors from '@/Components/ValidationErrors';
 import { Head, Link, useForm } from '@inertiajs/inertia-react';
+import { loadCaptchaEnginge, LoadCanvasTemplate, LoadCanvasTemplateNoReload, validateCaptcha } from 'react-simple-captcha';
+import { useState } from 'react';
 
 export default function Register() {
     const { data, setData, post, processing, errors, reset } = useForm({
@@ -14,20 +16,32 @@ export default function Register() {
         password_confirmation: '',
     });
 
+    const [nickName, setNickName] = useState('');
+    const [captcha, setCaptcha] = useState('');
+    const [errorCaptcha, setErrorCaptcha] = useState('');
+
     useEffect(() => {
         return () => {
             reset('password', 'password_confirmation');
         };
     }, []);
 
+    useEffect(() => {
+      loadCaptchaEnginge(6); 
+    }, [])
+
     const onHandleChange = (event) => {
         setData(event.target.name, event.target.type === 'checkbox' ? event.target.checked : event.target.value);
     };
 
     const submit = (e) => {
-        e.preventDefault();
+        e.preventDefault();       
 
-        post(route('register'));
+        if (validateCaptcha(captcha) === true && nickName === '') {
+          post(route('register'));
+        } else {
+          setErrorCaptcha('error captcha')
+        }       
     };
 
     return (
@@ -41,6 +55,7 @@ export default function Register() {
                     <Label forInput="name" value="Name" />
 
                     <Input
+                        id="register_captcha_input"
                         type="text"
                         name="name"
                         value={data.name}
@@ -91,6 +106,34 @@ export default function Register() {
                         handleChange={onHandleChange}
                         required
                     />
+                </div>
+
+                <div className='mt-4'>
+                  <Label forInput="nick_name" value="Enter Nick Name" className='hidden'/>
+                  <input
+                      type="text"
+                      name="nick_name"
+                      value={nickName}
+                      className="hidden"
+                      onChange={(e) => setNickName(e.target.value)}
+                  />
+                </div>
+
+                <div className='mt-4'>
+                  <LoadCanvasTemplate />
+                </div>                
+
+                <div className='mt-4'>
+                  <Label forInput="captcha" value="Enter Captcha" />
+                  <input
+                      type="text"
+                      name="captcha"
+                      value={captcha}
+                      className="mt-1 block w-full"
+                      onChange={(e) => setCaptcha(e.target.value)}
+                      required
+                  />
+                  <small className='text-red-800'>{errorCaptcha}</small>
                 </div>
 
                 <div className="flex items-center justify-end mt-4">
