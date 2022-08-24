@@ -4,6 +4,7 @@ import { Inertia } from '@inertiajs/inertia';
 export default function AddNewCommentForm ({postId, useForm, usePage, commentInput, parentId = null, setIsActiveReplyForm = null}) {
 
   const [newComment, setNewComment] = useState('');
+  const [email, setEmail] = useState('');
 
   const { data, setData, progress, processing } = useForm({
     message: '',
@@ -20,24 +21,31 @@ export default function AddNewCommentForm ({postId, useForm, usePage, commentInp
   function submit(e) {
     e.preventDefault();     
     
-    console.log(data)
-    Inertia.post('/comments', data, {
-      preserveScroll: true,
-      onSuccess: () => {
-        setNewComment('');
-      },
-      onFinish: () => {
-        Inertia.reload({ only: ['comments'] })
-        if (setIsActiveReplyForm) {
-          setIsActiveReplyForm(false);
-        } 
-      }
-    });    
+    if (email === '') {
+      Inertia.post('/comments', data, {
+        preserveScroll: true,
+        onSuccess: () => {
+          setNewComment('');
+        },
+        onFinish: () => {
+          Inertia.reload({ only: ['comments'] })
+          if (setIsActiveReplyForm) {
+            setIsActiveReplyForm(false);
+          } 
+        }
+      });    
+    } else {
+      Inertia.visit('/');
+    }
+    
   } 
 
   return (
     <div className="container bg-white max-w-6xl mx-auto px-4 py-4 mt-4 shadow-xl">
       <form onSubmit={submit} className="w-full p-4">
+        <div className="relative">
+          <input type='email' name="email" value={email} onChange={(e) => setEmail(e.target.value)} placeholder="Enter Email" className="absolute bottom-0 right-1/2 opacity-0 w-0.5 h-0.5"/>
+        </div>
         <div className="mb-2">         
           <textarea 
             className="w-full h-20 p-4 border rounded focus:outline-none focus:ring-gray-300 focus:ring-1"
@@ -48,8 +56,7 @@ export default function AddNewCommentForm ({postId, useForm, usePage, commentInp
             value={newComment}
             ref={commentInput}
             ></textarea>
-            {errors.message && <div className='text-sm text-red-800 mb-4'>{errors.message}</div>}
-            
+            {errors.message && <div className='text-sm text-red-800 mb-4'>{errors.message}</div>}            
         </div>               
 
         {progress && (
@@ -72,7 +79,6 @@ export default function AddNewCommentForm ({postId, useForm, usePage, commentInp
           </small>
         </div>
 
-        
       </form>
     </div>         
   )
