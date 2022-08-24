@@ -19,14 +19,16 @@ export default function IndexPost(props) {
         auth={props.auth}
         errors={props.errors}        
       >        
-        <div className="grid grid-cols-10 gap-1">                    
-          <Sidebar auth={props.auth} />          
-          <div className="col-span-9">               
-            <div className="max-w-7xl mx-auto sm:px-6 lg:px-8">                  
-              <div className="bg-white flex flex-col items-end overflow-hidden shadow-sm sm:rounded-lg">
+        <div className="flex">                    
+          <div className='flex-initial w-18'>
+            <Sidebar auth={props.auth} />   
+          </div>                 
+          <div className="flex-initial">               
+            <div className="">                  
+              <div className="bg-white flex flex-col items-center overflow-hidden shadow-sm sm:rounded-lg">
                 <Link 
                   href='/admin/posts/create'
-                  className="w-1/4 my-4 mx-4 text-white bg-blue-700 hover:bg-blue-800 focus:outline-none focus:ring-4 focus:ring-blue-300 font-medium rounded-full text-sm px-5 py-2.5 text-center mr-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+                  className="w-1/4 mt-4 text-white bg-blue-700 hover:bg-blue-800 focus:outline-none focus:ring-4 focus:ring-blue-300 font-medium rounded-full text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
                   style={ isAllowedCreate ? { display:'block'} : {display : 'none'} }                 
                 >
                   Add Post

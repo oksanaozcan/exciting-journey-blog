@@ -4,12 +4,33 @@ import { useEffect } from 'react';
 import { useState } from 'react';
 import dropdownData from '@/data/dropdownData';
 
+function getName (array) {
+  let output = [];
+  array.map(item => {
+    output.push(item.name)
+  })
+  return output;
+}
+
 export default function Sidebar({auth}) {
   const [dropdownLinks, setDropdownLinks] = useState([]);
 
   useEffect(() => {
     setDropdownLinks(dropdownData);
   }, []);
+
+  const checkPerm = (arrayFromLink) => {
+    const permissionName = getName(auth.user.roles);
+    const checker = [];
+    arrayFromLink.forEach(name => {
+      if (permissionName.includes(name)) {
+        checker.push(true);
+      } else {
+        checker.push(false)
+      }
+    })    
+    return checker
+  }
 
   const toggleDropdownMenu = (id) => {
     let newState = dropdownLinks.map(link => {
@@ -39,7 +60,6 @@ export default function Sidebar({auth}) {
                 <span className="ml-3">Admin Panel</span>
               </a>               
             </li>
-
             {
               dropdownLinks.map(link => (
                 <li key={link.id}>
@@ -47,7 +67,7 @@ export default function Sidebar({auth}) {
                     type='button'
                     onClick={() => toggleDropdownMenu(link.id)}                
                     className="flex items-center p-2 text-base font-normal text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700"
-                    // style={auth.user.roles[0].name === 'admin' ? { display:'flex'} : {display : 'none'} }
+                    style={checkPerm(link.permissionFor).includes(true) ? { display:'flex'} : {display : 'none'} }
                   >
                     {link.icon}
                     <span className="flex-1 ml-3 whitespace-nowrap">{link.title}</span>
@@ -56,74 +76,26 @@ export default function Sidebar({auth}) {
                     <ul>
                       {
                         link.links.map(a => (
-                          <li className='flex flex-row mx-4 items-center' key={a.id}>
-                            <DotsCircleIcon/>
-                            <a className='mx-2 my-2' href={route(a.route)}>{a.title}</a>
+                          <li className='flex flex-row items-center' key={a.id}>                            
+                            <a 
+                              className='my-2 flex flex-row mx-2' 
+                              href={route(a.route)}
+                              style={checkPerm(a.permissionFor).includes(true) ? { display:'flex'} : {display : 'none'} }
+                            >
+                              <DotsCircleIcon/>
+                              {a.title}
+                            </a>
                           </li>
                         ))
                       }
                     </ul>
                   </div>
-                </li>         
-              ))
-            }
-
-            
-
-
-
-
-
-
-            {/* <li>
-              <a href="/admin/categories" className="flex items-center p-2 text-base font-normal text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700"
-                style={auth.user.roles[0].name === 'admin' ? { display:'flex'} : {display : 'none'} }
-              >
-                <svg className="flex-shrink-0 w-6 h-6 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fillRule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clipRule="evenodd"></path></svg>
-                <span className="flex-1 ml-3 whitespace-nowrap">Категории</span>
-              </a>
-            </li>          
-
-            <li>
-              <a href="/admin/tags" className="flex items-center p-2 text-base font-normal text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700"
-                style={auth.user.roles[0].name === 'admin' ? { display:'flex'} : {display : 'none'} }
-              >
-                <svg className="flex-shrink-0 w-6 h-6 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fillRule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clipRule="evenodd"></path></svg>
-                <span className="flex-1 ml-3 whitespace-nowrap">Тэги</span>
-              </a>
-            </li>      
-
-            <li>
-              <Link href="/admin/posts" className="flex items-center p-2 text-base font-normal text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700"
-                style={auth.user.roles[0].name === 'admin' ? { display:'flex'} : {display : 'none'} }
-              >
-                <svg className="flex-shrink-0 w-6 h-6 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fillRule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clipRule="evenodd"></path></svg>
-                <span className="flex-1 ml-3 whitespace-nowrap">Статьи</span>
-              </Link>
-            </li>      
-
-            <li>
-              <a href="/admin/comments" className="flex items-center p-2 text-base font-normal text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700"
-                style={auth.user.roles[0].name === 'admin' ? { display:'flex'} : {display : 'none'} }
-              >
-                <svg className="flex-shrink-0 w-6 h-6 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fillRule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clipRule="evenodd"></path></svg>
-                <span className="flex-1 ml-3 whitespace-nowrap">Комментарии</span>
-              </a>
-            </li>      
-
-            <li>
-              <a href={route('admin.user.reader')} className="flex items-center p-2 text-base font-normal text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700"
-                style={auth.user.roles[0].name === 'admin' ? { display:'flex'} : {display : 'none'} }
-              >
-                <svg className="flex-shrink-0 w-6 h-6 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fillRule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clipRule="evenodd"></path></svg>
-                <span className="flex-1 ml-3 whitespace-nowrap">Модерирование</span>
-              </a>
-            </li>       */}
-
-
-
+                </li> 
+                )
+              )  
+            }                     
           </ul>
       </div>
     </aside>
   );
-}
+}              

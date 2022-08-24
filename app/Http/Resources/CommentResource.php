@@ -25,7 +25,7 @@ class CommentResource extends JsonResource
 
       return [
         'id' => $this->id,
-        'message' => $this->message,
+        'message' => mb_convert_encoding($this->message, 'UTF-8', 'UTF-8'),
         'user_name' => $this->user->name,
         'responsive' => $this->responsive,
         'parent_id' => $this->parent_id,

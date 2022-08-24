@@ -16,7 +16,7 @@ class CategoryResource extends JsonResource
     {
       return [
         'id' => $this->id,
-        'title' => $this->title,
+        'title' => mb_convert_encoding($this->title, 'UTF-8', 'UTF-8'),
         'preview' => $this->preview,
         'count_posts' => $this->posts->count()
       ];

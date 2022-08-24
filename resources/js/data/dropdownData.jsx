@@ -20,11 +20,13 @@ const dropdownData = [
         id: uuidv4(),
         route: 'admin.user.index',
         title: 'List',
+        permissionFor: ['admin'],
       },
       {
         id: uuidv4(),
         route: 'admin.user.deleted',
         title: 'Deleted',
+        permissionFor: ['admin'],
       },
     ],
   },
@@ -40,16 +42,19 @@ const dropdownData = [
         id: uuidv4(),
         route: 'admin.category.index',
         title: 'List',
+        permissionFor: ['admin'],
       },
       {
         id: uuidv4(),
         route: 'admin.category.create',
         title: 'Create',
+        permissionFor: ['admin'],
       },
       {
         id: uuidv4(),
         route: 'admin.category.deleted',
         title: 'Deleted',
+        permissionFor: ['admin'],
       },      
     ]
   },
@@ -65,16 +70,19 @@ const dropdownData = [
         id: uuidv4(),
         route: 'admin.tag.index',
         title: 'List',
+        permissionFor: ['admin'],
       },
       {
         id: uuidv4(),
         route: 'admin.tag.create',
         title: 'Create',
+        permissionFor: ['admin'],
       },
       {
         id: uuidv4(),
         route: 'admin.tag.deleted',
         title: 'Deleted',
+        permissionFor: ['admin'],
       },      
     ]
   },
@@ -83,23 +91,26 @@ const dropdownData = [
     title: 'Posts',
     icon: <PostIcon/>,
     dropdown: false,
-    permissionFor: ['admin'],
+    permissionFor: ['admin', 'writer', 'editor'],
     inertiaLink: true,
     links: [
       {
         id: uuidv4(),
         route: 'admin.post.index',
         title: 'List',
+        permissionFor: ['admin', 'editor'],
       },
       {
         id: uuidv4(),
         route: 'admin.post.create',
         title: 'Create',
+        permissionFor: ['admin', 'writer'],
       },
       {
         id: uuidv4(),
         route: 'admin.post.deleted',
         title: 'Deleted',
+        permissionFor: ['admin'],
       },      
     ]
   },
@@ -108,18 +119,20 @@ const dropdownData = [
     title: 'Comments',
     icon: <CommentIcon/>,
     dropdown: false,
-    permissionFor: ['admin'],
+    permissionFor: ['admin', 'moderator'],
     inertiaLink: false,
     links: [
       {
         id: uuidv4(),
         route: 'admin.comment.index',
         title: 'List',
+        permissionFor: ['admin', 'moderator'],
       },     
       {
         id: uuidv4(),
         route: 'admin.comment.deleted',
         title: 'Deleted',
+        permissionFor: ['admin', 'moderator'],
       },      
     ]
   },
@@ -128,18 +141,20 @@ const dropdownData = [
     title: 'Moderation',
     icon: <ShieldCheckIcon/>,
     dropdown: false,
-    permissionFor: ['admin'],
+    permissionFor: ['admin', 'moderator'],
     inertiaLink: false,
     links: [
       {
         id: uuidv4(),
         route: 'admin.user.reader',
         title: "Reader's List",
+        permissionFor: ['admin', 'moderator'],
       },     
       {
         id: uuidv4(),
         route: 'admin.user.banned',
         title: 'Banned Readers',
+        permissionFor: ['admin', 'moderator'],
       },      
     ]
   },
