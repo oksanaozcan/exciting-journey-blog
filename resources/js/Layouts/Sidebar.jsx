@@ -3,14 +3,7 @@ import React from 'react';
 import { useEffect } from 'react';
 import { useState } from 'react';
 import dropdownData from '@/data/dropdownData';
-
-function getName (array) {
-  let output = [];
-  array.map(item => {
-    output.push(item.name)
-  })
-  return output;
-}
+import { getName } from '@/helpers/helperFunctions';
 
 export default function Sidebar({auth}) {
   const [dropdownLinks, setDropdownLinks] = useState([]);

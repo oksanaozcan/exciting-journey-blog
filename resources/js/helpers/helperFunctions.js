@@ -6,6 +6,14 @@ function getFields (array) {
   return output;
 }
 
+function getName (array) {
+  let output = [];
+  array.map(item => {
+    output.push(item.name)
+  })
+  return output;
+}
+
 function bytesToHuman(bytes)
 {
   const units = ['B', 'KB', 'MB', 'GB', 'TB', 'PB'];
@@ -16,4 +24,4 @@ function bytesToHuman(bytes)
   return `${Math.round(bytes)} ${units[i]}`;   
 }
 
-export {getFields, bytesToHuman};
+export {getFields, bytesToHuman, getName};
