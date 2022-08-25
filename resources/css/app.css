@@ -55,7 +55,7 @@ body {
 .hamburger {
   cursor: pointer;
   width: 24px;
-  hight: 24px;
+  height: 24px;
   transition: all 0.25s;
   position: relative;  
 }
