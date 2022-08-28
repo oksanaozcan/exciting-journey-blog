@@ -12,6 +12,8 @@
           <x-show-card 
             title="{{ $tag->title }}" 
             :id="$tag->id" 
+            :text="[]" 
+            :list="[]" 
             pathEdit="admin.tag.edit"
             pathDelete="admin.tag.delete"           
           />           

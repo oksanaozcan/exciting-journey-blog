@@ -12,6 +12,8 @@
           <x-show-card 
             title="{{ $comment->message }}" 
             :id="$comment->id" 
+            :text="[]" 
+            :list="[]" 
             pathEdit="admin.comment.edit"
             pathDelete="admin.comment.delete"           
           />           

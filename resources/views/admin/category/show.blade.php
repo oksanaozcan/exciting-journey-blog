@@ -12,6 +12,8 @@
           <x-show-card 
             title="{{ $category->title }}" 
             :id="$category->id" 
+            :text="[]" 
+            :list="[]" 
             pathEdit="admin.category.edit"
             pathDelete="admin.category.delete"           
           />           

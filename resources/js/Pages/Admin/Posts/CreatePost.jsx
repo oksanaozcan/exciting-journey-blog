@@ -14,6 +14,7 @@ import { getFields,bytesToHuman } from '@/helpers/helperFunctions';
 // DropzoneFix.tsx
 import Dropzone from 'react-dropzone-uploader';
 import CrossIcon from '@/Components/icons/CrossIcon';
+import { Inertia } from '@inertiajs/inertia';
 function fixComponent(component) {
     return (component).default ?? component;
 }
@@ -23,6 +24,7 @@ export default function CreatePost(props) {
   const categories = useMemo(() => props.categories, []);      
   const tags = useMemo(() => props.tags, []);      
   
+  const [currentTitle, setCurrentTitle] = useState('');
   const [selectedCategory, setSelectedCategory] = useState('');
   const [selectedTags, setSelectedTags] = useState([]);
   const [editorState, setEditorState] = useState(
@@ -43,6 +45,10 @@ export default function CreatePost(props) {
   })
 
   useEffect(() => {
+    setData('title', currentTitle)
+  }, [currentTitle, setCurrentTitle])
+
+  useEffect(() => {
     setData('category_id', selectedCategory)
   }, [selectedCategory, setSelectedCategory])
 
@@ -61,7 +67,9 @@ export default function CreatePost(props) {
   
   function submit(e) {
     e.preventDefault()    
-    post('/admin/posts')
+    Inertia.post('/admin/posts', data, {
+      preserveState: false
+    })
   } 
 
   const onDrop = useCallback(acceptedFiles => {   
@@ -106,7 +114,7 @@ export default function CreatePost(props) {
                   className="create-post-input mb-4" 
                   placeholder="Enter title" 
                   required
-                  onChange={e => setData('title', e.target.value)}
+                  onChange={e => setCurrentTitle(e.target.value)}
                 />
                 {errors.title && <div className='text-sm text-red-800 mb-4'>{errors.title}</div>}
 
@@ -116,6 +124,7 @@ export default function CreatePost(props) {
                     type="file" 
                     className="upload-file-input"
                     onChange={e => setData('preview', e.target.files[0])}
+                    required
                   />
                   {errors.preview && <div className='text-sm text-red-800 mb-4'>{errors.preview}</div>}
                 </label> 
@@ -125,6 +134,7 @@ export default function CreatePost(props) {
                   className="block p-2.5 mb-4 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" 
                   placeholder="Description of post..."
                   onChange={e => setData('description', e.target.value)}
+                  required
                 >
                 </textarea>
                 {errors.description && <div className='text-sm text-red-800 mb-4'>{errors.description}</div>}
