@@ -27,7 +27,7 @@ const EditProfile = ({permissions, auth, errors, admin, public_info}) => {
     setData('description', newDescription);
   }, [newDescription, setNewDescription])
 
-  const { data, setData, post, progress, processing } = useForm({
+  const { data, setData, patch, progress, processing } = useForm({
     name: public_info.name,
     headline: public_info.headline,
     description: public_info.description,
@@ -40,7 +40,7 @@ const EditProfile = ({permissions, auth, errors, admin, public_info}) => {
 
   const submit = (e) => {
     e.preventDefault()    
-    console.log(data);
+    patch(`/dashboard/${auth.user.id}`, data);
   }  
 
   return (
@@ -59,15 +59,19 @@ const EditProfile = ({permissions, auth, errors, admin, public_info}) => {
             <div className="">                  
               <div className="bg-white my-4 flex flex-col items-center overflow-hidden shadow-sm sm:rounded-lg">
                 <form className='w-full px-4 py-4' onSubmit={submit}>
-                  <small>Name</small>            
+                  <small className='mr-14'>Name</small>   
+                  <small className={data.name.length <= 40 ? 'text-green-800' : 'text-red-800'}>
+                    {data.name.length}/40
+                  </small>             
                   <input type="text"  
                     className="create-post-input mb-4 w-1/2" 
                     onChange={e => setData('name', e.target.value)}
                     value={data.name}
+                    maxLength={40}
                   />
                   {errors.name && <div className='text-sm text-red-800 mb-4'>{errors.name}</div>}
                   
-                  <small className='mr-5'>Headline</small>     
+                  <small className='mr-10'>Headline</small>     
                   {
                     newHeadline === null ?
                       <small className='text-green-800'>0/60</small> :

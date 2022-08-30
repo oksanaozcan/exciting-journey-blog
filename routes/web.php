@@ -11,6 +11,7 @@ use App\Http\Controllers\Client\CommentController;
 use App\Http\Controllers\Client\DashboardPageController;
 use App\Http\Controllers\Client\PostPageController;
 use App\Http\Controllers\Client\TagPageController;
+use App\Http\Controllers\Client\UserController as ClientUserController;
 use App\Http\Controllers\Client\WelcomePageController;
 use App\Types\PermissionType;
 use Illuminate\Support\Facades\Route;
@@ -38,6 +39,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/', [DashboardPageController::class, 'index'])->name('dashboard');
     Route::get('/edit-profile', [DashboardPageController::class, 'edit'])->name('edit.profile');
     Route::get('/communication', [DashboardPageController::class, 'communication'])->name('communication');
+    Route::patch('/{user}', [ClientUserController::class, 'update'])->name('update.user.public.info');
   });
 
   Route::prefix('comments')->group(function () {
