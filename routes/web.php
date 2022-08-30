@@ -32,9 +32,13 @@ Route::prefix('tags')->group(function () {
   Route::get('/{tag}', [TagPageController::class, 'show'])->name('client.tag.show');  
 });
 
-Route::middleware(['auth', 'verified'])->group(function () {
+Route::middleware(['auth', 'verified'])->group(function () {  
   
-  Route::get('/dashboard', [DashboardPageController::class, 'index'])->name('dashboard');
+  Route::prefix('dashboard')->group(function () {
+    Route::get('/', [DashboardPageController::class, 'index'])->name('dashboard');
+    Route::get('/edit-profile', [DashboardPageController::class, 'edit'])->name('edit.profile');
+    Route::get('/communication', [DashboardPageController::class, 'communication'])->name('communication');
+  });
 
   Route::prefix('comments')->group(function () {
     Route::post('/', [CommentController::class, 'store'])->middleware(['can:'.PermissionType::CAN_COMMENT_POST])->name('client.comment.store');

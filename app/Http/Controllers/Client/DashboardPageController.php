@@ -15,8 +15,7 @@ class DashboardPageController extends Controller
 {
   public function index()
   {    
-    $user = auth()->user();
-    $comments = Comment::latest()->where('user_id', $user->id)->paginate();  
+    $user = auth()->user();     
     
     $adminRole = false;
 
@@ -24,9 +23,40 @@ class DashboardPageController extends Controller
       $adminRole = true;
     }
 
-    return Inertia::render('Dashboard', [
-      'comments' => ShortCommentResource::collection($comments),
+    return Inertia::render('Dashboard/Dashboard', [     
       'admin' => $adminRole
+    ]);
+  }
+
+  public function edit ()
+  {
+    $user = auth()->user();    
+    
+    $adminRole = false;
+
+    if ($user->hasAnyRole([RoleType::ADMIN])) {
+      $adminRole = true;
+    }
+    return Inertia::render('Dashboard/EditProfile', [
+      'admin' => $adminRole      
+    ]);
+  }
+
+  public function communication ()
+  {
+    $user = auth()->user();    
+
+    $comments = Comment::latest()->where('user_id', $user->id)->paginate(); 
+    
+    $adminRole = false;
+
+    if ($user->hasAnyRole([RoleType::ADMIN])) {
+      $adminRole = true;
+    }
+    
+    return Inertia::render('Dashboard/Communication', [
+      'comments' => ShortCommentResource::collection($comments),
+      'admin' => $adminRole      
     ]);
   }
 
