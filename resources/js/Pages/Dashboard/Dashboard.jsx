@@ -9,8 +9,8 @@ import Moderator from '@/Components/client/tabs/Moderator';
 import EditorTabContent from '@/Components/client/tabs/EditorTabContent';
 import SidebarDashboard from '@/Components/client/SidebarDashboard';
 
-export default function Dashboard({permissions, auth, errors, comments, admin}) {
-  
+export default function Dashboard({permissions, auth, errors, comments, admin, public_info}) {
+  const publicInfo = useMemo(() => public_info, []);
 
   return (
     <Authenticated
@@ -24,10 +24,10 @@ export default function Dashboard({permissions, auth, errors, comments, admin}) 
           <div className='flex-initial w-18'>
             <SidebarDashboard activeLink={'public-profile'}/>
           </div>                 
-          <div className="flex-initial">               
-            <div className="my-2 mx-2">                  
+          <div className="flex-initial w-full">               
+            <div className="my-2 ml-2">                  
               <div className="bg-white flex flex-col items-center overflow-hidden shadow-sm sm:rounded-lg">
-                <Profile user={auth.user}/>                                                
+                <Profile user={auth.user} publicInfo={publicInfo}/>                                                
               </div>
             </div>        
           </div>
