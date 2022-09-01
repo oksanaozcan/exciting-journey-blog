@@ -5,31 +5,31 @@ import { useEffect } from "react";
 import { useState } from "react";
 import Pagination from "../Pagination";
 
-const MyActivity = ({myComments}) => {
-  const [localComments, setLocalComments] = useState([]);
+const MyActivity = ({items}) => {
+  const [localItems, setLocalItems] = useState([]);
 
   useEffect(() => {
-    setLocalComments(myComments.data);   
+    setLocalItems(items.data);   
   }, [])
 
   return (    
-    <>
-    <h2 className="mb-4">My Comments: </h2>
+    <>    
     <div className="w-full text-sm font-medium text-gray-900 bg-white rounded-lg border border-gray-200 dark:bg-gray-700 dark:border-gray-600 dark:text-white">
       {
-        localComments.map(comment => (
+        localItems.map(item => (
           <Link 
-            key={comment.id}
-            href={`/posts/${comment.post_id}`} 
+            key={item.id}
+            href={`/posts/${item.post_id ? item.post_id : item.id}`} 
             className="block py-2 px-4 w-full border-b border-gray-200 cursor-pointer hover:bg-gray-100 hover:text-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-700 focus:text-blue-700 dark:border-gray-600 dark:hover:bg-gray-600 dark:hover:text-white dark:focus:ring-gray-500 dark:focus:text-white"
           >
-            <strong>{comment.time_for_human}: </strong> {comment.message}
+            <strong>{item.time_for_human ? item.time_for_human : null} </strong> 
+            {item.message ? item.message : item.title}
           </Link>
         ))
       }        
     </div>  
     <div>
-      <Pagination items={myComments}/>
+      <Pagination items={items}/>
     </div>   
     </>
   )

@@ -112,6 +112,7 @@ const EditProfile = ({permissions, auth, admin, public_info}) => {
 
                   <small>Website</small>            
                   <input type="text"  
+                    placeholder='https://...'
                     className="create-post-input mb-4 w-2/3" 
                     onChange={e => setData('website', e.target.value)}
                     value={data.website === null ? '' : data.website}
@@ -120,6 +121,7 @@ const EditProfile = ({permissions, auth, admin, public_info}) => {
 
                   <small>Twitter</small>            
                   <input type="text"  
+                    placeholder='https://www.twitter.com/...'
                     className="create-post-input mb-4 w-2/3" 
                     onChange={e => setData('twitter', e.target.value)}
                     value={data.twitter === null ? '' : data.twitter}
@@ -128,6 +130,7 @@ const EditProfile = ({permissions, auth, admin, public_info}) => {
 
                   <small>Fasebook</small>            
                   <input type="text"  
+                    placeholder='https://www.facebook.com/...'
                     className="create-post-input mb-4 w-2/3" 
                     onChange={e => setData('facebook', e.target.value)}
                     value={data.facebook === null ? '' : data.facebook}
@@ -136,6 +139,7 @@ const EditProfile = ({permissions, auth, admin, public_info}) => {
 
                   <small>Instagram</small>            
                   <input type="text"  
+                    placeholder='https://www.instagram.com/...'
                     className="create-post-input mb-4 w-2/3" 
                     onChange={e => setData('instagram', e.target.value)}
                     value={data.instagram === null ? '' : data.instagram}
@@ -144,6 +148,7 @@ const EditProfile = ({permissions, auth, admin, public_info}) => {
 
                   <small>Youtube</small>            
                   <input type="text"  
+                    placeholder='https://www.youtube.com/...'
                     className="create-post-input mb-4 w-2/3" 
                     onChange={e => setData('youtube', e.target.value)}
                     value={data.youtube === null ? '' : data.youtube}
