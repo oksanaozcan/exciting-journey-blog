@@ -44,5 +44,15 @@ class DashboardPageController extends BaseDashboardPageController
     ]);
   }
 
+  public function accountSecurity ()
+  {
+    $user = auth()->user();   
+    $adminRole = parent::checkHasAnyRoleAdmin($user);
+
+    return Inertia::render('Dashboard/AccountSecurity', [
+      'admin' => $adminRole,
+    ]);
+  }
+
   
 }

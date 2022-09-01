@@ -16,7 +16,7 @@ export default function Register() {
         password_confirmation: '',
     });
 
-    const [nickName, setNickName] = useState('');
+    // const [nickName, setNickName] = useState('');
     const [captcha, setCaptcha] = useState('');
     const [errorCaptcha, setErrorCaptcha] = useState('');
 
@@ -37,7 +37,7 @@ export default function Register() {
     const submit = (e) => {
         e.preventDefault();       
 
-        if (validateCaptcha(captcha) === true && nickName === '') {
+        if (validateCaptcha(captcha) === true) {
           post(route('register'));
         } else {
           setErrorCaptcha('error captcha')
@@ -107,7 +107,7 @@ export default function Register() {
                         required
                     />
                 </div>
-
+{/* 
                 <div className='mt-4'>
                   <Label forInput="nick_name" value="Enter Nick Name" className='hidden'/>
                   <input
@@ -117,7 +117,7 @@ export default function Register() {
                       className="hidden"
                       onChange={(e) => setNickName(e.target.value)}
                   />
-                </div>
+                </div> */}
 
                 <div className='mt-4'>
                   <LoadCanvasTemplate />

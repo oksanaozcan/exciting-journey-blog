@@ -82,13 +82,14 @@ const SidebarDashboard = ({activeLink = 'public-profile'}) => {
               </a>               
             </li>
 
-            <li>              
-              <a className="flex items-center p-2 text-base font-normal text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700" 
-                href="#"                
+            <li>  
+            <Link
+                className={activeLink === 'account-security' ? 'dashboard-sidebar-link_active' : 'dashboard-sidebar-link'}         
+                href={route('dashboard.edit.password')}                
               >
-                <ShieldCheckIcon/>                
+                <ShieldCheckIcon/>            
                 <span className="ml-3">Account Security</span>
-              </a>               
+              </Link>                            
             </li>           
                        
           </ul>

@@ -6,7 +6,7 @@ import SidebarDashboard from '@/Components/client/SidebarDashboard';
 import { useState } from 'react';
 import { useEffect } from 'react';
 
-const EditProfile = ({permissions, auth, errors, admin, public_info}) => {
+const EditProfile = ({permissions, auth, admin, public_info}) => {
 
   const [newHeadline, setNewHeadline] = useState('');
   const [newDescription, setNewDescription] = useState('');
@@ -38,6 +38,8 @@ const EditProfile = ({permissions, auth, errors, admin, public_info}) => {
     youtube: public_info.youtube    
   })  
 
+  const { errors } = usePage().props;
+
   const submit = (e) => {
     e.preventDefault()    
     patch(`/dashboard/${auth.user.id}`, data);
@@ -68,6 +70,7 @@ const EditProfile = ({permissions, auth, errors, admin, public_info}) => {
                     onChange={e => setData('name', e.target.value)}
                     value={data.name}
                     maxLength={40}
+                    required
                   />
                   {errors.name && <div className='text-sm text-red-800 mb-4'>{errors.name}</div>}
                   
