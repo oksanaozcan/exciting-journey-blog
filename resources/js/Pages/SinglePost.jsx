@@ -14,10 +14,11 @@ import PlusIcon from '@/Components/icons/PlusIcon';
 import ReactTooltip from 'react-tooltip';
 import FilledLikeIcon from '@/Components/icons/FilledLikeIcon';
 import LikeIcon from '@/Components/icons/LikeIcon';
+import SimilarPostGroup from '@/Components/client/SimilarPostGroup';
 
 export default function SinglePost (props) {
   const post = useMemo(() => props.post, []);    
-  const {is_liked, count_likes} = props;
+  const {is_liked, count_likes, similar_posts} = props;
 
   const [isLiked, setIsLiked] = useState(false);
   const [countLikes, setCountLikes] = useState(null);
@@ -128,7 +129,8 @@ export default function SinglePost (props) {
                   </Link>
                 </div>               
               }
-            </div>         
+            </div>       
+            <SimilarPostGroup similar_posts={similar_posts} />  
           </div>          
         </section>
         
