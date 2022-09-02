@@ -12,7 +12,7 @@ class Post extends Model
   protected $guarded = [];
 
   protected $with = ['category'];
-  protected $withCount = ['comments'];
+  protected $withCount = ['comments', 'likes'];
 
   public function category() {              
     return $this->belongsTo(Category::class, 'category_id', 'id');

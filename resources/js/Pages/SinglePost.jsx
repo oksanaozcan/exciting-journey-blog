@@ -1,4 +1,5 @@
 import React, { useState, useMemo, useEffect, useRef } from 'react';
+import { Link } from '@inertiajs/inertia-react';
 import { useForm, usePage } from '@inertiajs/inertia-react';
 import { Head } from '@inertiajs/inertia-react';
 import Navbar from '@/Components/client/Navbar';
@@ -11,13 +12,27 @@ import Pagination from '@/Components/client/Pagination';
 import AddNewCommentForm from '@/Components/client/AddNewCommentForm';
 import PlusIcon from '@/Components/icons/PlusIcon';
 import ReactTooltip from 'react-tooltip';
+import FilledLikeIcon from '@/Components/icons/FilledLikeIcon';
+import LikeIcon from '@/Components/icons/LikeIcon';
 
 export default function SinglePost (props) {
   const post = useMemo(() => props.post, []);    
+  const {is_liked, count_likes} = props;
+
+  const [isLiked, setIsLiked] = useState(false);
+  const [countLikes, setCountLikes] = useState(null);
   const [isOpen, setIsOpen] = useState(false); 
   const [comments, setComments] = useState([]); 
   const [offset, setOffset] = useState(0);
   const commentInput = useRef(null);
+
+  useEffect(() => {
+    setIsLiked(is_liked);
+  }, []);
+
+  useEffect(() => {
+    setCountLikes(count_likes);
+  }, [])
 
   const onFocusInput = () => {
     commentInput.current.focus();
@@ -51,7 +66,7 @@ export default function SinglePost (props) {
 
   return (
       <>
-        <Head title="Exciting Journey" />
+        <Head title={post.title} />
       
         <section id='posts'>
           <div className="container max-w-6xl mx-auto px-6 py-12 mb-4">
@@ -95,7 +110,25 @@ export default function SinglePost (props) {
             
             <div>
               <Content/>
-            </div>            
+            </div>   
+            <div className='my-4'>
+              {
+                isLiked ?
+                <div>                 
+                  <Link href={`/likes/${post.id}`} method="post" as="button" type="button" preserveScroll preserveState={false}>
+                    <FilledLikeIcon/>
+                    <span>{countLikes}</span>
+                  </Link>
+                </div>
+                 :
+                <div>                 
+                  <Link href={`/likes/${post.id}`} method="post" as="button" type="button" preserveScroll preserveState={false}>
+                    <LikeIcon/>
+                    <span>{countLikes}</span>
+                  </Link>
+                </div>               
+              }
+            </div>         
           </div>          
         </section>
         

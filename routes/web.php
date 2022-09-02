@@ -10,6 +10,7 @@ use App\Http\Controllers\Client\CategoryPageController;
 use App\Http\Controllers\Client\CommentController;
 use App\Http\Controllers\Client\DashboardPageController;
 use App\Http\Controllers\Client\PostPageController;
+use App\Http\Controllers\Client\PostUserLikeController;
 use App\Http\Controllers\Client\TagPageController;
 use App\Http\Controllers\Client\UserController as ClientUserController;
 use App\Http\Controllers\Client\WelcomePageController;
@@ -20,7 +21,7 @@ Route::get('/', [WelcomePageController::class, 'index'])->name('main');
 
 Route::prefix('posts')->group(function () {
   Route::get('/', [PostPageController::class, 'index'])->name('client.post.index');  
-  Route::get('/{post}', [PostPageController::class, 'show'])->name('client.post.show');  
+  Route::get('/{post}', [PostPageController::class, 'show'])->name('client.post.show');   
 });
 
 Route::prefix('categories')->group(function () {
@@ -47,6 +48,10 @@ Route::middleware(['auth', 'verified'])->group(function () {
 
   Route::prefix('comments')->group(function () {
     Route::post('/', [CommentController::class, 'store'])->middleware(['can:'.PermissionType::CAN_COMMENT_POST])->name('client.comment.store');
+  });
+
+  Route::prefix('likes')->group(function () {
+    Route::post('/{post}', [PostUserLikeController::class, 'toggleLike'])->middleware(['can:'.PermissionType::CAN_COMMENT_POST])->name('client.like.toggle');
   });
 
   Route::prefix('admin')->group(function () {

@@ -8,6 +8,7 @@ use App\Http\Resources\PostResource;
 use App\Http\Resources\SinglePostResource;
 use App\Models\Comment;
 use App\Models\Post;
+use App\Models\PostUserLike;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
@@ -30,13 +31,23 @@ class PostPageController extends Controller
     $collection = new SinglePostResource($post);   
 
     $comments = Comment::latest()->where('post_id', $post->id)->paginate(10);  
-    $commentsCollection = CommentResource::collection($comments);    
+    $commentsCollection = CommentResource::collection($comments);   
+    
+    $isLiked = false;    
+    if (auth()->user()) {      
+      $user = auth()->user();
+      $isLiked = PostUserLike::where('post_id', $post->id)->where('user_id', $user->id)->exists();
+    }    
+
+    $countLikes = $post->likes->count();
 
     return Inertia::render('SinglePost', [
       'canLogin' => Route::has('login'),
       'canRegister' => Route::has('register'),      
       'post' => $collection,
       'comments' => $commentsCollection,
+      'is_liked' => $isLiked,
+      'count_likes' => $countLikes
     ]);
   }
 }
