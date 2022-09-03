@@ -52,8 +52,7 @@ class PostController extends PostServiceController
   public function show(Post $post)
   {
     $post = new SinglePostResource($post); 
-    $commentsCount = Comment::where('post_id', $post->id)->count();  
-    return inertia('Admin/Posts/ShowPost', compact('post', 'commentsCount'));
+    return inertia('Admin/Posts/ShowPost', compact('post'));
   }
 
   public function edit(Post $post)

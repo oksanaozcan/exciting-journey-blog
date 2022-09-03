@@ -89,6 +89,69 @@
         <!-- ./col -->
       </div>
       <!-- /.row -->
+
+      <div class="row">
+        <h2 class="mt-2">3 Most Popular Posts For All Time: </h2>
+        <div class="col-sm-12">        
+          <x-table :headers="['Title', 'Visits', 'Likes', 'Comments', 'Created At', 'Author', 'Show']">
+            @foreach ($mostPopularPostsAllTime as $mostPopPostAll)
+              <tr>                                     
+                <th>{{ $mostPopPostAll->title }}</th>                                                 
+                <th>{{ $mostPopPostAll->visit_count_total }}</th>                                                 
+                <th>{{ $mostPopPostAll->likes_count}}</th>                                                 
+                <th>{{ $mostPopPostAll->comments_count}}</th>                                                 
+                <th>{{ $mostPopPostAll->created_at}}</th>                                                 
+                <th>{{ $mostPopPostAll->user->name}}</th>                                                                                                                
+                <td class="d-flex">
+                  <x-ui.show-btn path='client.post.show' :id="$mostPopPostAll->id" >Show</x-ui.show-btn>                                      
+                </td>
+              </tr>                         
+            @endforeach               
+          </x-table>          
+        </div>
+      </div>     
+
+      <div class="row">
+        <h2 class="mt-2">3 Most Popular Posts Last Week: </h2>
+        <div class="col-sm-12">        
+          <x-table :headers="['Title', 'Visits', 'Likes', 'Comments', 'Created At', 'Author', 'Show']">
+            @foreach ($mostPopularPostsLastWeek as $mostPopPostWeek)
+              <tr>                                     
+                <th>{{ $mostPopPostWeek->title }}</th>                                                 
+                <th>{{ $mostPopPostWeek->visit_count_total }}</th>                                                 
+                <th>{{ $mostPopPostWeek->likes_count}}</th>                                                 
+                <th>{{ $mostPopPostWeek->comments_count}}</th>                                                 
+                <th>{{ $mostPopPostWeek->created_at}}</th>                                                 
+                <th>{{ $mostPopPostWeek->user->name}}</th>                                                                                                                
+                <td class="d-flex">
+                  <x-ui.show-btn path='client.post.show' :id="$mostPopPostWeek->id" >Show</x-ui.show-btn>                                      
+                </td>
+              </tr>                         
+            @endforeach               
+          </x-table>          
+        </div>
+      </div>     
+
+      <div class="row">
+        <h2 class="mt-2">3 Most Popular Posts Today: </h2>
+        <div class="col-sm-12">        
+          <x-table :headers="['Title', 'Visits', 'Likes', 'Comments', 'Created At', 'Author', 'Show']">
+            @foreach ($mostPopularPostsToday as $mostPopPostToday)
+              <tr>                                     
+                <th>{{ $mostPopPostToday->title }}</th>                                                 
+                <th>{{ $mostPopPostToday->visit_count_total }}</th>                                                 
+                <th>{{ $mostPopPostToday->likes_count}}</th>                                                 
+                <th>{{ $mostPopPostToday->comments_count}}</th>                                                 
+                <th>{{ $mostPopPostToday->created_at}}</th>                                                 
+                <th>{{ $mostPopPostToday->user->name}}</th>                                                                                                                
+                <td class="d-flex">
+                  <x-ui.show-btn path='client.post.show' :id="$mostPopPostToday->id" >Show</x-ui.show-btn>                                      
+                </td>
+              </tr>                         
+            @endforeach               
+          </x-table>          
+        </div>
+      </div>     
      
       <div class="row">
         <h2 class="mt-2">KPI Писателей:</h2>

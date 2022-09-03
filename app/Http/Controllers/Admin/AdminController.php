@@ -25,6 +25,20 @@ class AdminController extends Controller
       $q->whereIn("name", [RoleType::WRITER]);
     })->get();
 
-    return view('admin.index', compact('usersCount', 'categoriesCount', 'postsCount', 'tagsCount', 'commentsCount', 'writers'));
+    $mostPopularPostsAllTime = Post::popularAllTime()->take(3)->get();
+    $mostPopularPostsToday = Post::popularToday()->take(3)->get();
+    $mostPopularPostsLastWeek = Post::popularLastWeek()->take(3)->get();  
+    
+    return view('admin.index', compact(
+      'usersCount', 
+      'categoriesCount', 
+      'postsCount', 
+      'tagsCount', 
+      'commentsCount', 
+      'writers',
+      'mostPopularPostsAllTime',
+      'mostPopularPostsToday',
+      'mostPopularPostsLastWeek'
+    ));
   }
 }

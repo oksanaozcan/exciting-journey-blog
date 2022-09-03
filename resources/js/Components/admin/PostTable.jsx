@@ -34,11 +34,7 @@ const PostTable = ({posts, forTrashed}) => {
   usePagination
   );
 
-  const {globalFilter, pageIndex, pageSize} = state;
-
-  const onDeletePost = (id) => {
-    console.log(id);
-  }
+  const {globalFilter, pageIndex, pageSize} = state; 
 
   return (
     <div className="flex flex-col">
@@ -138,6 +134,18 @@ const COLUMNS = [
     accessor: 'title',   
   },
   {
+    Header: 'Likes',    
+    accessor: 'likes_count',   
+  },
+  {
+    Header: 'Comments',    
+    accessor: 'comments_count',   
+  },
+  {
+    Header: 'Visits',    
+    accessor: 'visits_count',   
+  },
+  {
     Header: 'Category',   
     accessor: 'category',   
   },
@@ -178,7 +186,7 @@ const TRASHED_COLUMNS = [
   {
     Header: 'Title',    
     accessor: 'title',   
-  },
+  },  
   {
     Header: 'Category',   
     accessor: 'category',   

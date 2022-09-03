@@ -2,7 +2,7 @@ import React from "react";
 import Tag from "@/Components/ui/Tag";
 import SinglePostSlider from "../client/SinglePostSlider";
 
-export default function PostCard ({post, commentsCount, onDeletePost, isAllowedDelete}) {  
+export default function PostCard ({post, onDeletePost, isAllowedDelete}) {  
 
   const Content = () => <div dangerouslySetInnerHTML={{ __html: post.content }}/>
 
@@ -25,7 +25,9 @@ export default function PostCard ({post, commentsCount, onDeletePost, isAllowedD
             <h6 className="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white px-4">{post.created_at}</h6>
           </div>
           <div className="px-4 pt-4">
-            <p>Value of comments: {commentsCount}</p>
+            <p>Value of comments: {post.comments_count}</p>
+            <p>Value of likes: {post.likes_count}</p>
+            <p>Value of visits: {post.visits_count}</p>
           </div>
         </div>                    
       </div>                

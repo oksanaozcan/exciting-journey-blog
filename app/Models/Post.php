@@ -7,6 +7,7 @@ use Coderflex\Laravisit\Concerns\HasVisits;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Support\Facades\DB;
 
 class Post extends Model implements CanVisit
 {
@@ -43,5 +44,7 @@ class Post extends Model implements CanVisit
   {
     return $this->hasMany(PostUserLike::class, 'post_id', 'id');
   } 
+  
+ 
 
 }
