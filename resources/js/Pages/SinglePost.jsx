@@ -18,7 +18,7 @@ import SimilarPostGroup from '@/Components/client/SimilarPostGroup';
 
 export default function SinglePost (props) {
   const post = useMemo(() => props.post, []);    
-  const {is_liked, count_likes, similar_posts} = props;
+  const {is_liked, count_likes, similar_posts, total_visit_count} = props;
 
   const [isLiked, setIsLiked] = useState(false);
   const [countLikes, setCountLikes] = useState(null);
@@ -112,7 +112,7 @@ export default function SinglePost (props) {
             <div>
               <Content/>
             </div>   
-            <div className='my-4'>
+            <div className='my-4 flex flex-row justify-between'>
               {
                 isLiked ?
                 <div>                 
@@ -129,6 +129,9 @@ export default function SinglePost (props) {
                   </Link>
                 </div>               
               }
+              <div className='text-blue-700'>
+                Total Visits: {total_visit_count}
+              </div>
             </div>       
             <SimilarPostGroup similar_posts={similar_posts} />  
           </div>          

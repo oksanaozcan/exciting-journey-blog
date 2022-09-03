@@ -28,6 +28,8 @@ class PostPageController extends Controller
 
   public function show (Post $post)
   {
+    $post->visit();
+
     $collection = new SinglePostResource($post);   
 
     $comments = Comment::latest()->where('post_id', $post->id)->paginate(10);  
@@ -42,13 +44,25 @@ class PostPageController extends Controller
     $countLikes = $post->likes->count();
 
     if ($post->tags->isNotEmpty()) {      
+      
       $similarPosts = Post::whereHas('tags', function ($q) use($post) {
         $tagIds = $post->tags()->pluck('tags.id')->all();
         $q->whereIn('tags.id', $tagIds);
-      })->where('id', '<>', $post->id)->get()->random(3);
+      })->where('id', '<>', $post->id)->get();
+
+      if (count($similarPosts) > 3) {       
+        $similarPosts = $similarPosts->random(3);
+      }
+
+      if ($similarPosts->isEmpty()) {
+        $similarPosts = collect();
+      } 
+     
     } else {
       $similarPosts = collect();
     }  
+
+    $totalVisitCount = count($post->visits);
 
     return Inertia::render('SinglePost', [
       'canLogin' => Route::has('login'),
@@ -58,6 +72,7 @@ class PostPageController extends Controller
       'is_liked' => $isLiked,
       'count_likes' => $countLikes,
       'similar_posts' => PostResource::collection($similarPosts),
+      'total_visit_count' => $totalVisitCount
     ]);
   }
 }

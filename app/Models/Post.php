@@ -2,13 +2,15 @@
 
 namespace App\Models;
 
+use Coderflex\Laravisit\Concerns\CanVisit;
+use Coderflex\Laravisit\Concerns\HasVisits;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-class Post extends Model
+class Post extends Model implements CanVisit
 {
-  use HasFactory, SoftDeletes;
+  use HasFactory, SoftDeletes, HasVisits;
   protected $guarded = [];
 
   protected $with = ['category'];
@@ -40,6 +42,6 @@ class Post extends Model
   public function likes()
   {
     return $this->hasMany(PostUserLike::class, 'post_id', 'id');
-  }
+  } 
 
 }
