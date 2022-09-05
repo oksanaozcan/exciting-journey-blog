@@ -61,7 +61,7 @@ class User extends Authenticatable implements MustVerifyEmail
         Comment::class, 
         Post::class, 
         'user_id', 
-        'post_id', 
+        'commentable_id', 
         'id'
       );
     }

@@ -27,7 +27,7 @@
         <h2>Comments of {{ $user->name }}</h2>
         <ul>
           @foreach ($comments as $comment)
-             <li><a href="{{ route('client.post.show', $comment->post_id) }}">{{ $comment->message }}</a></li>       
+             <li><a href="{{ route('client.post.show', $comment->commentable_id) }}">{{ $comment->message }}</a></li>       
           @endforeach
         </ul>        
       </div>

@@ -13,7 +13,7 @@
           <x-table :headers="['Пост', 'Автор Комментария', 'Сообщение', 'Дата создания', 'Действия']">
             @foreach ($comments as $item)
               <tr>
-                <th><a href="{{ route('client.post.show', $item->post->id) }}">{{ $item->post->title }}</a></th>                         
+                <th><a href="{{ route('client.post.show', $item->commentable->id) }}">{{ $item->commentable->title }}</a></th>                         
                 <th>{{ $item->user->name }}</th>                         
                 <th>{{ $item->message }}</th>                         
                 <td>{{ $item->created_at }}</td>                              
@@ -27,7 +27,7 @@
           </x-table>          
         </div>
       </div>   
-      <div> React component  </div>
+      {{-- <div> React component  </div> --}}
     </div> 
     
 @endsection
