@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Models\Article;
 use App\Models\Category;
 use App\Models\Comment;
 use App\Models\Post;
@@ -32,6 +33,8 @@ class DatabaseSeeder extends Seeder
       for ($i=0; $i < 15; $i++) { 
         Post::factory()->hasTags(2)->create();
       }
+
+      Article::factory(15)->create();     
 
       Comment::factory(50)->create();
     }

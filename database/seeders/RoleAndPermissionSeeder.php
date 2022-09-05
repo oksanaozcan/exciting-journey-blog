@@ -31,6 +31,9 @@ class RoleAndPermissionSeeder extends Seeder
       Permission::create(['name' => PermissionType::CAN_UPDATE_COMMENT]);
       Permission::create(['name' => PermissionType::CAN_DELETE_COMMENT]);
 
+      Permission::create(['name' => PermissionType::CAN_CREATE_ARTICLE]);
+      Permission::create(['name' => PermissionType::CAN_UPDATE_ARTICLE]);
+      Permission::create(['name' => PermissionType::CAN_DELETE_ARTICLE]);
 
 
       $adminRole = Role::create(['name' => RoleType::ADMIN]);
@@ -50,21 +53,33 @@ class RoleAndPermissionSeeder extends Seeder
         PermissionType::CAN_DELETE_POST,
         PermissionType::CAN_COMMENT_POST,
         PermissionType::CAN_UPDATE_COMMENT,
-        PermissionType::CAN_DELETE_COMMENT
+        PermissionType::CAN_DELETE_COMMENT,
+        PermissionType::CAN_CREATE_ARTICLE,
+        PermissionType::CAN_UPDATE_ARTICLE,
+        PermissionType::CAN_DELETE_ARTICLE,
       ]);
 
       $writerRole->givePermissionTo([
         PermissionType::CAN_CREATE_POST,
-        PermissionType::CAN_COMMENT_POST
+        PermissionType::CAN_COMMENT_POST,
+        PermissionType::CAN_CREATE_ARTICLE,
+        PermissionType::CAN_UPDATE_ARTICLE,
+        PermissionType::CAN_DELETE_ARTICLE,
       ]);
 
       $editorRole->givePermissionTo([
         PermissionType::CAN_UPDATE_POST,
-        PermissionType::CAN_COMMENT_POST
+        PermissionType::CAN_COMMENT_POST,
+        PermissionType::CAN_CREATE_ARTICLE,
+        PermissionType::CAN_UPDATE_ARTICLE,
+        PermissionType::CAN_DELETE_ARTICLE,
       ]);
 
       $readerRole->givePermissionTo([
-        PermissionType::CAN_COMMENT_POST
+        PermissionType::CAN_COMMENT_POST,
+        PermissionType::CAN_CREATE_ARTICLE,
+        PermissionType::CAN_UPDATE_ARTICLE,
+        PermissionType::CAN_DELETE_ARTICLE,
       ]);
 
       $moderatorRole->givePermissionTo([
@@ -72,6 +87,9 @@ class RoleAndPermissionSeeder extends Seeder
         PermissionType::CAN_UPDATE_USER,
         PermissionType::CAN_UPDATE_COMMENT,
         PermissionType::CAN_DELETE_COMMENT,
+        PermissionType::CAN_CREATE_ARTICLE,
+        PermissionType::CAN_UPDATE_ARTICLE,
+        PermissionType::CAN_DELETE_ARTICLE,
       ]);
     }
 }
