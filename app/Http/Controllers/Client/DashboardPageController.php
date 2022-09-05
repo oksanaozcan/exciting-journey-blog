@@ -76,10 +76,12 @@ class DashboardPageController extends BaseDashboardPageController
     $adminRole = parent::checkHasAnyRoleAdmin($user);
 
     $articles = ArticleResource::collection($user->articles);
+    $columns = 'articles';  
 
     return Inertia::render('Dashboard/MyArticles', [
       'admin' => $adminRole,
       'articles' => $articles,
+      'current_columns' => $columns,
     ]);    
   }
 

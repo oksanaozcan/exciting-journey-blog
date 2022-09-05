@@ -5,7 +5,7 @@ import Sidebar from '@/Layouts/Sidebar';
 import PostTable from '@/Components/admin/PostTable';
 
 export default function IndexPost(props) {
-  const {posts, permissions, forTrashed} = props;  
+  const {posts, permissions, current_columns} = props;  
   
   const isAllowedCreate = permissions.post_create.some(el => {
     if (el.id === props.auth.user.id) {
@@ -33,7 +33,7 @@ export default function IndexPost(props) {
                 >
                   Add Post
                 </Link>      
-                <PostTable posts={posts} forTrashed={forTrashed}/>                     
+                <PostTable posts={posts} current_columns={current_columns}/>                     
               </div>
             </div>        
           </div>

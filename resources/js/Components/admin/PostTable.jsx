@@ -1,9 +1,9 @@
 import React, { useMemo } from "react";
 import { useTable, useSortBy, useGlobalFilter, useFilters, usePagination } from "react-table";
+import { COLUMNS, TRASHED_COLUMNS, ARTICLES } from "@/data/currentColumns";
 import GlobalFilter from "./GlobalFilter";
 import SortAsc from "../icons/SortAsc";
 import SortDesc from "../icons/SortDesc";
-import { format } from "date-fns";
 import ColumnFilter from "./ColumnFilter";
 import PreviousArrow from "../icons/PreviousArrow";
 import NextArrow from "../icons/NextArrow";
@@ -13,8 +13,14 @@ import SelectRowPerPage from "../ui/SelectRowPerPage";
 import NavPageBtn from "../ui/NavPageBtn";
 import { v4 as uuidv4 } from 'uuid';
 
-const PostTable = ({posts, forTrashed}) => {
-  const columns = useMemo(() => forTrashed ? TRASHED_COLUMNS : COLUMNS, []);
+const PostTable = ({posts, current_columns}) => {
+  const columns = useMemo(() => {
+    switch(current_columns){
+      case 'postsColumns': return COLUMNS;
+      case 'trashedPostsColumns': return TRASHED_COLUMNS;
+      case 'articles': return ARTICLES;
+    }
+  }, []);
   const data = useMemo(() => posts, []);
 
   const defaultColumn = useMemo(() => ({
@@ -119,90 +125,5 @@ const PostTable = ({posts, forTrashed}) => {
     </div>
   );
 }
-
-const COLUMNS = [
-  {
-    Header: 'Preview',   
-    accessor: 'preview',
-    Cell: tableProps => (
-      <img src={tableProps.row.original.preview} alt="preview"/>
-    ),   
-    disableFilters: true
-  },
-  {
-    Header: 'Title',    
-    accessor: 'title',   
-  },
-  {
-    Header: 'Likes',    
-    accessor: 'likes_count',   
-  },
-  {
-    Header: 'Comments',    
-    accessor: 'comments_count',   
-  },
-  {
-    Header: 'Visits',    
-    accessor: 'visits_count',   
-  },
-  {
-    Header: 'Category',   
-    accessor: 'category',   
-  },
-  {
-    Header: 'Tags',   
-    accessor: 'tags',          
-    Cell: ({value}) => {      
-      return value.join(', ');
-    }    
-  },  
-  {
-    Header: 'Created at',   
-    accessor: 'created_at',
-    Cell: ({value}) => { return format(new Date(value), 'dd/MM/yyyy')},   
-  },
-  {
-    Header: 'Options',       
-    disableFilters: true,
-    Cell: tableProps => (
-      <>
-        <a href={`/admin/posts/${tableProps.row.original.id}/edit`} className="btn p-2 m-1">Edit</a>        
-        <a href={`/admin/posts/${tableProps.row.original.id}`} className="btn p-2 m-1">Show</a>        
-      </>
-     
-    )
-  },
-]
-
-const TRASHED_COLUMNS = [
-  {
-    Header: 'Preview',   
-    accessor: 'preview',
-    Cell: tableProps => (
-      <img src={tableProps.row.original.preview} alt="preview"/>
-    ),   
-    disableFilters: true
-  },
-  {
-    Header: 'Title',    
-    accessor: 'title',   
-  },  
-  {
-    Header: 'Category',   
-    accessor: 'category',   
-  },
-  {
-    Header: 'Tags',   
-    accessor: 'tags',          
-    Cell: ({value}) => {      
-      return value.join(', ');
-    }    
-  },  
-  {
-    Header: 'Deleted at',   
-    accessor: 'deleted_at',
-    Cell: ({value}) => { return format(new Date(value), 'dd/MM/yyyy')},   
-  }, 
-]
 
 export default PostTable;

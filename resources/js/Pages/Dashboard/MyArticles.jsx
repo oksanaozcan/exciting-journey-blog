@@ -2,9 +2,10 @@ import React, {useMemo} from "react";
 import Authenticated from '@/Layouts/Authenticated';
 import { Head } from '@inertiajs/inertia-react';
 import SidebarDashboard from '@/Components/client/SidebarDashboard';
+import PostTable from "@/Components/admin/PostTable";
 
-const MyArticles = ({permissions, auth, admin, errors, liked_posts}) => { 
-  // const likedPosts = useMemo(() => liked_posts, []); 
+const MyArticles = ({permissions, auth, admin, errors, articles, current_columns}) => { 
+  const myArticles = useMemo(() => articles, []); 
   return (
     <Authenticated
       auth={auth}
@@ -20,7 +21,7 @@ const MyArticles = ({permissions, auth, admin, errors, liked_posts}) => {
           <div className="flex-initial">               
             <div className="my-2 mx-2">                  
               <div className="bg-white flex flex-col items-center overflow-hidden shadow-sm sm:rounded-lg">
-                Article List                          
+                <PostTable posts={myArticles} current_columns={current_columns}/>            
               </div>
             </div>        
           </div>
