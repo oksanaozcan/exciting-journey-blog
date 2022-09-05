@@ -2,14 +2,10 @@
 
 namespace App\Http\Controllers\Client;
 
-use App\Http\Resources\ArticleResource;
 use App\Http\Resources\PublicUserProfileResource;
 use App\Models\Comment;
 use App\Http\Resources\ShortCommentResource;
 use App\Http\Resources\ShortPostResource;
-use App\Models\Article;
-use App\Models\Post;
-use App\Models\PostUserLike;
 use Illuminate\Support\Facades\DB;
 use Inertia\Inertia;
 
@@ -41,7 +37,7 @@ class DashboardPageController extends BaseDashboardPageController
   public function communication ()
   {
     $user = auth()->user();  
-    $comments = Comment::latest()->where('user_id', $user->id)->paginate();      
+    $comments = Comment::where('user_id', $user->id)->orderByDesc('id')->paginate();      
     $adminRole = parent::checkHasAnyRoleAdmin($user);    
     
     return Inertia::render('Dashboard/Communication', [
@@ -68,22 +64,7 @@ class DashboardPageController extends BaseDashboardPageController
       'admin' => $adminRole,
       'liked_posts' => $shortPosts,
     ]);    
-  }
-
-  public function articlesIndex ()
-  {
-    $user = auth()->user();
-    $adminRole = parent::checkHasAnyRoleAdmin($user);
-
-    $articles = ArticleResource::collection($user->articles);
-    $columns = 'articles';  
-
-    return Inertia::render('Dashboard/MyArticles', [
-      'admin' => $adminRole,
-      'articles' => $articles,
-      'current_columns' => $columns,
-    ]);    
-  }
+  }  
 
   public function accountSecurity ()
   {

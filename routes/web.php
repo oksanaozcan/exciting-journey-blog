@@ -6,6 +6,7 @@ use App\Http\Controllers\Admin\CommentController as AdminCommentController;
 use App\Http\Controllers\Admin\PostController;
 use App\Http\Controllers\Admin\TagController;
 use App\Http\Controllers\Admin\UserController;
+use App\Http\Controllers\Client\ArticleController;
 use App\Http\Controllers\Client\CategoryPageController;
 use App\Http\Controllers\Client\CommentController;
 use App\Http\Controllers\Client\DashboardPageController;
@@ -40,8 +41,13 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/', [DashboardPageController::class, 'index'])->name('dashboard');
     Route::get('/edit-profile', [DashboardPageController::class, 'edit'])->name('edit.profile');
     Route::get('/communication', [DashboardPageController::class, 'communication'])->name('communication');
-    Route::get('/liked-posts', [DashboardPageController::class, 'likedPosts'])->name('dashboard.liked.posts');    
-    Route::get('/my-articles', [DashboardPageController::class, 'articlesIndex'])->name('dashboard.articles.index');    
+    Route::get('/liked-posts', [DashboardPageController::class, 'likedPosts'])->name('dashboard.liked.posts'); 
+    
+    Route::prefix('my-articles')->group(function () {
+      Route::get('/', [ArticleController::class, 'index'])->middleware(['can:'.PermissionType::CAN_COMMENT_POST])->name('dashboard.articles.index'); 
+      Route::get('/create', [ArticleController::class, 'create'])->middleware(['can:'.PermissionType::CAN_COMMENT_POST])->name('dashboard.articles.create'); 
+    });    
+       
     Route::get('/account-security', [DashboardPageController::class, 'accountSecurity'])->name('dashboard.edit.password');        
     Route::patch('/{user}', [ClientUserController::class, 'update'])->name('update.user.public.info');
     Route::post('/{user}', [ClientUserController::class, 'updatePassword'])->name('client.update.user.password');
