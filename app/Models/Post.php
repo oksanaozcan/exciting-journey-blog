@@ -33,18 +33,16 @@ class Post extends Model implements CanVisit
 
   public function user() {              
     return $this->belongsTo(User::class, 'user_id', 'id');
-  }
+  }  
 
-  public function comments() 
+  public function comments()
   {
-    return $this->hasMany(Comment::class, 'post_id', 'id');
+    return $this->morphMany('App\Models\Comment', 'commentable');
   }
 
   public function likes()
   {
     return $this->hasMany(PostUserLike::class, 'post_id', 'id');
-  } 
-  
- 
+  }
 
 }

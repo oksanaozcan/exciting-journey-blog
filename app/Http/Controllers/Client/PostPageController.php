@@ -31,8 +31,8 @@ class PostPageController extends Controller
     $post->visit();
 
     $collection = new SinglePostResource($post);   
-
-    $comments = Comment::latest()->where('post_id', $post->id)->paginate(10);  
+    
+    $comments = Comment::latest()->where('commentable_type', 'App\Models\Post')->where('commentable_id', $post->id)->paginate(10);
     $commentsCollection = CommentResource::collection($comments);   
     
     $isLiked = false;    

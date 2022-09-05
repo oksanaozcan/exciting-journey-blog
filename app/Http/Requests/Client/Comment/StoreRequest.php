@@ -25,7 +25,8 @@ class StoreRequest extends FormRequest
     {
         return [
           'message' => 'required|string|max:1000',
-          'post_id' => 'required',
+          'commentable_id' => 'required',
+          'commentable_type' => 'required|string',
           'parent_id' => 'nullable',
         ];
     }

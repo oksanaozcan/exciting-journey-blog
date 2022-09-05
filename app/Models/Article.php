@@ -13,6 +13,11 @@ class Article extends Model
 
     protected $guarded = [];
 
+    public function comments()
+    {
+      return $this->morphMany('App\Models\Comment', 'commentable');
+    }
+
     public function user() {              
       return $this->belongsTo(User::class, 'user_id', 'id');
     }

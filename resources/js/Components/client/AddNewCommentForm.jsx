@@ -9,7 +9,8 @@ export default function AddNewCommentForm ({postId, useForm, usePage, commentInp
   const { data, setData, progress, processing } = useForm({
     message: '',
     parent_id: parentId,   
-    post_id: postId,   
+    commentable_id: postId,   
+    commentable_type: 'App\\Models\\Post'
   })
 
   useEffect(() => {

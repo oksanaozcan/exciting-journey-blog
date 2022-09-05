@@ -14,13 +14,14 @@ class CommentController extends Controller
     $data = $request->validated();    
     $comment = Comment::create([
       'message' => $data['message'],
-      'post_id' => $data['post_id'],
+      'commentable_type' => $data['commentable_type'],
+      'commentable_id' => $data['commentable_id'],
       'user_id' => auth()->user()->id,
       'parent_id' => $data['parent_id'],
     ]);
 
     if ($comment) {
-      return Redirect::route('client.post.show', $comment->post_id);
+      return Redirect::route('client.post.show', $comment->commentable_id);
     }
     
   }
