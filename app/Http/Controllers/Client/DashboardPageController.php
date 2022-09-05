@@ -2,10 +2,12 @@
 
 namespace App\Http\Controllers\Client;
 
+use App\Http\Resources\ArticleResource;
 use App\Http\Resources\PublicUserProfileResource;
 use App\Models\Comment;
 use App\Http\Resources\ShortCommentResource;
 use App\Http\Resources\ShortPostResource;
+use App\Models\Article;
 use App\Models\Post;
 use App\Models\PostUserLike;
 use Illuminate\Support\Facades\DB;
@@ -46,17 +48,7 @@ class DashboardPageController extends BaseDashboardPageController
       'comments' => ShortCommentResource::collection($comments),
       'admin' => $adminRole      
     ]);
-  }
-
-  public function accountSecurity ()
-  {
-    $user = auth()->user();   
-    $adminRole = parent::checkHasAnyRoleAdmin($user);
-
-    return Inertia::render('Dashboard/AccountSecurity', [
-      'admin' => $adminRole,
-    ]);
-  }
+  } 
 
   public function likedPosts ()
   {
@@ -76,6 +68,29 @@ class DashboardPageController extends BaseDashboardPageController
       'admin' => $adminRole,
       'liked_posts' => $shortPosts,
     ]);    
+  }
+
+  public function articlesIndex ()
+  {
+    $user = auth()->user();
+    $adminRole = parent::checkHasAnyRoleAdmin($user);
+
+    $articles = ArticleResource::collection($user->articles);
+
+    return Inertia::render('Dashboard/MyArticles', [
+      'admin' => $adminRole,
+      'articles' => $articles,
+    ]);    
+  }
+
+  public function accountSecurity ()
+  {
+    $user = auth()->user();   
+    $adminRole = parent::checkHasAnyRoleAdmin($user);
+
+    return Inertia::render('Dashboard/AccountSecurity', [
+      'admin' => $adminRole,
+    ]);
   }
   
 }

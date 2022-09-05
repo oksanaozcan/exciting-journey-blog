@@ -40,8 +40,9 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/', [DashboardPageController::class, 'index'])->name('dashboard');
     Route::get('/edit-profile', [DashboardPageController::class, 'edit'])->name('edit.profile');
     Route::get('/communication', [DashboardPageController::class, 'communication'])->name('communication');
-    Route::get('/account-security', [DashboardPageController::class, 'accountSecurity'])->name('dashboard.edit.password');    
     Route::get('/liked-posts', [DashboardPageController::class, 'likedPosts'])->name('dashboard.liked.posts');    
+    Route::get('/my-articles', [DashboardPageController::class, 'articlesIndex'])->name('dashboard.articles.index');    
+    Route::get('/account-security', [DashboardPageController::class, 'accountSecurity'])->name('dashboard.edit.password');        
     Route::patch('/{user}', [ClientUserController::class, 'update'])->name('update.user.public.info');
     Route::post('/{user}', [ClientUserController::class, 'updatePassword'])->name('client.update.user.password');
   });
