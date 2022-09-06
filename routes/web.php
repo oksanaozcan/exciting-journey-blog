@@ -7,6 +7,7 @@ use App\Http\Controllers\Admin\PostController;
 use App\Http\Controllers\Admin\TagController;
 use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\Client\ArticleController;
+use App\Http\Controllers\Client\ArticlePageController;
 use App\Http\Controllers\Client\CategoryPageController;
 use App\Http\Controllers\Client\CommentController;
 use App\Http\Controllers\Client\DashboardPageController;
@@ -33,6 +34,11 @@ Route::prefix('categories')->group(function () {
 Route::prefix('tags')->group(function () {
   Route::get('/', [TagPageController::class, 'index'])->name('client.tag.index');  
   Route::get('/{tag}', [TagPageController::class, 'show'])->name('client.tag.show');  
+});
+
+Route::prefix('articles')->group(function () {
+  Route::get('/', [ArticlePageController::class, 'index'])->name('client.article.index');  
+  Route::get('/{article}', [ArticlePageController::class, 'show'])->name('client.article.show');
 });
 
 Route::middleware(['auth', 'verified'])->group(function () {  

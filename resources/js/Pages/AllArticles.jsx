@@ -6,8 +6,8 @@ import PostListItem from '@/Components/client/PostListItem';
 
 import Pagination from '@/Components/client/Pagination';
 
-export default function AllPosts(props) {
-  const posts = useMemo(() => props.posts, []);  
+export default function AllArticles(props) {
+  const articles = useMemo(() => props.articles, []);  
   const [isOpen, setIsOpen] = useState(false);  
 
   const navToggle = () => {
@@ -15,8 +15,7 @@ export default function AllPosts(props) {
   }  
     return (
         <>
-          <Head title="Exciting Journey" />
-       
+          <Head title="Articles" />       
           <section id='posts'>
             <div className="container max-w-6xl mx-auto px-6 py-12">
               <Navbar isOpen={isOpen} navToggle={navToggle} authProps={props.auth.user}/>              
@@ -26,11 +25,11 @@ export default function AllPosts(props) {
           <section id='post-list'>
             <div className="container max-w-6xl mx-auto px-6 py-12">
               {
-                posts.data.map(item => (
-                  <PostListItem key={item.id} post={item} isArticle={false}/>
+                articles.data.map(item => (
+                  <PostListItem key={item.id} post={item} isArticle={true}/>
                 ))
               }  
-              <Pagination items={posts}/>
+              <Pagination items={articles}/>
             </div>
           </section>
           <Footer/>

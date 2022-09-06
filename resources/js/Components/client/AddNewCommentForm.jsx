@@ -1,7 +1,7 @@
 import React, {useState, useEffect} from "react";
 import { Inertia } from '@inertiajs/inertia';
 
-export default function AddNewCommentForm ({postId, useForm, usePage, commentInput, parentId = null, setIsActiveReplyForm = null}) {
+export default function AddNewCommentForm ({postId, useForm, usePage, commentInput, parentId = null, setIsActiveReplyForm = null, isArticle=false}) {
 
   const [newComment, setNewComment] = useState('');
   const [email, setEmail] = useState('');
@@ -10,7 +10,7 @@ export default function AddNewCommentForm ({postId, useForm, usePage, commentInp
     message: '',
     parent_id: parentId,   
     commentable_id: postId,   
-    commentable_type: 'App\\Models\\Post'
+    commentable_type: isArticle ? 'App\\Models\\Article' : 'App\\Models\\Post'
   })
 
   useEffect(() => {
@@ -20,7 +20,7 @@ export default function AddNewCommentForm ({postId, useForm, usePage, commentInp
   const { errors } = usePage().props;
 
   function submit(e) {
-    e.preventDefault();     
+    e.preventDefault();         
     
     if (email === '') {
       Inertia.post('/comments', data, {

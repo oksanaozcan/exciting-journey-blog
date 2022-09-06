@@ -20,9 +20,8 @@ class CommentController extends Controller
       'parent_id' => $data['parent_id'],
     ]);
 
-    if ($comment) {
-      return Redirect::route('client.post.show', $comment->commentable_id);
-    }
-    
+    if ($comment) {     
+      return Redirect::back();
+    }    
   }
 }
