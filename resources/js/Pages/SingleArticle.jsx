@@ -152,6 +152,7 @@ export default function SingleArticle (props) {
             postId={article.id} 
             useForm={useForm} 
             usePage={usePage}
+            isArticle={true}
           />
           <Pagination items={props.comments}/>
         </section>       

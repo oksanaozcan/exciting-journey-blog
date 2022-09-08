@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import AddNewCommentForm from "./AddNewCommentForm";
 import ReplyComment from "./ReplyComment";
 
-export default function RootComment ({comment,replies, postId, useForm, usePage}) {
+export default function RootComment ({comment,replies, postId, useForm, usePage, isArticle=false}) {
   const [isVisibleReplyComment, setIsVisibleReplyComment] = useState(false);
   const [isActiveReplyForm, setIsActiveReplyForm] = useState(false);
 
@@ -45,6 +45,7 @@ export default function RootComment ({comment,replies, postId, useForm, usePage}
             useForm={useForm} 
             usePage={usePage}
             setIsActiveReplyForm={setIsActiveReplyForm}
+            isArticle={isArticle}
           />
           : null
         }
