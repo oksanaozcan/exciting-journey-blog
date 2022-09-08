@@ -15,8 +15,9 @@ class ShortPostResource extends JsonResource
     public function toArray($request)
     {
         return [
-          'id' => $this->post_id,
-          'title' => $this->title,
+          'likeable_type' => $this->likeable_type,
+          'id' => $this->likeable_id,
+          'title' => $this->title,          
         ];
     }
 }

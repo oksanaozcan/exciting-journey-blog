@@ -48,6 +48,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/edit-profile', [DashboardPageController::class, 'edit'])->name('edit.profile');
     Route::get('/communication', [DashboardPageController::class, 'communication'])->name('communication');
     Route::get('/liked-posts', [DashboardPageController::class, 'likedPosts'])->name('dashboard.liked.posts'); 
+    Route::get('/liked-articles', [DashboardPageController::class, 'likedArticles'])->name('dashboard.liked.articles'); 
     
     Route::prefix('my-articles')->group(function () {
       Route::get('/', [ArticleController::class, 'index'])->middleware(['can:'.PermissionType::CAN_COMMENT_POST])->name('dashboard.articles.index'); 

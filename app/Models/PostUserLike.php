@@ -7,6 +7,11 @@ use Illuminate\Database\Eloquent\Model;
 
 class PostUserLike extends Model
 {
-    use HasFactory;
-    protected $guarded = [];
+  use HasFactory;
+  protected $guarded = [];
+
+  public function likeable()
+  {
+    return $this->morphTo();
+  }
 }

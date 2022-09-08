@@ -18,7 +18,7 @@ import SimilarPostGroup from '@/Components/client/SimilarPostGroup';
 
 export default function SinglePost (props) {
   const post = useMemo(() => props.post, []);    
-  const {is_liked, count_likes, similar_posts, total_visit_count} = props;
+  const {is_liked, similar_posts} = props;
 
   const [isLiked, setIsLiked] = useState(false);
   const [countLikes, setCountLikes] = useState(null);
@@ -32,7 +32,7 @@ export default function SinglePost (props) {
   }, []);
 
   useEffect(() => {
-    setCountLikes(count_likes);
+    setCountLikes(post.likes_count);
   }, [])
 
   const onFocusInput = () => {
@@ -116,21 +116,25 @@ export default function SinglePost (props) {
               {
                 isLiked ?
                 <div>                 
-                  <Link href={`/likes/${post.id}`} method="post" as="button" type="button" preserveScroll preserveState={false}>
+                  <Link href={`/likes/${post.id}`} method="post" as="button" type="button" preserveScroll preserveState={false} 
+                    data={{ model: 'App\\Models\\Post' }}
+                  >
                     <FilledLikeIcon/>
                     <span>{countLikes}</span>
                   </Link>
                 </div>
                  :
                 <div>                 
-                  <Link href={`/likes/${post.id}`} method="post" as="button" type="button" preserveScroll preserveState={false}>
+                  <Link href={`/likes/${post.id}`} method="post" as="button" type="button" preserveScroll preserveState={false}
+                    data={{ model: 'App\\Models\\Post' }}
+                  >
                     <LikeIcon/>
                     <span>{countLikes}</span>
                   </Link>
                 </div>               
               }
               <div className='text-blue-700'>
-                Total Visits: {total_visit_count}
+                Total Visits: {post.visits_count}
               </div>
             </div>       
             <SimilarPostGroup similar_posts={similar_posts} />  

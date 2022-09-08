@@ -38,10 +38,10 @@ class PostPageController extends Controller
     $isLiked = false;    
     if (auth()->user()) {      
       $user = auth()->user();
-      $isLiked = PostUserLike::where('post_id', $post->id)->where('user_id', $user->id)->exists();
+      $isLiked = PostUserLike::where('likeable_id', $post->id)
+        ->where('likeable_type', 'App\Models\Post')
+        ->where('user_id', $user->id)->exists();
     }    
-
-    $countLikes = $post->likes->count();
 
     if ($post->tags->isNotEmpty()) {      
       
@@ -62,17 +62,13 @@ class PostPageController extends Controller
       $similarPosts = collect();
     }  
 
-    $totalVisitCount = count($post->visits);
-
     return Inertia::render('SinglePost', [
       'canLogin' => Route::has('login'),
       'canRegister' => Route::has('register'),      
       'post' => $collection,
       'comments' => $commentsCollection,
       'is_liked' => $isLiked,
-      'count_likes' => $countLikes,
       'similar_posts' => PostResource::collection($similarPosts),
-      'total_visit_count' => $totalVisitCount
     ]);
   }
 }

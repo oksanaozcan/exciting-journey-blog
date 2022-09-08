@@ -21,6 +21,11 @@ class Article extends Model implements CanVisit
       return $this->morphMany('App\Models\Comment', 'commentable');
     }
 
+    public function likes()
+    {
+      return $this->morphMany('App\Models\PostUserLike', 'likeable');
+    }
+
     public function user() 
     {              
       return $this->belongsTo(User::class, 'user_id', 'id');

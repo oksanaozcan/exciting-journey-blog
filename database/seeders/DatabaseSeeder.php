@@ -37,5 +37,6 @@ class DatabaseSeeder extends Seeder
       Article::factory(15)->create();     
 
       Comment::factory(50)->create();
+      
     }
 }

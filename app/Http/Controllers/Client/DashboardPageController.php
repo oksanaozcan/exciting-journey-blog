@@ -51,9 +51,9 @@ class DashboardPageController extends BaseDashboardPageController
     $user = auth()->user();   
     $adminRole = parent::checkHasAnyRoleAdmin($user);
 
-    $likedPosts = DB::table('post_user_likes')
+    $likedPosts = DB::table('post_user_likes')->where('likeable_type', 'App\Models\Post')
     ->select('post_user_likes.*', 'posts.title')
-    ->join('posts', 'post_user_likes.post_id', '=', 'posts.id')
+    ->join('posts', 'post_user_likes.likeable_id', '=', 'posts.id')
     ->where('post_user_likes.user_id', $user->id)
     ->orderByDesc('created_at')
     ->paginate();
@@ -63,6 +63,26 @@ class DashboardPageController extends BaseDashboardPageController
     return Inertia::render('Dashboard/LikedPosts', [
       'admin' => $adminRole,
       'liked_posts' => $shortPosts,
+    ]);    
+  }  
+
+  public function likedArticles ()
+  {
+    $user = auth()->user();   
+    $adminRole = parent::checkHasAnyRoleAdmin($user);
+
+    $likedArticles = DB::table('post_user_likes')->where('likeable_type', 'App\Models\Article')
+    ->select('post_user_likes.*', 'articles.title')
+    ->join('articles', 'post_user_likes.likeable_id', '=', 'articles.id')
+    ->where('post_user_likes.user_id', $user->id)
+    ->orderByDesc('created_at')
+    ->paginate();
+    
+    $shortArticles = ShortPostResource::collection($likedArticles);
+
+    return Inertia::render('Dashboard/LikedArticles', [
+      'admin' => $adminRole,
+      'liked_articles' => $shortArticles,
     ]);    
   }  
 

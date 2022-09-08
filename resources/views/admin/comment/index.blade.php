@@ -10,12 +10,20 @@
     <div class="container-fluid">          
       <div class="row">
         <div class="col-sm-12">        
-          <x-table :headers="['Пост', 'Автор Комментария', 'Сообщение', 'Дата создания', 'Действия']">
+          <x-table :headers="['Пост', 'Автор Комментария', 'Сообщение', 'Тип', 'Дата создания', 'Действия']">
             @foreach ($comments as $item)
               <tr>
-                <th><a href="{{ route('client.post.show', $item->commentable->id) }}">{{ $item->commentable->title }}</a></th>                         
+                <th>
+                  @if ($item->commentable_type === "App\Models\Post")
+                    <a href="{{ route('client.post.show', $item->commentable->id) }}">{{ $item->commentable->title }}</a>
+                  @else
+                    <a href="{{ route('client.article.show', $item->commentable->id) }}">{{ $item->commentable->title }}</a>
+                  @endif
+                </th>
+                                      
                 <th>{{ $item->user->name }}</th>                         
                 <th>{{ $item->message }}</th>                         
+                <th>{{ $item->commentable_type }}</th>                         
                 <td>{{ $item->created_at }}</td>                              
                 <td class="d-flex">
                   <x-ui.show-btn path='admin.comment.show' :id="$item->id" >Смотреть</x-ui.show-btn>               

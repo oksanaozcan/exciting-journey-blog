@@ -61,7 +61,17 @@ const SidebarDashboard = ({activeLink = 'public-profile'}) => {
                 href={route('dashboard.liked.posts')}           
               >
                 <LikeIcon/>      
-                <span className="ml-3">Liked</span>
+                <span className="ml-3">Liked Posts</span>
+              </Link>               
+            </li>
+
+            <li>              
+              <Link 
+                className={activeLink === 'liked-articles' ? 'dashboard-sidebar-link_active' : 'dashboard-sidebar-link'}  
+                href={route('dashboard.liked.articles')}           
+              >
+                <LikeIcon/>      
+                <span className="ml-3">Liked Articles</span>
               </Link>               
             </li>
 

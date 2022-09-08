@@ -42,7 +42,7 @@ class Post extends Model implements CanVisit
 
   public function likes()
   {
-    return $this->hasMany(PostUserLike::class, 'post_id', 'id');
+    return $this->morphMany('App\Models\PostUserLike', 'likeable');
   }
 
 }

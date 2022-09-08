@@ -15,11 +15,10 @@ return new class extends Migration
     {
         Schema::create('post_user_likes', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('post_id');
+            $table->morphs('likeable');
             $table->unsignedBigInteger('user_id');
             $table->timestamps();
 
-            $table->foreign('post_id')->references('id')->on('posts');
             $table->foreign('user_id')->references('id')->on('users');
         });
     }
