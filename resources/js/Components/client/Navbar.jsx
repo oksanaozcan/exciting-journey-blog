@@ -17,6 +17,7 @@ export default function Navbar ({isOpen, navToggle, authProps}) {
           <MyNavlink path={route('client.post.index')} title={"All Posts"}/>
           <MyNavlink path={route('client.category.index')} title={"Categories"}/>
           <MyNavlink path={route('client.tag.index')} title={"Tags"}/>
+          <MyNavlink path={route('client.article.index')} title={"Articles from readers"}/>
           {
             authProps ?
               <MyNavlink path={route('dashboard')} title={"Dashboard"}/> :
@@ -54,6 +55,7 @@ export default function Navbar ({isOpen, navToggle, authProps}) {
         <MyNavlink classes={'hover:text-pink-500'} path={route('client.post.index')} title={"All Posts"}/>
         <MyNavlink classes={'hover:text-pink-500'} path={route('client.category.index')} title={"Categories"}/>
         <MyNavlink classes={'hover:text-pink-500'} path={route('client.tag.index')} title={"Tags"}/>
+        <MyNavlink classes={'hover:text-pink-500'} path={route('client.article.index')} title={"Articles from readers"}/>
         {
           authProps ?
             <MyNavlink classes={'hover:text-pink-500'} path={route('dashboard')} title={"Dashboard"}/> :

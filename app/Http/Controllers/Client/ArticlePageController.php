@@ -16,7 +16,7 @@ class ArticlePageController extends Controller
 {
   public function index()
   {
-    $articles = Article::latest()->paginate(5);
+    $articles = Article::orderByDesc('id')->paginate(5);
     $collection = ArticleResource::collection($articles);   
 
     return Inertia::render('AllArticles', [

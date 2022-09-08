@@ -16,7 +16,7 @@ class PostPageController extends Controller
 {
   public function index ()
   {    
-    $posts = Post::latest()->paginate(5);
+    $posts = Post::orderByDesc('id')->paginate(5);
     $collection = PostResource::collection($posts);   
 
     return Inertia::render('AllPosts', [
