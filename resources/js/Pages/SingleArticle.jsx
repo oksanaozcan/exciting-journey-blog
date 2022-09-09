@@ -4,9 +4,6 @@ import { useForm, usePage } from '@inertiajs/inertia-react';
 import { Head } from '@inertiajs/inertia-react';
 import Navbar from '@/Components/client/Navbar';
 import Footer from '@/Components/client/Footer';
-import Tag from '@/Components/ui/Tag';
-import SinglePostSlider from '@/Components/client/SinglePostSlider';
-import CategoryLink from '@/Components/ui/CategoryLink';
 import CommentList from '@/Components/client/CommentList';
 import Pagination from '@/Components/client/Pagination';
 import AddNewCommentForm from '@/Components/client/AddNewCommentForm';
@@ -19,8 +16,7 @@ import SimilarPostGroup from '@/Components/client/SimilarPostGroup';
 export default function SingleArticle (props) {
   const article = useMemo(() => props.article, []);    
   const {
-    is_liked, 
-    count_likes, 
+    is_liked,     
     similar_articles,
   } = props;
 
@@ -36,7 +32,7 @@ export default function SingleArticle (props) {
   }, []);
 
   useEffect(() => {
-    setCountLikes(count_likes);
+    setCountLikes(article.likes_count);
   }, [])
 
   const onFocusInput = () => {
@@ -67,7 +63,7 @@ export default function SingleArticle (props) {
     setComments(props.comments.data);
   }, [props]);
 
-  // const Content = () => <div dangerouslySetInnerHTML={{ __html: article.content }}/>
+  const Content = () => <div dangerouslySetInnerHTML={{ __html: article.content }}/>
 
   return (
       <>
@@ -99,20 +95,16 @@ export default function SingleArticle (props) {
                   {article.description}
                 </p>                  
               </div>               
-            </div>         
-
-            <div className='my-4'>
-              {/* <SinglePostSlider pictures={article.pictures}/> */}
-            </div>    
+            </div>                    
             
             <div>
-              {/* <Content/> */}
+              <Content/>
             </div>   
             <div className='my-4 flex flex-row justify-between'>
               {
                 isLiked ?
                 <div>                 
-                  <Link href={`/likes/${article.id}`} method="post" as="button" type="button" preserveScroll preserveState={false}
+                  <Link href={`/likes/article/${article.id}`} method="post" as="button" type="button" preserveScroll preserveState={false}
                     data={{ model: 'App\\Models\\Article' }}
                   >
                     <FilledLikeIcon/>
@@ -121,7 +113,7 @@ export default function SingleArticle (props) {
                 </div>
                  :
                 <div>                 
-                  <Link href={`/likes/${article.id}`} method="post" as="button" type="button" preserveScroll preserveState={false}
+                  <Link href={`/likes/article/${article.id}`} method="post" as="button" type="button" preserveScroll preserveState={false}
                     data={{ model: 'App\\Models\\Article' }}
                   >
                     <LikeIcon/>

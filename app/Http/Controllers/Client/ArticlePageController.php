@@ -40,9 +40,7 @@ class ArticlePageController extends Controller
     if (auth()->user()) {      
       $user = auth()->user();
       $isLiked = PostUserLike::where('likeable_id', $article->id)->where('likeable_type', 'App\Models\Article')->where('user_id', $user->id)->exists();
-    }    
-
-    $countLikes = $article->likes->count();
+    }        
 
     if ($user->articles->isNotEmpty()) {      
       
@@ -65,8 +63,7 @@ class ArticlePageController extends Controller
       'canRegister' => Route::has('register'),      
       'article' => $collection,
       'comments' => $commentsCollection,
-      'is_liked' => $isLiked,
-      'count_likes' => $countLikes,
+      'is_liked' => $isLiked,      
       'similar_articles' => ArticleResource::collection($similarArticles),      
     ]);
   }

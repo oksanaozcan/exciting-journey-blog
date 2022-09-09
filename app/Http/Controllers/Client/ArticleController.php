@@ -2,9 +2,11 @@
 
 namespace App\Http\Controllers\Client;
 
+use App\Http\Requests\Client\Article\StoreRequest;
 use Illuminate\Http\Request;
 use App\Http\Resources\ArticleResource;
 use Inertia\Inertia;
+use Illuminate\Support\Facades\Redirect;
 
 class ArticleController extends BaseDashboardPageController
 {    
@@ -36,9 +38,15 @@ class ArticleController extends BaseDashboardPageController
     ]);        
   }
   
-  public function store(Request $request)
+  public function store(StoreRequest $request)
   {
-      //
+    $data = $request->validated();
+    
+    $res = $this->service->store($data);
+    
+    if ($res) {      
+      return Redirect::back()->with('message', 'Article created successfully!');
+    }        
   }
   
   public function show($id)

@@ -20,11 +20,10 @@ class SingleArticleResource extends JsonResource
           'preview' => $this->preview,
           'title' => $this->title,          
           'description' => $this->description,          
-          // 'content' => $this->content,          
-          // 'pictures' => PictureResource::collection($this->pictures),          
+          'content' => $this->content,      
           'created_at' => Carbon::parse($this->created_at)->diffForHumans(),
           'author' => $this->user->name,
-          // 'likes_count' => $this->likes_count,
+          'likes_count' => $this->likes_count,
           'comments_count' => $this->comments_count,
           'visits_count' => count($this->visits),          
         ];

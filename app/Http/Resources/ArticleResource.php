@@ -26,7 +26,7 @@ class ArticleResource extends JsonResource
         'deleted_at' => $this->deleted_at,
         'author' => $this->user->name,
         'comments_count' => $this->comments_count,
-        // 'likes_count' => $this->likes_count,
+        'likes_count' => $this->likes_count,
         'visits_count' => count($this->visits),
       ];
     }

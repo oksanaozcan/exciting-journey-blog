@@ -5,11 +5,19 @@ namespace App\Http\Controllers\Client;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\User;
+use App\Service\ArticleService;
 use App\Types\RoleType;
 
 class BaseDashboardPageController extends Controller
 {  
   public static bool $hasAnyAdminRole = false;
+
+  public $service; 
+
+  public function __construct(ArticleService $service)
+  {
+    $this->service = $service;
+  } 
 
   public static function checkHasAnyRoleAdmin (User $user)
   {
@@ -18,5 +26,6 @@ class BaseDashboardPageController extends Controller
     } else {
       return self::$hasAnyAdminRole = false;
     }
-  }
+  } 
+
 }

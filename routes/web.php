@@ -53,6 +53,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::prefix('my-articles')->group(function () {
       Route::get('/', [ArticleController::class, 'index'])->middleware(['can:'.PermissionType::CAN_COMMENT_POST])->name('dashboard.articles.index'); 
       Route::get('/create', [ArticleController::class, 'create'])->middleware(['can:'.PermissionType::CAN_COMMENT_POST])->name('dashboard.articles.create'); 
+      Route::post('/', [ArticleController::class, 'store'])->middleware(['can:'.PermissionType::CAN_COMMENT_POST])->name('dashboard.articles.store'); 
     });    
        
     Route::get('/account-security', [DashboardPageController::class, 'accountSecurity'])->name('dashboard.edit.password');        
@@ -66,6 +67,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
 
   Route::prefix('likes')->group(function () {
     Route::post('/{post}', [PostUserLikeController::class, 'toggleLike'])->middleware(['can:'.PermissionType::CAN_COMMENT_POST])->name('client.like.toggle');
+    Route::post('/article/{article}', [PostUserLikeController::class, 'toggleLikeArticle'])->middleware(['can:'.PermissionType::CAN_COMMENT_POST])->name('client.article.like.toggle');
   });
 
   Route::prefix('admin')->group(function () {
