@@ -90,7 +90,7 @@ const ARTICLES = [
     Cell: tableProps => (
       <>
         <a href={`/admin/posts/${tableProps.row.original.id}/edit`} className="btn p-2 m-1">Edit</a>        
-        <a href={`/admin/posts/${tableProps.row.original.id}`} className="btn p-2 m-1">Show</a>        
+        <a href={`/articles/${tableProps.row.original.id}`} className="btn p-2 m-1">Show</a>        
       </>     
     )
   },

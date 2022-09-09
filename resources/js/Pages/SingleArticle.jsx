@@ -18,42 +18,46 @@ import SimilarPostGroup from '@/Components/client/SimilarPostGroup';
 
 export default function SingleArticle (props) {
   const article = useMemo(() => props.article, []);    
-  // const {is_liked, count_likes, similar_posts, total_visit_count} = props;
+  const {
+    is_liked, 
+    count_likes, 
+    similar_articles,
+  } = props;
 
-  // const [isLiked, setIsLiked] = useState(false);
-  // const [countLikes, setCountLikes] = useState(null);
+  const [isLiked, setIsLiked] = useState(false);
+  const [countLikes, setCountLikes] = useState(null);
   const [isOpen, setIsOpen] = useState(false); 
   const [comments, setComments] = useState([]); 
-  // const [offset, setOffset] = useState(0);
-  // const commentInput = useRef(null);
+  const [offset, setOffset] = useState(0);
+  const commentInput = useRef(null);
 
-  // useEffect(() => {
-  //   setIsLiked(is_liked);
-  // }, []);
+  useEffect(() => {
+    setIsLiked(is_liked);
+  }, []);
 
-  // useEffect(() => {
-  //   setCountLikes(count_likes);
-  // }, [])
+  useEffect(() => {
+    setCountLikes(count_likes);
+  }, [])
 
-  // const onFocusInput = () => {
-  //   commentInput.current.focus();
-  // } 
+  const onFocusInput = () => {
+    commentInput.current.focus();
+  } 
 
-  // useEffect(() => {
-  //   const onScroll = () => setOffset(window.pageYOffset);   
-  //   // clean up code
-  //   window.removeEventListener('scroll', onScroll);
-  //   window.addEventListener('scroll', onScroll, { passive: true });
-  //   return () => window.removeEventListener('scroll', onScroll);
-  // }, []);  
+  useEffect(() => {
+    const onScroll = () => setOffset(window.pageYOffset);   
+    // clean up code
+    window.removeEventListener('scroll', onScroll);
+    window.addEventListener('scroll', onScroll, { passive: true });
+    return () => window.removeEventListener('scroll', onScroll);
+  }, []);  
 
-  // const onVisibleButton = () => {
-  //   if (offset > window.innerHeight) {
-  //     return '';
-  //   } else {
-  //     return 'hidden';
-  //   }
-  // }
+  const onVisibleButton = () => {
+    if (offset > window.innerHeight) {
+      return '';
+    } else {
+      return 'hidden';
+    }
+  }
   
   const navToggle = () => {   
     setIsOpen(!isOpen);    
@@ -105,27 +109,31 @@ export default function SingleArticle (props) {
               {/* <Content/> */}
             </div>   
             <div className='my-4 flex flex-row justify-between'>
-              {/* {
+              {
                 isLiked ?
                 <div>                 
-                  <Link href={`/likes/${post.id}`} method="post" as="button" type="button" preserveScroll preserveState={false}>
+                  <Link href={`/likes/${article.id}`} method="post" as="button" type="button" preserveScroll preserveState={false}
+                    data={{ model: 'App\\Models\\Article' }}
+                  >
                     <FilledLikeIcon/>
                     <span>{countLikes}</span>
                   </Link>
                 </div>
                  :
                 <div>                 
-                  <Link href={`/likes/${post.id}`} method="post" as="button" type="button" preserveScroll preserveState={false}>
+                  <Link href={`/likes/${article.id}`} method="post" as="button" type="button" preserveScroll preserveState={false}
+                    data={{ model: 'App\\Models\\Article' }}
+                  >
                     <LikeIcon/>
                     <span>{countLikes}</span>
                   </Link>
                 </div>               
-              } */}
+              }
               <div className='text-blue-700'>
                 Total Visits: {article.visits_count}
               </div>
             </div>       
-            {/* <SimilarPostGroup similar_posts={similar_posts} />   */}
+            <SimilarPostGroup similar_posts={similar_articles} isArticle={true}/>  
           </div>          
         </section>
         
@@ -135,9 +143,9 @@ export default function SingleArticle (props) {
             postId={article.id} 
             useForm={useForm} 
             usePage={usePage}
-            // commentInput={commentInput}
+            commentInput={commentInput}
           /> 
-          {/* <button 
+          <button 
             data-tip="Comment"
             data-for="focusBtnTip"
             data-iscapture="true"
@@ -146,8 +154,8 @@ export default function SingleArticle (props) {
             onClick={onFocusInput}
           >            
             <PlusIcon/>           
-          </button> */}
-          {/* <ReactTooltip id="focusBtnTip" place="top" type='dark' effect="float" delayShow={300}/> */}
+          </button>
+          <ReactTooltip id="focusBtnTip" place="top" type='dark' effect="float" delayShow={300}/>
           <CommentList comments={comments}
             postId={article.id} 
             useForm={useForm} 

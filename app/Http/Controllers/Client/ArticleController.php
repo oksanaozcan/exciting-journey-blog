@@ -16,10 +16,13 @@ class ArticleController extends BaseDashboardPageController
     $articles = ArticleResource::collection($user->articles);
     $columns = 'articles';  
 
+    $articles_count = $user->articles->count();
+
     return Inertia::render('Dashboard/Articles/IndexArticle', [
       'admin' => $adminRole,
       'articles' => $articles,
       'current_columns' => $columns,
+      'articles_count' => $articles_count
     ]);    
   }
   

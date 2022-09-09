@@ -7,6 +7,7 @@ use App\Http\Resources\ArticleResource;
 use App\Http\Resources\SingleArticleResource;
 use App\Models\Article;
 use App\Models\Comment;
+use App\Models\PostUserLike;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -35,41 +36,38 @@ class ArticlePageController extends Controller
     $comments = Comment::latest()->where('commentable_type', 'App\Models\Article')->where('commentable_id', $article->id)->paginate(10);
     $commentsCollection = CommentResource::collection($comments);   
     
-    // $isLiked = false;    
-    // if (auth()->user()) {      
-    //   $user = auth()->user();
-    //   $isLiked = PostUserLike::where('post_id', $post->id)->where('user_id', $user->id)->exists();
-    // }    
+    $isLiked = false;    
+    if (auth()->user()) {      
+      $user = auth()->user();
+      $isLiked = PostUserLike::where('likeable_id', $article->id)->where('likeable_type', 'App\Models\Article')->where('user_id', $user->id)->exists();
+    }    
 
-    // $countLikes = $post->likes->count();
+    $countLikes = $article->likes->count();
 
-    // if ($post->tags->isNotEmpty()) {      
+    if ($user->articles->isNotEmpty()) {      
       
-    //   $similarPosts = Post::whereHas('tags', function ($q) use($post) {
-    //     $tagIds = $post->tags()->pluck('tags.id')->all();
-    //     $q->whereIn('tags.id', $tagIds);
-    //   })->where('id', '<>', $post->id)->get();
+      $similarArticles = Article::where('user_id', $user->id)->where('id', '<>', $article->id)->get();
 
-    //   if (count($similarPosts) > 3) {       
-    //     $similarPosts = $similarPosts->random(3);
-    //   }
+      if (count($similarArticles) > 3) {       
+        $similarArticles = $similarArticles->random(3);
+      }
 
-    //   if ($similarPosts->isEmpty()) {
-    //     $similarPosts = collect();
-    //   } 
+      if ($similarArticles->isEmpty()) {
+        $similarArticles = collect();
+      } 
      
-    // } else {
-    //   $similarPosts = collect();
-    // }  
+    } else {
+      $similarArticles = collect();
+    }  
     
     return Inertia::render('SingleArticle', [
       'canLogin' => Route::has('login'),
       'canRegister' => Route::has('register'),      
       'article' => $collection,
       'comments' => $commentsCollection,
-      // 'is_liked' => $isLiked,
-      // 'count_likes' => $countLikes,
-      // 'similar_posts' => PostResource::collection($similarPosts),      
+      'is_liked' => $isLiked,
+      'count_likes' => $countLikes,
+      'similar_articles' => ArticleResource::collection($similarArticles),      
     ]);
   }
 }

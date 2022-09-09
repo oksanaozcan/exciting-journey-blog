@@ -10,7 +10,7 @@
     <div class="container-fluid">          
       <div class="row">
         <div class="col-sm-12">        
-          <x-table :headers="['Имя','Email','Дата регистрации', 'Роль', 'Комментарии', 'Действия']">
+          <x-table :headers="['Имя','Email','Дата регистрации', 'Роль', 'Комментарии', 'Посты', 'Статьи', 'Действия']">
             @foreach ($users as $item)
               <tr>
                 <th>{{ $item->name }}</th>
@@ -22,6 +22,8 @@
                   @endforeach
                 </td>               
                 <td>{{ $item->comments->count() }}</td>               
+                <td>{{ $item->posts->count() }}</td>               
+                <td>{{ $item->articles->count() }}</td>               
                 <td class="d-flex">
                   <x-ui.show-btn path='admin.user.show' :id="$item->id" >Смотреть</x-ui.show-btn>               
                   <x-ui.edit-btn path='admin.user.edit' :id="$item->id" >Изменить</x-ui.show-btn>                   

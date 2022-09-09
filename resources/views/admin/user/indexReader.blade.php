@@ -10,7 +10,7 @@
     <div class="container-fluid">          
       <div class="row">
         <div class="col-sm-12">        
-          <x-table :headers="['Имя','Email','Дата регистрации', 'Роль', 'Комментарии', 'Действия']">
+          <x-table :headers="['Имя','Email','Дата регистрации', 'Роль', 'Комментарии', 'Cтатьи', 'Действия']">
             @foreach ($readers as $item)
               <tr>
                 <th>{{ $item->name }}</th>
@@ -22,6 +22,7 @@
                   @endforeach
                 </td>               
                 <td>{{ $item->comments->count() }}</td>               
+                <td>{{ $item->articles->count() }}</td>               
                 <td class="d-flex">                  
                   <x-ui.edit-btn path='admin.user.edit.reader' :id="$item->id">Изменить</x-ui.show-btn>                          
                 </td>
