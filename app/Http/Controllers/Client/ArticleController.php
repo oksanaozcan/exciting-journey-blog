@@ -73,8 +73,11 @@ class ArticleController extends BaseDashboardPageController
     }    
   }
   
-  public function destroy($id)
+  public function delete(Article $article)
   {
-      //
+    $res = $this->service->delete($article);
+    if ($res) {      
+      return Redirect::route('dashboard.articles.index')->with('message', 'Article deleted!');
+    }        
   }
 }

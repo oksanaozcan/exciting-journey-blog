@@ -128,7 +128,7 @@ class PostService
     try {
       DB::beginTransaction(); 
 
-      $comments = Comment::where('post_id', $post->id)->get();
+      $comments = Comment::where('commentable_id', $post->id)->where('commentable_type', 'App\Models\Post')->get();
       foreach ($comments as $comment) {
         $comment->delete();
       }  

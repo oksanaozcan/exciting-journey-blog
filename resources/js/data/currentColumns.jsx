@@ -1,3 +1,4 @@
+import { Link } from "@inertiajs/inertia-react";
 import { format } from "date-fns";
 
 const COLUMNS = [
@@ -91,6 +92,13 @@ const ARTICLES = [
       <>
         <a href={`/dashboard/my-articles/${tableProps.row.original.id}/edit`} className="btn p-2 m-1">Edit</a>        
         <a href={`/articles/${tableProps.row.original.id}`} className="btn p-2 m-1">Show</a>        
+        <Link href={route('dashboard.articles.delete', tableProps.row.original.id)} 
+          method="DELETE" type="button" as="button" 
+          className="btn p-2 m-1"
+          preserveState={false}
+        >
+          Delete
+        </Link>        
       </>     
     )
   },

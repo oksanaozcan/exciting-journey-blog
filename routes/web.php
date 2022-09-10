@@ -56,6 +56,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
       Route::post('/', [ArticleController::class, 'store'])->middleware(['can:'.PermissionType::CAN_COMMENT_POST])->name('dashboard.articles.store'); 
       Route::get('/{article}/edit', [ArticleController::class, 'edit'])->middleware(['can:'.PermissionType::CAN_COMMENT_POST])->name('dashboard.articles.edit'); 
       Route::post('/{article}/update', [ArticleController::class, 'update'])->middleware(['can:'.PermissionType::CAN_COMMENT_POST])->name('dashboard.articles.update'); 
+      Route::delete('/{article}', [ArticleController::class, 'delete'])->middleware(['can:'.PermissionType::CAN_COMMENT_POST])->name('dashboard.articles.delete'); 
     });    
        
     Route::get('/account-security', [DashboardPageController::class, 'accountSecurity'])->name('dashboard.edit.password');        

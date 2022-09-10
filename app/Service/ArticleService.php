@@ -75,26 +75,26 @@ class ArticleService
     }
   }
 
-  // public function delete (Post $post)
-  // {
-  //   try {
-  //     DB::beginTransaction(); 
+  public function delete (Article $article)
+  {
+    try {
+      DB::beginTransaction(); 
 
-  //     $comments = Comment::where('post_id', $post->id)->get();
-  //     foreach ($comments as $comment) {
-  //       $comment->delete();
-  //     }  
+      $comments = Comment::where('commentable_id', $article->id)->where('commentable_type', 'App\Models\Article')->get();
+      foreach ($comments as $comment) {
+        $comment->delete();
+      }  
 
-  //     $post->delete();
+      $article->delete();
             
-  //     DB::commit();
+      DB::commit();
 
-  //     return true;
+      return true;
 
-  //   } catch (Exception $exception) {
-  //     DB::rollBack();
-  //     abort(500, $exception);
-  //   }
-  // }
+    } catch (Exception $exception) {
+      DB::rollBack();
+      abort(500, $exception);
+    }
+  }
   
 }
