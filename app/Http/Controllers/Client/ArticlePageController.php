@@ -12,6 +12,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 use App\Http\Resources\CommentResource;
+use App\Models\User;
 
 class ArticlePageController extends Controller
 {
@@ -25,6 +26,18 @@ class ArticlePageController extends Controller
       'canRegister' => Route::has('register'),      
       'articles' => $collection
     ]);
+  }
+
+  public function indexFromUser (User $user)  
+  {
+    $articles = Article::where('user_id', $user->id)->orderByDesc('id')->paginate(5);
+    $collection = ArticleResource::collection($articles);   
+
+    return Inertia::render('AllArticles', [
+      'canLogin' => Route::has('login'),
+      'canRegister' => Route::has('register'),      
+      'articles' => $collection
+    ]);    
   }
 
   public function show(Article $article)
@@ -42,9 +55,10 @@ class ArticlePageController extends Controller
       $isLiked = PostUserLike::where('likeable_id', $article->id)->where('likeable_type', 'App\Models\Article')->where('user_id', $user->id)->exists();
     }        
 
-    if ($user->articles->isNotEmpty()) {      
-      
-      $similarArticles = Article::where('user_id', $user->id)->where('id', '<>', $article->id)->get();
+    $author = User::find($article->user_id);
+
+    if ($author->articles->isNotEmpty()) {
+      $similarArticles = Article::where('user_id', $author->id)->where('id', '<>', $article->id)->get();
 
       if (count($similarArticles) > 3) {       
         $similarArticles = $similarArticles->random(3);

@@ -82,7 +82,9 @@ export default function SingleArticle (props) {
                 <h6 className='text-lg w-full mr-2 font-bold text-sky-900 md:text-2xl'>{article.title}</h6>                     
               </div>
               <div className='flex flex-row w-full justify-between mt-4'>
-                <small className='text-gray-900 text-sm font-mono md:text-base'>{article.author}</small>
+                <Link href={route('client.article.index.from.user', article.author_id)}>
+                  <small className='text-gray-900 text-sm font-mono md:text-base'>{article.author}</small>
+                </Link>                
                 <small className='text-slate-600 text-sm font-mono md:text-base'>{article.created_at}</small>
               </div>                    
             </div>  

@@ -37,8 +37,9 @@ Route::prefix('tags')->group(function () {
 });
 
 Route::prefix('articles')->group(function () {
-  Route::get('/', [ArticlePageController::class, 'index'])->name('client.article.index');  
+  Route::get('/', [ArticlePageController::class, 'index'])->name('client.article.index'); 
   Route::get('/{article}', [ArticlePageController::class, 'show'])->name('client.article.show');
+  Route::get('/author/{user}', [ArticlePageController::class, 'indexFromUser'])->name('client.article.index.from.user');  
 });
 
 Route::middleware(['auth', 'verified'])->group(function () {  

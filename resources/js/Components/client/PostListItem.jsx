@@ -26,7 +26,14 @@ export default function PostListItem ({post, isArticle}) {
       }                     
       </div>
       <div className='flex flex-row w-full justify-between mt-4'>
-        <small className='text-gray-900 text-sm font-mono md:text-base'>{post.author}</small>
+        {
+          isArticle ?
+          <Link href={route('client.article.index.from.user', post.author_id)}>
+            <small className='text-gray-900 text-sm font-mono md:text-base'>{post.author}</small>
+          </Link>
+          :
+          <small className='text-gray-900 text-sm font-mono md:text-base'>{post.author}</small>
+        }        
         <small className='text-slate-600 text-sm font-mono md:text-base'>{post.for_human_date}</small>
       </div>
       <div className='w-4/5 h-0.5 bg-slate-500 my-4'></div>
