@@ -3,8 +3,11 @@
 namespace App\Http\Controllers\Client;
 
 use App\Http\Requests\Client\Article\StoreRequest;
+use App\Http\Requests\Client\Article\UpdateRequest;
 use Illuminate\Http\Request;
 use App\Http\Resources\ArticleResource;
+use App\Http\Resources\SingleArticleResource;
+use App\Models\Article;
 use Inertia\Inertia;
 use Illuminate\Support\Facades\Redirect;
 
@@ -47,21 +50,27 @@ class ArticleController extends BaseDashboardPageController
     if ($res) {      
       return Redirect::back()->with('message', 'Article created successfully!');
     }        
+  } 
+  
+  public function edit(Article $article)
+  {
+    $user = auth()->user();
+    $adminRole = parent::checkHasAnyRoleAdmin($user);   
+
+    return Inertia::render('Dashboard/Articles/EditArticle', [
+      'admin' => $adminRole,     
+      'article' => new SingleArticleResource($article)
+    ]);
   }
   
-  public function show($id)
+  public function update(UpdateRequest $request, Article $article)
   {
-      //
-  }
-  
-  public function edit($id)
-  {
-      //
-  }
-  
-  public function update(Request $request, $id)
-  {
-      //
+    $data = $request->validated();
+    $res = $this->service->update($data, $article);
+    
+    if ($res) {      
+      return Redirect::back()->with('message', 'Article updated successfully!');
+    }    
   }
   
   public function destroy($id)

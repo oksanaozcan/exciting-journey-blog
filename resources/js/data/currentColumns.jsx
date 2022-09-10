@@ -67,10 +67,10 @@ const ARTICLES = [
     Header: 'Title',    
     accessor: 'title',   
   },
-  // {
-  //   Header: 'Likes',    
-  //   accessor: 'likes_count',   
-  // },
+  {
+    Header: 'Likes',    
+    accessor: 'likes_count',   
+  },
   {
     Header: 'Comments',    
     accessor: 'comments_count',   
@@ -89,7 +89,7 @@ const ARTICLES = [
     disableFilters: true,
     Cell: tableProps => (
       <>
-        <a href={`/admin/posts/${tableProps.row.original.id}/edit`} className="btn p-2 m-1">Edit</a>        
+        <a href={`/dashboard/my-articles/${tableProps.row.original.id}/edit`} className="btn p-2 m-1">Edit</a>        
         <a href={`/articles/${tableProps.row.original.id}`} className="btn p-2 m-1">Show</a>        
       </>     
     )

@@ -54,6 +54,8 @@ Route::middleware(['auth', 'verified'])->group(function () {
       Route::get('/', [ArticleController::class, 'index'])->middleware(['can:'.PermissionType::CAN_COMMENT_POST])->name('dashboard.articles.index'); 
       Route::get('/create', [ArticleController::class, 'create'])->middleware(['can:'.PermissionType::CAN_COMMENT_POST])->name('dashboard.articles.create'); 
       Route::post('/', [ArticleController::class, 'store'])->middleware(['can:'.PermissionType::CAN_COMMENT_POST])->name('dashboard.articles.store'); 
+      Route::get('/{article}/edit', [ArticleController::class, 'edit'])->middleware(['can:'.PermissionType::CAN_COMMENT_POST])->name('dashboard.articles.edit'); 
+      Route::post('/{article}/update', [ArticleController::class, 'update'])->middleware(['can:'.PermissionType::CAN_COMMENT_POST])->name('dashboard.articles.update'); 
     });    
        
     Route::get('/account-security', [DashboardPageController::class, 'accountSecurity'])->name('dashboard.edit.password');        

@@ -1,67 +1,42 @@
 import { usePage } from '@inertiajs/inertia-react';
 import { useForm } from '@inertiajs/inertia-react';
-import React, {useMemo, useEffect, useState, useCallback} from "react";
+import React, {useEffect, useState, useCallback} from "react";
 import Authenticated from '@/Layouts/Authenticated';
-import Sidebar from '@/Layouts/Sidebar';
+import SidebarDashboard from '@/Components/client/SidebarDashboard';
 import no_image from '../../../../../public/images/no_image.svg'
 import CrossIcon from '@/Components/icons/CrossIcon';
-import Select from 'react-select';
 import { convertToRaw, EditorState } from 'draft-js';
 import { Editor } from "react-draft-wysiwyg";
 import {useDropzone} from 'react-dropzone';
 import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
 import draftToHtml from 'draftjs-to-html';
-import { bytesToHuman, getFields } from '@/helpers/helperFunctions';
+import { bytesToHuman } from '@/helpers/helperFunctions';
 
 // DropzoneFix.tsx
 import Dropzone from 'react-dropzone-uploader';
 import { convertFromHTML } from 'draft-convert';
-import BanIcon from '@/Components/icons/BanIcon';
 function fixComponent(component) {
     return (component).default ?? component;
 }
 export const DropzoneFix = fixComponent(Dropzone);
 
-export default function EditPost (props) {
-  const categories = useMemo(() => props.categories, []);      
-  const tags = useMemo(() => props.tags, []);
-  const bindedPictures = useMemo(() => props.postPictures, []);
-  const [newPreview, setNewPreview] = useState({});
-  const [selectedCategory, setSelectedCategory] = useState({});
-  const [selectedTags, setSelectedTags] = useState([]);
+export default function EditArticle (props) {  
+  const [newPreview, setNewPreview] = useState({});  
   const [editorState, setEditorState] = useState(   
     () => {           
-      return EditorState.createWithContent(convertFromHTML(props.post.content))
+      return EditorState.createWithContent(convertFromHTML(props.article.content))
     }      
   );
-  const [dropedFiles, setDropedFiles] = useState([]);
-  const [removedBindedPictures, setRemovedBindedPictures] = useState([]);
+  const [dropedFiles, setDropedFiles] = useState([]);  
   
   const { errors } = usePage().props;
 
   const { data, setData, post, progress, processing } = useForm({
-    title: props.post.title,
+    title: props.article.title,
     preview: null,
-    description: props.post.description,
-    content: props.post.content,
-    category_id: props.post.category,
-    pictures: [],
-    tags: props.postTags,
-    removed_pictures: []
+    description: props.article.description,
+    content: props.article.content,      
   })
-
-  useEffect(() => {
-    setSelectedCategory(props.post.category)
-    setSelectedTags(props.postTags)
-  },[])
-
-  useEffect(() => {
-    setData('category_id', selectedCategory)
-  }, [selectedCategory, setSelectedCategory])   
-
-  useEffect(() => {
-    setData('tags', getFields(selectedTags))   
-  }, [selectedTags, setSelectedTags]) 
 
   useEffect(() => {    
     const binaryData = []
@@ -74,19 +49,13 @@ export default function EditPost (props) {
   useEffect(() => {
     let content = draftToHtml(convertToRaw(editorState.getCurrentContent()));
     setData('content', content)
-  }, [editorState, setEditorState])
-
-  useEffect(() => {
-    setData('pictures', dropedFiles)
-  }, [dropedFiles, setDropedFiles])
-
-  useEffect(() => {
-    setData('removed_pictures', removedBindedPictures)
-  }, [removedBindedPictures, setRemovedBindedPictures])
-
+  }, [editorState, setEditorState]) 
+  
   function submit(e) {
     e.preventDefault()    
-    post(`/admin/posts/${props.post.id}`);
+    post(`/dashboard/my-articles/${props.article.id}/update`, {
+      preserveState: false
+    });
   }
 
   const onDrop = useCallback(acceptedFiles => {   
@@ -100,19 +69,7 @@ export default function EditPost (props) {
 
   const handleRemoveFile = (preview) => {    
     setDropedFiles(dropedFiles.filter(item => item.preview !== preview)); 
-  }
-
-  const toggleRemoveBindedPictures = (picture) => {
-    if (removedBindedPictures.some(obj => obj.id === picture.id)) {
-      let newState = removedBindedPictures.filter(item => item.id !== picture.id);
-      setRemovedBindedPictures(newState); 
-    } else {
-      setRemovedBindedPictures(state => [
-        ...state, 
-        picture
-      ])
-    }    
-  }
+  } 
 
   const selected_images = dropedFiles?.map(img => (
     <div key={img.preview}>
@@ -132,11 +89,12 @@ export default function EditPost (props) {
     <Authenticated
       auth={props.auth}
       errors={props.errors}
-      header={<h2 className="font-semibold text-xl text-gray-800 leading-tight">Edit Post</h2>}
+      admin={props.admin}
+      header={<h2 className="font-semibold text-xl text-gray-800 leading-tight">Edit Article</h2>}
     >        
       <div className="grid grid-cols-5 gap-1">          
         <div className="..."> 
-          <Sidebar auth={props.auth}/>
+        <SidebarDashboard activeLink={'my-articles'}/>
         </div>
         <div className="col-span-4 ...">
           <div className="py-12">
@@ -182,11 +140,11 @@ export default function EditPost (props) {
                       data.preview ? 
                       <>
                       <strong className='text-red-800'>This old preview will delete from Storage</strong>
-                      <img className='w-1/2 h-1/2 object-cover rounded-lg filter grayscale blur-sm' src={props.post.preview} alt="preview" />
+                      <img className='w-1/2 h-1/2 object-cover rounded-lg filter grayscale blur-sm' src={props.article.preview} alt="preview" />
                       </> :
                       <>
                       <h6>Preview Image</h6>
-                      <img className='w-full h-1/2 object-cover rounded-lg' src={props.post.preview} alt="preview" />
+                      <img className='w-full h-1/2 object-cover rounded-lg' src={props.article.preview} alt="preview" />
                       </>                      
                     }
                   </div>
@@ -201,79 +159,12 @@ export default function EditPost (props) {
                 >
                 </textarea>
                 {errors.description && <div className='text-sm text-red-800 mb-4'>{errors.description}</div>}
-
-                <label htmlFor="select_category">Select Category</label>
-                <Select
-                  name='category_id'
-                  id='select_category'
-                  className='mb-4'
-                  isSearchable
-                  isClearable
-                  defaultValue={data.category_id}
-                  onChange={setSelectedCategory}            
-                  getOptionLabel={option => option.title}
-                  getOptionValue={option => option.id}
-                  options={categories}              
-                />
-                {errors.category_id && <div className='text-sm text-red-800 mb-4'>{errors.category_id}</div>}
-
-                <label htmlFor="select_tags">Select Tags</label>
-                <Select
-                  name='tags[]'
-                  id='select_tags'
-                  className='mb-4'
-                  isMulti                 
-                  defaultValue={data.tags}
-                  onChange={setSelectedTags}            
-                  getOptionLabel={option => option.title}
-                  getOptionValue={option => option.id}
-                  options={tags}              
-                />
-                {errors.tags && <div className='text-sm text-red-800 mb-4'>{errors.tags}</div>}
-
-
+               
                 <Editor
                   editorState={editorState}                  
                   wrapperClassName="bg-white p-2 mb-4"                  
                   onEditorStateChange={setEditorState}              
-                />
-
-                <h6>Edit Pictures</h6>
-                <div className='flex flex-col border-dashed border-2 border-gray-400 px-4 py-4 mb-4'>
-                  <small>Binded Pictures</small>                  
-                  <div className='flex flex-row flex-wrap'>
-                    {
-                      bindedPictures.map(picture => (
-                        removedBindedPictures.some(item => item.id === picture.id) 
-                        ?
-                        <div key={picture.id} className="relative w-16 my-2 mx-auto">
-                          <img src={picture.path} alt="picture" className='filter grayscale blur-sm'/>
-                          <button onClick={() => toggleRemoveBindedPictures(picture)} type='button' className='absolute -right-10 -top-4 btn m-1 p-1'><BanIcon/></button>
-                        </div>
-                        :
-                        <div key={picture.id} className="relative w-16 my-4 mx-auto">
-                          <img src={picture.path} alt="picture" className=''/>
-                          <button onClick={() => toggleRemoveBindedPictures(picture)} type='button' className='absolute -right-10 -top-4 btn m-1 p-1'><CrossIcon/></button>
-                        </div>
-                      ))
-                    }                                                
-                  </div>
-
-                    {
-                      removedBindedPictures.length > 0 && 
-                      <strong className='text-yellow-500 my-4'>Warning: You are about delete checked pictures from this post and database, but not from storage!</strong>
-                    }    
-
-                  <div className='h-36 bg-white mb-4 border-4 border-dotted border-indigo-500/100 rounded-md font-bold text-center flex justify-center items-center' {...getRootProps()}>
-                    <input {...getInputProps()} />
-                    {
-                      isDragActive ?
-                      <p>Drop the files here ...</p> :
-                      <p>Drag 'n' drop some files here, or click to select files</p>
-                    }
-                  </div>
-                  {selected_images}
-                </div>                
+                />                
 
                 {progress && (
                   <progress value={progress.percentage} max="100">
