@@ -24,7 +24,7 @@ class PublicUserProfileResource extends JsonResource
           'twitter' => $public->twitter,
           'facebook' => $public->facebook,
           'instagram' => $public->instagram,
-          'youtube' => $public->youtube
+          'youtube' => $public->youtube,
         ];
     }
 }

@@ -12,6 +12,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 use App\Http\Resources\CommentResource;
+use App\Http\Resources\PublicUserProfileResource;
 use App\Models\User;
 
 class ArticlePageController extends Controller
@@ -24,19 +25,21 @@ class ArticlePageController extends Controller
     return Inertia::render('AllArticles', [
       'canLogin' => Route::has('login'),
       'canRegister' => Route::has('register'),      
-      'articles' => $collection
+      'all_articles' => $collection
     ]);
   }
 
   public function indexFromUser (User $user)  
   {
     $articles = Article::where('user_id', $user->id)->orderByDesc('id')->paginate(5);
-    $collection = ArticleResource::collection($articles);   
+    $collection = ArticleResource::collection($articles);       
+    $author = new PublicUserProfileResource($user);
 
     return Inertia::render('AllArticles', [
       'canLogin' => Route::has('login'),
       'canRegister' => Route::has('register'),      
-      'articles' => $collection
+      'all_articles' => $collection,
+      'author' => $author
     ]);    
   }
 
