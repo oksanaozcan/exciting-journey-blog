@@ -17,6 +17,7 @@ class PublicUserProfileResource extends JsonResource
     {
       $public = $this->publicInfo;
         return [
+          'id' => $this->id,
           'name' => $this->name,
           'headline' => $public->headline,
           'description' => $public->description,

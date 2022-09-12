@@ -11,6 +11,7 @@ use App\Http\Controllers\Client\ArticlePageController;
 use App\Http\Controllers\Client\CategoryPageController;
 use App\Http\Controllers\Client\CommentController;
 use App\Http\Controllers\Client\DashboardPageController;
+use App\Http\Controllers\Client\FollowUserController;
 use App\Http\Controllers\Client\PostPageController;
 use App\Http\Controllers\Client\PostUserLikeController;
 use App\Http\Controllers\Client\TagPageController;
@@ -38,6 +39,7 @@ Route::prefix('tags')->group(function () {
 
 Route::prefix('articles')->group(function () {
   Route::get('/', [ArticlePageController::class, 'index'])->name('client.article.index'); 
+  Route::get('/subscribers', [ArticlePageController::class, 'indexSubscribers'])->middleware(['auth', 'verified'])->name('article.subscribers');
   Route::get('/{article}', [ArticlePageController::class, 'show'])->name('client.article.show');
   Route::get('/author/{user}', [ArticlePageController::class, 'indexFromUser'])->name('client.article.index.from.user');  
 });
@@ -52,7 +54,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/liked-articles', [DashboardPageController::class, 'likedArticles'])->name('dashboard.liked.articles'); 
     
     Route::prefix('my-articles')->group(function () {
-      Route::get('/', [ArticleController::class, 'index'])->middleware(['can:'.PermissionType::CAN_COMMENT_POST])->name('dashboard.articles.index'); 
+      Route::get('/', [ArticleController::class, 'index'])->middleware(['can:'.PermissionType::CAN_COMMENT_POST])->name('dashboard.articles.index');     
       Route::get('/create', [ArticleController::class, 'create'])->middleware(['can:'.PermissionType::CAN_COMMENT_POST])->name('dashboard.articles.create'); 
       Route::post('/', [ArticleController::class, 'store'])->middleware(['can:'.PermissionType::CAN_COMMENT_POST])->name('dashboard.articles.store'); 
       Route::get('/{article}/edit', [ArticleController::class, 'edit'])->middleware(['can:'.PermissionType::CAN_COMMENT_POST])->name('dashboard.articles.edit'); 
@@ -73,6 +75,9 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::post('/{post}', [PostUserLikeController::class, 'toggleLike'])->middleware(['can:'.PermissionType::CAN_COMMENT_POST])->name('client.like.toggle');
     Route::post('/article/{article}', [PostUserLikeController::class, 'toggleLikeArticle'])->middleware(['can:'.PermissionType::CAN_COMMENT_POST])->name('client.article.like.toggle');
   });
+
+  Route::post('/follow/{user}', [FollowUserController::class, 'follow'])->middleware(['can:'.PermissionType::CAN_COMMENT_POST])->name('user.follow');
+  Route::post('/unfollow/{user}', [FollowUserController::class, 'unfollow'])->middleware(['can:'.PermissionType::CAN_COMMENT_POST])->name('user.unfollow');  
 
   Route::prefix('admin')->group(function () {
     Route::get('/', [AdminController::class, 'index'])->middleware(['can:'.PermissionType::CAN_CREATE_USER])->name('admin.index');

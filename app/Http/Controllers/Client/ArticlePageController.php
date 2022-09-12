@@ -13,7 +13,9 @@ use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 use App\Http\Resources\CommentResource;
 use App\Http\Resources\PublicUserProfileResource;
+use App\Models\Follower;
 use App\Models\User;
+use Illuminate\Support\Facades\DB;
 
 class ArticlePageController extends Controller
 {
@@ -22,9 +24,21 @@ class ArticlePageController extends Controller
     $articles = Article::orderByDesc('id')->paginate(5);
     $collection = ArticleResource::collection($articles);   
 
-    return Inertia::render('AllArticles', [
-      'canLogin' => Route::has('login'),
-      'canRegister' => Route::has('register'),      
+    return Inertia::render('AllArticles', [        
+      'all_articles' => $collection
+    ]);
+  }
+
+  public function indexSubscribers()
+  {
+    $user = auth()->user();        
+    $leaders = $user->followings->pluck(['id']);    
+
+    $res = Article::with('user')->whereIn('user_id', $leaders)->paginate(5);
+
+    $collection = ArticleResource::collection($res);
+
+    return Inertia::render('AllArticles', [        
       'all_articles' => $collection
     ]);
   }
@@ -35,14 +49,20 @@ class ArticlePageController extends Controller
     $collection = ArticleResource::collection($articles);       
     $author = new PublicUserProfileResource($user);
 
-    return Inertia::render('AllArticles', [
-      'canLogin' => Route::has('login'),
-      'canRegister' => Route::has('register'),      
+    $isFollowing = false;
+
+    if (auth()->user()) {
+      $authUser = auth()->user();
+      $isFollowing = $authUser->followings()->where('leader_id', $user->id)->exists();
+    }
+   
+    return Inertia::render('AllArticles', [      
       'all_articles' => $collection,
-      'author' => $author
+      'author' => $author,
+      'is_followings' => $isFollowing
     ]);    
   }
-
+  
   public function show(Article $article)
   {
     $article->visit();
@@ -75,9 +95,7 @@ class ArticlePageController extends Controller
       $similarArticles = collect();
     }  
     
-    return Inertia::render('SingleArticle', [
-      'canLogin' => Route::has('login'),
-      'canRegister' => Route::has('register'),      
+    return Inertia::render('SingleArticle', [      
       'article' => $collection,
       'comments' => $commentsCollection,
       'is_liked' => $isLiked,      
