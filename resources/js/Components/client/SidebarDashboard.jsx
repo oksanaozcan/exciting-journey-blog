@@ -47,12 +47,13 @@ const SidebarDashboard = ({activeLink = 'public-profile'}) => {
             </li>           
 
             <li>              
-              <a className="flex items-center p-2 text-base font-normal text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700" 
-                href="#"                
+              <Link 
+                className={activeLink === 'my-followings' ? 'dashboard-sidebar-link_active' : 'dashboard-sidebar-link'}  
+                href={route('dashboard.followings')}           
               >
                 <StarIcon/>             
-                <span className="ml-3">Followers</span>
-              </a>               
+                <span className="ml-3">My Followings</span>
+              </Link>               
             </li>
 
             <li>              

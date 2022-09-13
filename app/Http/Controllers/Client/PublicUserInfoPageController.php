@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Client;
 
 use App\Http\Controllers\Controller;
 use App\Http\Resources\PublicUserProfileResource;
+use App\Http\Resources\ShortUserResource;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -27,13 +28,16 @@ class PublicUserInfoPageController extends Controller
     $likes_count = $author->likesFromFollowers->count();
     $comments_count = $author->commentsFromMyArticles->count();
 
+    $followings = ShortUserResource::collection(User::find($user->id)->followings()->paginate());
+
     return Inertia::render('PublicUserProfile', [  
       'author' => $author,
       'is_followings' => $isFollowing,
       'articles_count' => $articles_count,
       'visits_count' => $visits_count,
       'likes_count' => $likes_count,
-      'comments_count' => $comments_count
+      'comments_count' => $comments_count,
+      'followings' => $followings
     ]);
   }
 }

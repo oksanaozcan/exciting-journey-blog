@@ -8,6 +8,8 @@ use App\Http\Resources\ShortCommentResource;
 use App\Http\Resources\ShortPostResource;
 use Illuminate\Support\Facades\DB;
 use Inertia\Inertia;
+use App\Http\Resources\ShortUserResource;
+use App\Models\User;
 
 class DashboardPageController extends BaseDashboardPageController
 {
@@ -94,6 +96,24 @@ class DashboardPageController extends BaseDashboardPageController
     return Inertia::render('Dashboard/AccountSecurity', [
       'admin' => $adminRole,
     ]);
+  }
+
+  public function followings()
+  {
+    $user = auth()->user();   
+    $adminRole = parent::checkHasAnyRoleAdmin($user);
+
+    $followings = ShortUserResource::collection(User::find($user->id)->followings()->paginate());
+
+    return Inertia::render('Dashboard/MyFollowings', [
+      'admin' => $adminRole,
+      'followings' => $followings
+    ]);
+  }
+
+  public function followers()
+  {
+
   }
   
 }

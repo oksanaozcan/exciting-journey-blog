@@ -3,8 +3,11 @@ import { Head } from '@inertiajs/inertia-react';
 import Navbar from '@/Components/client/Navbar';
 import Footer from '@/Components/client/Footer';
 import FollowCard from "@/Components/client/FollowCard";
+import { Link } from "@inertiajs/inertia-react";
+import Pagination from "@/Components/client/Pagination";
+import ShortUserList from "@/Components/client/ShortUserList";
 
-export default function PublicUserProfile ({auth, author, is_followings, articles_count, visits_count, likes_count, comments_count}) {
+export default function PublicUserProfile ({auth, author, is_followings, articles_count, visits_count, likes_count, comments_count, followings}) {
   const [isOpen, setIsOpen] = useState(false);  
 
   const navToggle = () => {
@@ -60,6 +63,9 @@ export default function PublicUserProfile ({auth, author, is_followings, article
             </tbody>
           </table>
 
+          <h3 className="py-4 text-bold text-center">{author.name} follows: </h3>
+          <ShortUserList items={followings}/>         
+          <Pagination items={followings}/>
         </div>
       </section>
       <Footer/>
