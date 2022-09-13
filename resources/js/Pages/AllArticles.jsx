@@ -34,6 +34,7 @@ export default function AllArticles({all_articles, auth, author=false, is_follow
               {
                 authorArticles ?
                 <FollowCard 
+                  auth={auth}
                   isFollowings = {is_followings}
                   authorArticles={authorArticles}
                 /> :

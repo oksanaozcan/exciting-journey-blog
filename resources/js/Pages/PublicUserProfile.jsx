@@ -22,7 +22,7 @@ export default function PublicUserProfile ({auth, author, is_followings, article
 
       <section id='post-list'>
         <div className="container max-w-6xl mx-auto px-6 py-12">
-          <FollowCard authorArticles={author}  isFollowings={is_followings} isPublicProfilePage={true}/>          
+          <FollowCard auth={auth} authorArticles={author}  isFollowings={is_followings} isPublicProfilePage={true}/>          
           <h3 className="py-4 text-bold text-center">{author.name}'s Statistic as Creator:</h3>
 
           <table className="w-full text-sm text-left text-gray-500 dark:text-gray-400">

@@ -5,11 +5,20 @@ import { useState } from "react";
 import BtnLink from "./BtnLink";
 import WebsiteIcon from "../icons/WebsiteIcon";
 
-const FollowCard = ({authorArticles, isFollowings, isPublicProfilePage=false}) => {
+const FollowCard = ({authorArticles, isFollowings, isPublicProfilePage=false, auth}) => {
   const [isFollow, setIsFollow] = useState(false);
+  const [isDisabled, setIsDisabled] = useState(false);
 
   useEffect(() => {
     setIsFollow(isFollowings);
+  }, [])
+
+  useEffect(() => {
+    if (auth.user.id == authorArticles.id) {
+      setIsDisabled(true)
+    } else {
+      setIsDisabled(false)
+    }    
   }, [])
 
   return (    
@@ -35,7 +44,14 @@ const FollowCard = ({authorArticles, isFollowings, isPublicProfilePage=false}) =
               method='POST'
               as="button"
               preserveState={false}
-              className="inline-flex items-center py-2 px-4 text-sm font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+              disabled={isDisabled}
+              className={`${isDisabled 
+                ? 
+                  'inline-flex items-center py-2 px-4 text-sm font-medium text-center text-white bg-slate-300 rounded-lg' 
+                :
+                  'inline-flex items-center py-2 px-4 text-sm font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800'
+                }`
+              }
             >
               Follow
             </Link>           

@@ -15,8 +15,12 @@ class FollowUserController extends Controller
     if (!$leader) {
       return redirect()->back()->with('error', 'User does not exist.');
     } else {
-      $leader->followers()->attach($follower->id);
-      return redirect()->back()->with('success', 'Successfully followed the user.');
+      if ($follower->id === $leader->id) {
+        return redirect()->back()->with('error', 'You can not follow yourself.');
+      } else {
+        $leader->followers()->attach($follower->id);
+        return redirect()->back()->with('success', 'Successfully followed the user.');
+      }     
     }
   }
 
