@@ -8,14 +8,10 @@ use App\Http\Resources\SingleArticleResource;
 use App\Models\Article;
 use App\Models\Comment;
 use App\Models\PostUserLike;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 use App\Http\Resources\CommentResource;
 use App\Http\Resources\PublicUserProfileResource;
-use App\Models\Follower;
 use App\Models\User;
-use Illuminate\Support\Facades\DB;
 
 class ArticlePageController extends Controller
 {

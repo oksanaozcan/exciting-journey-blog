@@ -51,7 +51,7 @@ const SidebarDashboard = ({activeLink = 'public-profile'}) => {
                 href="#"                
               >
                 <StarIcon/>             
-                <span className="ml-3">Favorite</span>
+                <span className="ml-3">Followers</span>
               </a>               
             </li>
 

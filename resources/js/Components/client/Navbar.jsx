@@ -20,7 +20,11 @@ export default function Navbar ({isOpen, navToggle, authProps}) {
           <MyNavlink path={route('client.article.index')} title={"Articles from readers"}/>
           {
             authProps ?
-              <MyNavlink path={route('dashboard')} title={"Dashboard"}/> :
+              <>
+                <MyNavlink path={route('dashboard')} title={"Dashboard"}/>              
+                <MyNavlink path={route('article.subscribers')} title={"Subscribers"}/>              
+              </>
+              :
               <>
                 <MyNavlink path={route('login')} title={"Login"}/>
                 <MyNavlink path={route('register')} title={"Register"}/>            
@@ -58,7 +62,11 @@ export default function Navbar ({isOpen, navToggle, authProps}) {
         <MyNavlink classes={'hover:text-pink-500'} path={route('client.article.index')} title={"Articles from readers"}/>
         {
           authProps ?
-            <MyNavlink classes={'hover:text-pink-500'} path={route('dashboard')} title={"Dashboard"}/> :
+            <>
+              <MyNavlink classes={'hover:text-pink-500'} path={route('dashboard')} title={"Dashboard"}/>
+              <MyNavlink classes={'hover:text-pink-500'} path={route('article.subscribers')} title={"Subscribers"}/>
+            </>
+            :
             <>
               <MyNavlink classes={'hover:text-pink-500'} path={route('login')} title={"Login"}/>
               <MyNavlink classes={'hover:text-pink-500'} path={route('register')} title={"Register"}/>            

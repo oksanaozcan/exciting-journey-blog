@@ -14,6 +14,7 @@ use App\Http\Controllers\Client\DashboardPageController;
 use App\Http\Controllers\Client\FollowUserController;
 use App\Http\Controllers\Client\PostPageController;
 use App\Http\Controllers\Client\PostUserLikeController;
+use App\Http\Controllers\Client\PublicUserInfoPageController;
 use App\Http\Controllers\Client\TagPageController;
 use App\Http\Controllers\Client\UserController as ClientUserController;
 use App\Http\Controllers\Client\WelcomePageController;
@@ -78,6 +79,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
 
   Route::post('/follow/{user}', [FollowUserController::class, 'follow'])->middleware(['can:'.PermissionType::CAN_COMMENT_POST])->name('user.follow');
   Route::post('/unfollow/{user}', [FollowUserController::class, 'unfollow'])->middleware(['can:'.PermissionType::CAN_COMMENT_POST])->name('user.unfollow');  
+  Route::get('/public-profile/{user}', [PublicUserInfoPageController::class, 'show'])->name('user.public.profile.show');
 
   Route::prefix('admin')->group(function () {
     Route::get('/', [AdminController::class, 'index'])->middleware(['can:'.PermissionType::CAN_CREATE_USER])->name('admin.index');
