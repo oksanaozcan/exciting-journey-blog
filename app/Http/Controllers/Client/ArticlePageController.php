@@ -61,7 +61,7 @@ class ArticlePageController extends Controller
   
   public function show(Article $article)
   {
-    $article->visit();
+    $article->visit()->withData(['author_id' => $article->user_id]);
 
     $collection = new SingleArticleResource($article);
     

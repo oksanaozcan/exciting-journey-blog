@@ -2,8 +2,10 @@ import { Link } from "@inertiajs/inertia-react";
 import React from "react";
 import { useEffect } from "react";
 import { useState } from "react";
+import BtnLink from "./BtnLink";
+import WebsiteIcon from "../icons/WebsiteIcon";
 
-const FollowCard = ({authorArticles, isFollowings}) => {
+const FollowCard = ({authorArticles, isFollowings, isPublicProfilePage=false}) => {
   const [isFollow, setIsFollow] = useState(false);
 
   useEffect(() => {
@@ -38,13 +40,50 @@ const FollowCard = ({authorArticles, isFollowings}) => {
               Follow
             </Link>           
           }         
-          <Link 
+          {
+            isPublicProfilePage ?
+            null :
+            <Link 
             href={route('user.public.profile.show', authorArticles.id)}  
             className="inline-flex items-center py-2 px-4 text-sm font-medium text-center text-gray-900 bg-white rounded-lg border border-gray-300 hover:bg-gray-100 focus:ring-4 focus:outline-none focus:ring-gray-200 dark:bg-gray-800 dark:text-white dark:border-gray-600 dark:hover:bg-gray-700 dark:hover:border-gray-700 dark:focus:ring-gray-700"
             >
               More info: {authorArticles.name}
             </Link>
+          }          
         </div>
+        
+        {
+          isPublicProfilePage ?
+          <div className="flex flex-row justify-around mt-4">
+          {
+            authorArticles.website === null ? null : <BtnLink path={authorArticles.website} title={'Website'} icon={<WebsiteIcon/>}/>
+          }
+          {
+            authorArticles.twitter === null ? null : <BtnLink path={authorArticles.twitter} title={'Twitter'} icon={<WebsiteIcon/>}/>
+          }
+          {
+            authorArticles.facebook === null ? null : <BtnLink path={authorArticles.facebook} title={'Facebook'} icon={<WebsiteIcon/>}/>
+          }
+          {
+            authorArticles.instagram === null ? null : <BtnLink path={authorArticles.instagram} title={'Instagram'} icon={<WebsiteIcon/>}/>
+          }
+           {
+            authorArticles.youtube === null ? null : <BtnLink path={authorArticles.youtube} title={'Youtube'} icon={<WebsiteIcon/>}/>
+          }
+        </div>          
+          :
+          null
+        }
+        {
+          isPublicProfilePage ?         
+            <div 
+              className={`${authorArticles.description === null ? 'hidden' : 'block'} p-4 mx-4 my-4 bg-indigo-50 rounded-lg border border-gray-200 shadow-md hover:bg-gray-100 dark:bg-gray-800 dark:border-gray-700 dark:hover:bg-gray-700`}
+            >
+              <p className="font-normal text-gray-700 dark:text-gray-400">{authorArticles.description}</p>
+            </div>          
+          :
+          null
+        }
       </div>
     </div>
   )
