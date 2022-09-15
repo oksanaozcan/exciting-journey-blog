@@ -113,7 +113,15 @@ class DashboardPageController extends BaseDashboardPageController
 
   public function followers()
   {
+    $user = auth()->user();   
+    $adminRole = parent::checkHasAnyRoleAdmin($user);
 
+    $followers = ShortUserResource::collection(User::find($user->id)->followers()->paginate());
+
+    return Inertia::render('Dashboard/MyFollowers', [
+      'admin' => $adminRole,
+      'followers' => $followers
+    ]);
   }
   
 }

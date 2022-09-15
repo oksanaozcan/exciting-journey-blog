@@ -58,6 +58,16 @@ const SidebarDashboard = ({activeLink = 'public-profile'}) => {
 
             <li>              
               <Link 
+                className={activeLink === 'my-followers' ? 'dashboard-sidebar-link_active' : 'dashboard-sidebar-link'}  
+                href={route('dashboard.followers')}           
+              >
+                <UsersIcon/>
+                <span className="ml-3">My Followers</span>
+              </Link>               
+            </li>
+
+            <li>              
+              <Link 
                 className={activeLink === 'liked-posts' ? 'dashboard-sidebar-link_active' : 'dashboard-sidebar-link'}  
                 href={route('dashboard.liked.posts')}           
               >
@@ -86,14 +96,14 @@ const SidebarDashboard = ({activeLink = 'public-profile'}) => {
               </Link>               
             </li>
 
-            <li>              
+            {/* <li>              
               <a className="flex items-center p-2 text-base font-normal text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700" 
                 href="#"                
               >
                 <EyeIcon/>             
                 <span className="ml-3">Privacy</span>
               </a>               
-            </li>
+            </li> */}
 
             <li>  
             <Link
