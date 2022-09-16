@@ -47,6 +47,7 @@ const EditProfile = ({permissions, auth, admin, public_info}) => {
 
   return (
     <Authenticated
+      permissions={permissions}
       auth={auth}
       errors={errors}
       admin={admin}

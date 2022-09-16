@@ -10,6 +10,7 @@ export default function MyFollowers ({permissions, auth, errors, admin, follower
   const myFollowers = useMemo(() => followers, []); 
   return (
     <Authenticated
+      permissions={permissions}
       auth={auth}
       errors={errors}
       admin={admin}

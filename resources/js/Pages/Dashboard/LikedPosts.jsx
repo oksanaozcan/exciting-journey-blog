@@ -8,6 +8,7 @@ const LikedPosts = ({permissions, auth, admin, errors, liked_posts}) => {
   const likedPosts = useMemo(() => liked_posts, []); 
   return (
     <Authenticated
+      permissions={permissions}
       auth={auth}
       errors={errors}
       admin={admin}

@@ -87,6 +87,7 @@ export default function EditArticle (props) {
 
   return (
     <Authenticated
+      permissions={props.permissions}
       auth={props.auth}
       errors={props.errors}
       admin={props.admin}

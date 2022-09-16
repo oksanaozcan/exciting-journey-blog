@@ -5,9 +5,44 @@ import NavLink from '@/Components/NavLink';
 import ResponsiveNavLink from '@/Components/ResponsiveNavLink';
 import { Link } from '@inertiajs/inertia-react';
 import { usePage } from '@inertiajs/inertia-react'
+import { useEffect } from 'react';
 
-export default function Authenticated({ auth, header, children, admin }) {
+export default function Authenticated({ auth, header, children, admin, permissions }) {
     const [showingNavigationDropdown, setShowingNavigationDropdown] = useState(false);   
+    const [isAllowedCreate, setIsAllowedCreate] = useState(false);   
+    const [isAllowedUpdate, setIsAllowedUpdate] = useState(false);   
+    const [isAllowedUpdateComment, setIsAllowedUpdateComment] = useState(false);   
+
+    useEffect(() => {
+      let status = permissions.post_create.some(el => {
+        if (el.id == auth.user.id) {
+          return true;
+        } 
+        return false;
+      })
+      setIsAllowedCreate(status);
+    }, []);
+
+    useEffect(() => {
+      const status = permissions.post_update.some(el => {
+        if (el.id === auth.user.id) {
+          return true;
+        } 
+        return false;
+      })
+      setIsAllowedUpdate(status);
+    }, [])
+
+    useEffect(() => {
+      const status = permissions.comment_update.some(el => {
+        if (el.id === auth.user.id) {
+          return true;
+        } 
+        return false;
+      })
+      setIsAllowedUpdateComment(status)
+    }, [])   
+    
 
     const { flash } = usePage().props
 
@@ -32,6 +67,21 @@ export default function Authenticated({ auth, header, children, admin }) {
                                   <a className='mt-6 text-sm' href={route('admin.index')}>
                                     Admin
                                   </a> : 
+                                  null
+                                }
+                                {
+                                  isAllowedCreate ?
+                                  <Link className='mt-6 text-sm' href={route('admin.post.create')}>Create Post</Link> :
+                                  null
+                                }
+                                {
+                                  isAllowedUpdate ?
+                                  <Link className='mt-6 text-sm' href={route('admin.post.index')}>Edit Posts</Link> :
+                                  null
+                                }
+                                {
+                                  isAllowedUpdateComment ?
+                                  <a className='mt-6 text-sm' href={route('admin.comment.index')}>Moderation</a> :
                                   null
                                 }
                             </div>

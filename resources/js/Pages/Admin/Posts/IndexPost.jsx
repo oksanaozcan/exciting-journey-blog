@@ -16,6 +16,7 @@ export default function IndexPost(props) {
 
     return (
       <Authenticated
+        permissions={permissions}
         auth={props.auth}
         errors={props.errors}        
       >        

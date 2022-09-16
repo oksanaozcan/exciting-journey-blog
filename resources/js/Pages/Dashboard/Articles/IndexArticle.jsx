@@ -9,6 +9,7 @@ const IndexArticle = ({permissions, auth, admin, errors, articles, current_colum
   const myArticles = useMemo(() => articles, []); 
   return (
     <Authenticated
+      permissions={permissions}
       auth={auth}
       errors={errors}
       admin={admin}

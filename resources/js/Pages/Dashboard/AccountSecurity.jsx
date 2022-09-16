@@ -42,6 +42,7 @@ const AccountSecurity = ({permissions, auth, admin}) => {
 
   return (
     <Authenticated
+      permissions={permissions}
       auth={auth}
       errors={errors}
       admin={admin}

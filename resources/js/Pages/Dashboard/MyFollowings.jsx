@@ -9,6 +9,7 @@ const MyFollowings = ({permissions, auth, errors, admin, followings}) => {
   const myFollowings = useMemo(() => followings, []); 
   return (
     <Authenticated
+      permissions={permissions}
       auth={auth}
       errors={errors}
       admin={admin}

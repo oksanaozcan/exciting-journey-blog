@@ -8,6 +8,7 @@ const Communication = ({permissions, auth, errors, admin, comments}) => {
   const myComments = useMemo(() => comments, []); 
   return (
     <Authenticated
+      permissions={permissions}
       auth={auth}
       errors={errors}
       admin={admin}

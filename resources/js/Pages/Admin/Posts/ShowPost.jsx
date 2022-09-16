@@ -28,6 +28,7 @@ export default function ShowPost (props) {
 
   return (
     <Authenticated
+      permissions={permissions}
         auth={props.auth}
         errors={props.errors}
         // header={<h2 className="font-semibold text-xl text-gray-800 leading-tight">Posts</h2>}
