@@ -2,10 +2,10 @@ import React from "react";
 import RootComment from "./RootComment";
 
 export default function CommentList ({comments, postId, useForm, usePage, isArticle=false}) {
-  const rootComments = comments.filter(comment => comment.parent_id === null);
+  const rootComments = comments.filter(comment => comment.parent_id == null);
   
   const getReplies = commentId => {
-    return comments.filter(comment => comment.parent_id === commentId)
+    return comments.filter(comment => comment.parent_id == commentId)
     .sort((a,b) => new Date(a.created_at).getTime() - new Date(b.created_at).getTime()) ;
   }
 

@@ -37,8 +37,8 @@ const CreateArticle = ({permissions, auth, admin}) => {
   
   function submit(e) {
     e.preventDefault()    
-    
-    Inertia.post('/dashboard/my-articles/', data, {
+    console.log(data);    
+    Inertia.post('/dashboard/my-articles', data, {
       preserveState: false
     })
   } 

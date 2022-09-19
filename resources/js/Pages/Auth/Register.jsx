@@ -15,10 +15,9 @@ export default function Register() {
         password: '',
         password_confirmation: '',
     });
-
-    // const [nickName, setNickName] = useState('');
-    const [captcha, setCaptcha] = useState('');
-    const [errorCaptcha, setErrorCaptcha] = useState('');
+    
+    // const [captcha, setCaptcha] = useState('');
+    // const [errorCaptcha, setErrorCaptcha] = useState('');
 
     useEffect(() => {
         return () => {
@@ -26,22 +25,22 @@ export default function Register() {
         };
     }, []);
 
-    useEffect(() => {
-      loadCaptchaEnginge(6); 
-    }, [])
+    // useEffect(() => {
+    //   loadCaptchaEnginge(6); 
+    // }, [])
 
     const onHandleChange = (event) => {
-        setData(event.target.name, event.target.type === 'checkbox' ? event.target.checked : event.target.value);
+        setData(event.target.name, event.target.type == 'checkbox' ? event.target.checked : event.target.value);
     };
 
     const submit = (e) => {
         e.preventDefault();       
 
-        if (validateCaptcha(captcha) === true) {
+        // if (validateCaptcha(captcha) == true) {
           post(route('register'));
-        } else {
-          setErrorCaptcha('error captcha')
-        }       
+        // } else {
+        //   setErrorCaptcha('error captcha')
+        // }       
     };
 
     return (
@@ -107,23 +106,12 @@ export default function Register() {
                         required
                     />
                 </div>
-{/* 
-                <div className='mt-4'>
-                  <Label forInput="nick_name" value="Enter Nick Name" className='hidden'/>
-                  <input
-                      type="text"
-                      name="nick_name"
-                      value={nickName}
-                      className="hidden"
-                      onChange={(e) => setNickName(e.target.value)}
-                  />
-                </div> */}
 
-                <div className='mt-4'>
+                {/* <div className='mt-4'>
                   <LoadCanvasTemplate />
-                </div>                
+                </div>                 */}
 
-                <div className='mt-4'>
+                {/* <div className='mt-4'>
                   <Label forInput="captcha" value="Enter Captcha" />
                   <input
                       type="text"
@@ -134,7 +122,7 @@ export default function Register() {
                       required
                   />
                   <small className='text-red-800'>{errorCaptcha}</small>
-                </div>
+                </div> */}
 
                 <div className="flex items-center justify-end mt-4">
                     <Link href={route('login')} className="underline text-sm text-gray-600 hover:text-gray-900">
