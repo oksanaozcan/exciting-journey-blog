@@ -1,12 +1,11 @@
 import { Link } from "@inertiajs/inertia-react";
 import React from "react";
+import Htag from "../Htag/Htag";
 
 export default function PostsGrid ({popularPosts}) {  
   return (
     <div className="container mx-auto max-w-6xl p-2 md:p-10">
-      <h3 className='text-4xl text-center uppercase mb-4 md:text-left md:text-5xl'>
-        Most Popular posts
-      </h3>
+      <Htag tag="h3">Most Popular posts</Htag>      
       <div className="grid gap-6 grid-cols-1 text-white md:grid-cols-4 md:grid-rows-2">
 
         {/* box 0 */}

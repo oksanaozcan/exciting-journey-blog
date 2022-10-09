@@ -6,6 +6,7 @@ import Footer from '@/Components/client/Footer';
 import PostsGrid from '@/Components/client/PostsGrid';
 import LatestPostsSlider from '@/Components/client/LatestPostsSlider';
 import SeeAllLink from '@/Components/ui/SeeAllLink';
+import Htag from '../Components/Htag/Htag';
 
 export default function Welcome(props) {
   const [isOpen, setIsOpen] = useState(false);
@@ -27,7 +28,7 @@ export default function Welcome(props) {
     return (
         <>
           <Head title="Exciting Journey" />
-       
+                 
           <section id='hero'>
             <div className="container max-w-6xl mx-auto px-6 py-12">
               <Navbar isOpen={isOpen} navToggle={navToggle} authProps={props.auth.user}/>
@@ -60,9 +61,7 @@ export default function Welcome(props) {
           <section id='feature'>         
             <div className="container max-w-6xl mx-auto mt-32 px-6 text-gray-900 md:px-0">
               <div className='flex justify-center md:justify-between'>
-                <h2 className='text-4xl text-center uppercase md:text-left md:text-5xl'>
-                  Latest Posts
-                </h2>
+                <Htag tag='h2'>Latest Posts</Htag>                
                 <SeeAllLink classes={'hidden md:block'} route={route('client.post.index')}/>
               </div>             
               <div className='flex justify-center mt-10 md:hidden'>
@@ -75,9 +74,7 @@ export default function Welcome(props) {
           <section id='categories'>
             <div className="container max-w-6xl mx-auto my-32 px-6 text-gray-900 md:px-0">
               <div className='flex justify-center mb-20 md:justify-between'>
-                <h2 className='text-4xl text-center uppercase md:text-left md:text-5xl'>
-                  Our Category
-                </h2>
+                <Htag tag='h2'>Our Category</Htag>              
                 <SeeAllLink classes={'hidden md:block'} route={route('client.category.index')}/>                
               </div>
               <div className='category-container'>

@@ -1,5 +1,6 @@
 import { Link } from "@inertiajs/inertia-react";
 import React from "react";
+import Htag from "../Htag/Htag";
 import CategoryLink from "../ui/CategoryLink";
 
 export default function PostListItem ({post, isArticle}) {
@@ -14,12 +15,12 @@ export default function PostListItem ({post, isArticle}) {
       {
         isArticle ?
         <Link href={`/articles/${post.id}`}>              
-          <h6 className='text-lg w-full mr-2 font-bold text-sky-900 md:text-2xl'>{post.title}</h6>                                  
+          <Htag tag="h6">{post.title}</Htag>         
         </Link> 
         :
         <>
           <Link href={`/posts/${post.id}`}>              
-            <h6 className='text-lg w-full mr-2 font-bold text-sky-900 md:text-2xl'>{post.title}</h6>                                  
+            <Htag tag="h6">{post.title}</Htag>                                   
           </Link>
           <CategoryLink category={category}/>
         </>

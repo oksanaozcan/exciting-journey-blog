@@ -1,4 +1,5 @@
 import React from "react";
+import Htag from "../Htag/Htag";
 
 export default function CategoryItem ({category, forPage}) {
   const {id, title, preview, count_posts} = category;
@@ -18,7 +19,7 @@ export default function CategoryItem ({category, forPage}) {
         src={preview} alt={title} 
       />
       <div className='category-layer'></div>
-      <h5 className='absolute font-bold px-6 duration-200 w-52 bottom-4 md:bottom-8 md:px-10 group:hover:scale-110 group-hover:text-black'>{title}</h5>
+      <Htag tag="h5">{title}</Htag>     
     </a> : null
 
   const forAllCategoriesPageItem = forPage === 'AllCategories' ?

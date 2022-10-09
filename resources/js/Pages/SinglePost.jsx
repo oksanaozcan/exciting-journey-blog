@@ -15,6 +15,7 @@ import ReactTooltip from 'react-tooltip';
 import FilledLikeIcon from '@/Components/icons/FilledLikeIcon';
 import LikeIcon from '@/Components/icons/LikeIcon';
 import SimilarPostGroup from '@/Components/client/SimilarPostGroup';
+import Htag from '../Components/Htag/Htag';
 
 export default function SinglePost (props) {
   const post = useMemo(() => props.post, []);    
@@ -78,8 +79,8 @@ export default function SinglePost (props) {
         <section id='single-post'>
           <div className="container bg-white max-w-6xl mx-auto px-6 py-12">
             <div className='flex flex-col my-4'>
-              <div className='w-full flex flex-row justify-between'>                  
-                <h6 className='text-lg w-full mr-2 font-bold text-sky-900 md:text-2xl'>{post.title}</h6>     
+              <div className='w-full flex flex-row justify-between'>      
+                <Htag tag='h1'>{post.title}</Htag>                           
                 <CategoryLink category={post.category}/>                                                        
               </div>
               <div className='flex flex-row w-full justify-between mt-4'>
