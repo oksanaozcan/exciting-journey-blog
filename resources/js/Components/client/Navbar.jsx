@@ -1,6 +1,8 @@
 import React from "react";
 import ApplicationLogo from '@/Components/ApplicationLogo';
 import MyNavlink from '@/Components/client/MyNavlink';
+import Lang from 'lang.js';
+import messageData from '../../../../public/messages.json';
 
 export default function Navbar ({isOpen, navToggle, authProps}) {
   
@@ -8,13 +10,20 @@ export default function Navbar ({isOpen, navToggle, authProps}) {
     navToggle();
   }
 
+  const lang = new Lang();
+  lang.setMessages({...messageData});
+
+  console.log(lang.get('test.test'));
+  lang.setLocale('ru');  
+  console.log(lang.get('test.test'));
+
   return (
     <>
       <nav className="flex items-center justify-between font-bold text-white">
         <ApplicationLogo className="fill-current text-gray-500 rounded-full"/>
         <div className="hidden h-10 md:flex md:space-x-8">
           <MyNavlink path={route('main')} title={"Home"}/>
-          <MyNavlink path={route('client.post.index')} title={"All Posts"}/>
+          <MyNavlink path={route('client.post.index')} title={'All Posts'}/>
           <MyNavlink path={route('client.category.index')} title={"Categories"}/>
           <MyNavlink path={route('client.tag.index')} title={"Tags"}/>
           <MyNavlink path={route('client.article.index')} title={"Articles from readers"}/>
