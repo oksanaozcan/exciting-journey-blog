@@ -19,14 +19,17 @@ lang.setMessages({...messageData});
 
 export const LangContext = createContext();
 
-//////////////////////////////////////////////////
+const locales = [
+  "en", "ru",
+];
 
+//////////////////////////////////////////////////
 
 createInertiaApp({
     title: (title) => `${title} - ${appName}`,
-    resolve: (name) => resolvePageComponent(`./Pages/${name}.jsx`, import.meta.glob('./Pages/**/*.jsx')),
-    setup({ el, App, props }) {
-        return render(<LangContext.Provider value={lang}><App {...props} /></LangContext.Provider>, el);
+    resolve: (name) => resolvePageComponent(`./Pages/${name}.jsx`, import.meta.glob('./Pages/**/*.jsx')),    
+    setup({ el, App, props }) {      
+        return render(<LangContext.Provider value={{lang, locales}}><App {...props} /></LangContext.Provider>, el);
     },
 });
 

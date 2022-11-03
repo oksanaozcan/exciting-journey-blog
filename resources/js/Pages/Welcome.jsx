@@ -1,4 +1,4 @@
-import React, { useState, useMemo, useEffect } from 'react';
+import React, { useState, useMemo, useEffect, useContext } from 'react';
 import { Link, Head } from '@inertiajs/inertia-react';
 import CategoryItem from '@/Components/client/CategoryItem';
 import Navbar from '@/Components/client/Navbar';
@@ -7,8 +7,11 @@ import PostsGrid from '@/Components/client/PostsGrid';
 import LatestPostsSlider from '@/Components/client/LatestPostsSlider';
 import SeeAllLink from '@/Components/ui/SeeAllLink';
 import Htag from '../Components/Htag/Htag';
+import { LangContext } from '../app';
 
 export default function Welcome(props) {
+  const {lang} = useContext(LangContext);
+
   const [isOpen, setIsOpen] = useState(false);
   const categories = useMemo(() => props.categories, []); 
   const popularPosts = useMemo(() => props.popularPosts, []); 
@@ -61,7 +64,7 @@ export default function Welcome(props) {
           <section id='feature'>         
             <div className="container max-w-6xl mx-auto mt-32 px-6 text-gray-900 md:px-0">
               <div className='flex justify-center md:justify-between'>
-                <Htag tag='h2'>Latest Posts</Htag>                
+                <Htag tag='h2'>Latest Posts {lang.get('test.test')}</Htag>                
                 <SeeAllLink classes={'hidden md:block'} route={route('client.post.index')}/>
               </div>             
               <div className='flex justify-center mt-10 md:hidden'>
