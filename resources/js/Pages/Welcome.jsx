@@ -7,7 +7,7 @@ import PostsGrid from '@/Components/client/PostsGrid';
 import LatestPostsSlider from '@/Components/client/LatestPostsSlider';
 import SeeAllLink from '@/Components/ui/SeeAllLink';
 import Htag from '../Components/Htag/Htag';
-import { LangContext } from '../app';
+import { LangContext } from '../Context/LangContext';
 
 export default function Welcome(props) {
   const {lang} = useContext(LangContext);

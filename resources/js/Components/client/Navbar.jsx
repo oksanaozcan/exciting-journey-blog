@@ -2,9 +2,9 @@ import React from "react";
 import ApplicationLogo from '@/Components/ApplicationLogo';
 import MyNavlink from '@/Components/client/MyNavlink';
 import { useContext } from "react";
-import { LangContext } from "../../app";
+import { LangContext } from "../../Context/LangContext";
 import Select from 'react-select';
-import { useState, useMemo } from "react";
+import { useState} from "react";
 import { useEffect } from "react";
 
 export default function Navbar ({isOpen, navToggle, authProps}) {
