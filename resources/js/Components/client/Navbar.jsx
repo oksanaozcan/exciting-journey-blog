@@ -26,21 +26,21 @@ export default function Navbar ({isOpen, navToggle, authProps}) {
       <nav className="flex items-center justify-between font-bold text-white">
         <ApplicationLogo className="fill-current text-gray-500 rounded-full"/>
         <div className="hidden h-10 md:flex md:space-x-8">
-          <MyNavlink path={route('main')} title={"Home"}/>
-          <MyNavlink path={route('client.post.index')} title={lang.get('test.test')}/>
-          <MyNavlink path={route('client.category.index')} title={"Categories"}/>
-          <MyNavlink path={route('client.tag.index')} title={"Tags"}/>
-          <MyNavlink path={route('client.article.index')} title={"Articles from readers"}/>
+          <MyNavlink path={route('main')} title={lang.get('navbar.home')}/>
+          <MyNavlink path={route('client.post.index')} title={lang.get('navbar.all_posts')}/>
+          <MyNavlink path={route('client.category.index')} title={lang.get('navbar.categories')}/>
+          <MyNavlink path={route('client.tag.index')} title={lang.get('navbar.tags')}/>
+          <MyNavlink path={route('client.article.index')} title={lang.get('navbar.articles')}/>
           {
             authProps ?
               <>
-                <MyNavlink path={route('dashboard')} title={"Dashboard"}/>              
-                <MyNavlink path={route('article.subscribers')} title={"Subscribers"}/>              
+                <MyNavlink path={route('dashboard')} title={lang.get('navbar.dashboard')}/>              
+                <MyNavlink path={route('article.subscribers')} title={lang.get('navbar.subscribers')}/>              
               </>
               :
               <>
-                <MyNavlink path={route('login')} title={"Login"}/>
-                <MyNavlink path={route('register')} title={"Register"}/>            
+                <MyNavlink path={route('login')} title={lang.get('navbar.login')}/>
+                <MyNavlink path={route('register')} title={lang.get('navbar.register')}/>            
               </> 
           }           
           <Select           
@@ -78,21 +78,21 @@ export default function Navbar ({isOpen, navToggle, authProps}) {
           `absolute top-0 bottom-0 left-0 flex flex-col self-end w-full min-h-screen py-1 pt-40 pl-12 space-y-3 text-lg text-white uppercase bg-black`                
         }
       >
-        <MyNavlink classes={'hover:text-pink-500'} path={route('main')} title={"Home"}/>
-        <MyNavlink classes={'hover:text-pink-500'} path={route('client.post.index')} title={"All Posts"}/>
-        <MyNavlink classes={'hover:text-pink-500'} path={route('client.category.index')} title={"Categories"}/>
-        <MyNavlink classes={'hover:text-pink-500'} path={route('client.tag.index')} title={"Tags"}/>
-        <MyNavlink classes={'hover:text-pink-500'} path={route('client.article.index')} title={"Articles from readers"}/>
+        <MyNavlink classes={'hover:text-pink-500'} path={route('main')} title={lang.get('navbar.home')}/>
+        <MyNavlink classes={'hover:text-pink-500'} path={route('client.post.index')} title={lang.get('navbar.all_posts')}/>
+        <MyNavlink classes={'hover:text-pink-500'} path={route('client.category.index')} title={lang.get('navbar.categories')}/>
+        <MyNavlink classes={'hover:text-pink-500'} path={route('client.tag.index')} title={lang.get('navbar.tags')}/>
+        <MyNavlink classes={'hover:text-pink-500'} path={route('client.article.index')} title={lang.get('navbar.articles')}/>
         {
           authProps ?
             <>
-              <MyNavlink classes={'hover:text-pink-500'} path={route('dashboard')} title={"Dashboard"}/>
-              <MyNavlink classes={'hover:text-pink-500'} path={route('article.subscribers')} title={"Subscribers"}/>
+              <MyNavlink classes={'hover:text-pink-500'} path={route('dashboard')} title={lang.get('navbar.dashboard')}/>
+              <MyNavlink classes={'hover:text-pink-500'} path={route('article.subscribers')} title={lang.get('navbar.subscribers')}/>
             </>
             :
             <>
-              <MyNavlink classes={'hover:text-pink-500'} path={route('login')} title={"Login"}/>
-              <MyNavlink classes={'hover:text-pink-500'} path={route('register')} title={"Register"}/>            
+              <MyNavlink classes={'hover:text-pink-500'} path={route('login')} title={lang.get('navbar.login')}/>
+              <MyNavlink classes={'hover:text-pink-500'} path={route('register')} title={lang.get('navbar.register')}/>            
             </> 
         }            
          

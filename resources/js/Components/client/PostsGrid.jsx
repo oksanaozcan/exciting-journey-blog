@@ -1,11 +1,14 @@
 import { Link } from "@inertiajs/inertia-react";
 import React from "react";
 import Htag from "../Htag/Htag";
+import { useContext } from "react";
+import { LangContext } from "../../Context/LangContext";
 
 export default function PostsGrid ({popularPosts}) {  
+  const {lang} = useContext(LangContext);
   return (
     <div className="container mx-auto max-w-6xl p-2 md:p-10">
-      <Htag tag="h3">Most Popular posts</Htag>      
+      <Htag tag="h3">{lang.get('welcomepage.popular_posts')}</Htag>      
       <div className="grid gap-6 grid-cols-1 text-white md:grid-cols-4 md:grid-rows-2">
 
         {/* box 0 */}

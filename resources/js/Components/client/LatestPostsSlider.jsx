@@ -4,8 +4,11 @@ import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import SeeAllLink from "../ui/SeeAllLink";
 import Htag from "../Htag/Htag";
+import { useContext } from "react";
+import { LangContext } from "../../Context/LangContext";
 
 export default function LatestPostsSlider (props) {
+  const {lang} = useContext(LangContext);
   const latestPosts = useMemo(() => props.latestPosts, []); 
 
   var settings = {
@@ -27,7 +30,7 @@ export default function LatestPostsSlider (props) {
               <div className="pr-10 mb-3">
                 <p className='max-w-md text-center md:text-left'>{item.description}</p>
               </div>                  
-              <SeeAllLink classes={'w-full md:w-2/4'} route={`/posts/${item.id}`} title={'Read More'}/> 
+              <SeeAllLink classes={'w-full md:w-2/4'} route={`/posts/${item.id}`} title={lang.get('welcomepage.read_more')}/> 
             </div>
           </div>
         ))

@@ -1,6 +1,9 @@
 import React from "react";
+import { useContext } from "react";
+import { LangContext } from "../../Context/LangContext";
 
 export default function SeeAllLink ({classes, route, title}) {
+  const {lang} = useContext(LangContext);
   return (
     <a
       href={route}
@@ -9,7 +12,7 @@ export default function SeeAllLink ({classes, route, title}) {
         {
           title ?
           title :
-          'See All'
+          lang.get('welcomepage.see_all')
         }        
     </a>
   )
