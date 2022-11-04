@@ -5,12 +5,17 @@ import { useContext } from "react";
 import { LangContext } from "../../app";
 import Select from 'react-select';
 import { useState, useMemo } from "react";
+import { useEffect } from "react";
 
 export default function Navbar ({isOpen, navToggle, authProps}) {
-  const {lang, locales} = useContext(LangContext);
+  const {lang, locales, setNewLocale} = useContext(LangContext);
   
   const [localesList, setLocalesList] = useState(locales.map(i => ({value: i, label: i})))
   const [selectedLocale, setSelectedLocale] = useState(lang.getLocale());   
+
+  useEffect(() => {
+    setSelectedLocale(lang.getLocale());
+  }, [lang])
   
   const isOpenHandler = () => {
     navToggle();
@@ -43,7 +48,7 @@ export default function Navbar ({isOpen, navToggle, authProps}) {
             defaultValue={localesList.filter(i => i.value == selectedLocale)}                
             onChange={newValue => {
               let newLoc = Object.values(newValue)[0];
-              lang.setLocale(newLoc)
+              setNewLocale(newLoc)
               setSelectedLocale(newLoc)
             }}            
             options={localesList}              
