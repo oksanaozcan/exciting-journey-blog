@@ -2,6 +2,7 @@
 
 return [   
 
+  'title_page' => 'Главная',
   'welcome_back' => 'Добро пожаловать',
   'latest_posts' => 'Последние посты',
   'our_categories' => 'Наши категории',

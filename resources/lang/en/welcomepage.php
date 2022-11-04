@@ -2,6 +2,7 @@
 
 return [   
 
+  'title_page' => 'Home',
   'welcome_back' => 'Welcome Back',
   'latest_posts' => 'Latest Posts',
   'our_categories' => 'Our Categories',

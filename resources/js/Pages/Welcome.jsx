@@ -30,7 +30,7 @@ export default function Welcome(props) {
   
     return (
         <>
-          <Head title="Exciting Journey" />
+          <Head title={lang.get('welcomepage.title_page')} />
                  
           <section id='hero'>
             <div className="container max-w-6xl mx-auto px-6 py-12">

@@ -6,8 +6,11 @@ import PostListItem from '@/Components/client/PostListItem';
 
 import Pagination from '@/Components/client/Pagination';
 import FollowCard from '@/Components/client/FollowCard';
+import { useContext } from 'react';
+import { LangContext } from '../Context/LangContext';
 
 export default function AllArticles({all_articles, auth, author=false, is_followings}) {
+  const {lang} = useContext(LangContext);
   const articles = useMemo(() => all_articles, []);  
   const authorArticles = useMemo(() => author, []);  
   const [isOpen, setIsOpen] = useState(false);  
@@ -17,7 +20,7 @@ export default function AllArticles({all_articles, auth, author=false, is_follow
   }  
     return (
         <>
-          <Head title="Articles" />       
+          <Head title={lang.get('allarticlespage.title_page')} />       
           <section id='posts'>
             <div className="container max-w-6xl mx-auto px-6 py-12">
               <Navbar isOpen={isOpen} navToggle={navToggle} authProps={auth.user}/>              

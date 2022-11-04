@@ -3,10 +3,12 @@ import { Head } from '@inertiajs/inertia-react';
 import Navbar from '@/Components/client/Navbar';
 import Footer from '@/Components/client/Footer';
 import PostListItem from '@/Components/client/PostListItem';
-
 import Pagination from '@/Components/client/Pagination';
+import { useContext } from 'react';
+import { LangContext } from '../Context/LangContext';
 
 export default function AllPosts(props) {
+  const {lang} = useContext(LangContext)
   const posts = useMemo(() => props.posts, []);  
   const [isOpen, setIsOpen] = useState(false);  
 
@@ -15,7 +17,7 @@ export default function AllPosts(props) {
   }  
     return (
         <>
-          <Head title="Exciting Journey" />
+          <Head title={lang.get('allpostspage.title_page')} />
        
           <section id='posts'>
             <div className="container max-w-6xl mx-auto px-6 py-12">
