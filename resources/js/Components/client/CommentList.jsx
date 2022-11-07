@@ -1,7 +1,10 @@
 import React from "react";
+import { useContext } from "react";
+import { LangContext } from "../../Context/LangContext";
 import RootComment from "./RootComment";
 
 export default function CommentList ({comments, postId, useForm, usePage, isArticle=false}) {
+  const {lang} = useContext(LangContext);
   const rootComments = comments.filter(comment => comment.parent_id == null);
   
   const getReplies = commentId => {
@@ -12,7 +15,7 @@ export default function CommentList ({comments, postId, useForm, usePage, isArti
   return (
     <>
     <div className="container bg-white max-w-6xl mx-auto px-6 py-12 mt-4 mb-4">
-      <h3 className="mb-4 text-lg font-semibold text-gray-900">Comments</h3>
+      <h3 className="mb-4 text-lg font-semibold text-gray-900">{lang.get('comment.comments')}</h3>
 
   <div className="space-y-4">
     {

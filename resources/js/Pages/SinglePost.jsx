@@ -16,8 +16,13 @@ import FilledLikeIcon from '@/Components/icons/FilledLikeIcon';
 import LikeIcon from '@/Components/icons/LikeIcon';
 import SimilarPostGroup from '@/Components/client/SimilarPostGroup';
 import Htag from '../Components/Htag/Htag';
+import { formatDistance } from "date-fns";
+import { enUS, ru } from 'date-fns/locale';
+import { useContext } from 'react';
+import { LangContext } from '../Context/LangContext';
 
 export default function SinglePost (props) {
+  const {lang} = useContext(LangContext);
   const post = useMemo(() => props.post, []);    
   const {is_liked, similar_posts} = props;
 
@@ -85,7 +90,12 @@ export default function SinglePost (props) {
               </div>
               <div className='flex flex-row w-full justify-between mt-4'>
                 <small className='text-gray-900 text-sm font-mono md:text-base'>{post.author}</small>
-                <small className='text-slate-600 text-sm font-mono md:text-base'>{post.created_at}</small>
+                <small className='text-slate-600 text-sm font-mono md:text-base'>
+                  {formatDistance(
+                    new Date(post.created_at_noformat), new Date(), 
+                    {addSuffix: true, locale: lang.getLocale() == 'en' ? enUS : ru}
+                  )}
+                </small>
               </div>   
               <div className='flex flex-row my-4 justify-center'>
                 {
@@ -135,7 +145,7 @@ export default function SinglePost (props) {
                 </div>               
               }
               <div className='text-blue-700'>
-                Total Visits: {post.visits_count}
+              {lang.get('pagination.total_visit')}: {post.visits_count}
               </div>
             </div>       
             <SimilarPostGroup similar_posts={similar_posts} />  

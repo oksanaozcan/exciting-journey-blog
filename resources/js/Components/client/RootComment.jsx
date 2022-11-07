@@ -1,8 +1,13 @@
 import React, { useState } from "react";
+import { useContext } from "react";
+import { LangContext } from "../../Context/LangContext";
 import AddNewCommentForm from "./AddNewCommentForm";
 import ReplyComment from "./ReplyComment";
+import { formatDistance } from "date-fns";
+import { enUS, ru } from 'date-fns/locale';
 
 export default function RootComment ({comment,replies, postId, useForm, usePage, isArticle=false}) {
+  const {lang} = useContext(LangContext);
   const [isVisibleReplyComment, setIsVisibleReplyComment] = useState(false);
   const [isActiveReplyForm, setIsActiveReplyForm] = useState(false);
 
@@ -17,7 +22,12 @@ export default function RootComment ({comment,replies, postId, useForm, usePage,
   return (
     <div className="flex">     
       <div className="flex-1 border rounded-lg px-4 py-2 sm:px-6 sm:py-4 leading-relaxed">
-        <strong>{comment.user_name}</strong> <span className="text-xs text-gray-400">{comment.time_for_human}</span>
+        <strong>{comment.user_name}</strong> <span className="text-xs text-gray-400">
+        {formatDistance(
+          new Date(comment.created_at), new Date(), 
+          {addSuffix: true, locale: lang.getLocale() == 'en' ? enUS : ru}
+        )}
+        </span>
         <p className="text-sm">
           {comment.message}
         </p>
@@ -27,14 +37,14 @@ export default function RootComment ({comment,replies, postId, useForm, usePage,
             className="text-sm text-gray-500 font-semibold"
             onClick={toggleVisibleReplyComment}
           > 
-            {replies.length} Replies ...
+            {lang.get('comment.replies')}: {replies.length}
           </button>
           <button 
             type="button" 
             className="text-sm text-gray-500 font-semibold"
             onClick={toggleActiveReplyForm}
           > 
-            Reply
+            {lang.get('comment.reply')}
           </button>            
         </div>
         {

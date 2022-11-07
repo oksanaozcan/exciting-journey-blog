@@ -22,6 +22,7 @@ class SingleArticleResource extends JsonResource
           'description' => $this->description,          
           'content' => $this->content,      
           'created_at' => Carbon::parse($this->created_at)->diffForHumans(),
+          'created_at_noformat' => $this->created_at,
           'author' => $this->user->name,
           'author_id' => $this->user->id,
           'likes_count' => $this->likes_count,

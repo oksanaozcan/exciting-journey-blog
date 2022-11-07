@@ -26,6 +26,7 @@ class SinglePostResource extends JsonResource
           'content' => $this->content,          
           'pictures' => PictureResource::collection($this->pictures),          
           'created_at' => Carbon::parse($this->created_at)->diffForHumans(),
+          'created_at_noformat' => $this->created_at,
           'author' => $this->user->name,
           'likes_count' => $this->likes_count,
           'comments_count' => $this->comments_count,

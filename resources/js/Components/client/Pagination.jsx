@@ -2,8 +2,11 @@ import React from "react";
 import { Link } from "@inertiajs/inertia-react";
 import PreviousArrow from '@/Components/icons/PreviousArrow';
 import NextArrow from '@/Components/icons/NextArrow';
+import { useContext } from "react";
+import { LangContext } from "../../Context/LangContext";
 
 export default function Pagination ({items}) {
+  const {lang} = useContext(LangContext)
   return(   
     <div className="px-4 py-3 flex items-center justify-between border-t border-gray-200 sm:px-6">
     <div className="flex-1 flex justify-between sm:hidden">
@@ -13,13 +16,13 @@ export default function Pagination ({items}) {
     <div className="hidden sm:flex-1 sm:flex sm:items-center sm:justify-between">
       <div>
         <p className="text-sm text-gray-700">
-          Showing {' '}
+          {lang.get('pagination.showing')} {' '}
           <span className="font-medium">{items.meta.from}</span>
-          {' '}to{' '}
+          {' '}{lang.get('pagination.to')}{' '}
           <span className="font-medium">{items.meta.from + (items.meta.per_page-1)}</span>
-          {' '}of{' '}
+          {' '}{lang.get('pagination.of')}{' '}
           <span className="font-medium">{items.meta.total}</span>
-          {' '}results
+          {' '}{lang.get('pagination.results')}
         </p>
       </div>
       <div>

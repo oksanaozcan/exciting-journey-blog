@@ -1,8 +1,10 @@
 import React, {useState, useEffect} from "react";
 import { Inertia } from '@inertiajs/inertia';
+import { useContext } from "react";
+import {LangContext} from '../../Context/LangContext';
 
 export default function AddNewCommentForm ({postId, useForm, usePage, commentInput, parentId = null, setIsActiveReplyForm = null, isArticle=false}) {
-
+  const {lang} = useContext(LangContext);
   const [newComment, setNewComment] = useState('');
   const [email, setEmail] = useState('');
 
@@ -50,7 +52,7 @@ export default function AddNewCommentForm ({postId, useForm, usePage, commentInp
         <div className="mb-2">         
           <textarea 
             className="w-full h-20 p-4 border rounded focus:outline-none focus:ring-gray-300 focus:ring-1"
-            placeholder="Add a comment"
+            placeholder={lang.get('comment.add_comment')}
             required
             maxLength={1000}
             onChange={e => setNewComment(e.target.value)}
@@ -71,7 +73,7 @@ export default function AddNewCommentForm ({postId, useForm, usePage, commentInp
             className=" btn"
             disabled={processing}
             >
-              Add comment
+              {lang.get('comment.add_comment')}
           </button>
           <small
             className={newComment.length <= 1000 ? 'text-green-800' : 'text-red-800'}

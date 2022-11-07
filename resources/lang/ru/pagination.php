@@ -15,5 +15,10 @@ return [
 
     'previous' => '&laquo; Предыдущий',
     'next' => 'Следующий &raquo;',
+    'showing' => 'Показать от',
+    'to' => 'до',
+    'of' => 'из',
+    'results' => 'всего',
+    'total_visit' => 'Всего посещений', 
 
 ];
