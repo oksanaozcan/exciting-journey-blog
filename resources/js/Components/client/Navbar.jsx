@@ -44,7 +44,7 @@ export default function Navbar ({isOpen, navToggle, authProps}) {
               </> 
           }           
           <Select           
-            className='mb-4'            
+            className='text-black p-0 m-0'            
             defaultValue={localesList.filter(i => i.value == selectedLocale)}                
             onChange={newValue => {
               let newLoc = Object.values(newValue)[0];

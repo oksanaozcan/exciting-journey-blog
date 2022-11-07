@@ -4,6 +4,8 @@ import { useContext } from "react";
 import { LangContext } from "../../Context/LangContext";
 import Htag from "../Htag/Htag";
 import CategoryLink from "../ui/CategoryLink";
+import { formatDistance } from "date-fns";
+import { enUS, ru } from 'date-fns/locale';
 
 export default function PostListItem ({post, isArticle}) {
   const {lang} = useContext(LangContext);
@@ -37,8 +39,13 @@ export default function PostListItem ({post, isArticle}) {
           </Link>
           :
           <small className='text-gray-900 text-sm font-mono md:text-base'>{post.author}</small>
-        }        
-        <small className='text-slate-600 text-sm font-mono md:text-base'>{post.for_human_date}</small>
+        }
+        <small className='text-slate-600 text-sm font-mono md:text-base'>
+          {formatDistance(
+            new Date(post.created_at), new Date(), 
+            {addSuffix: true, locale: lang.getLocale() == 'en' ? enUS : ru}
+          )}
+        </small>
       </div>
       <div className='w-4/5 h-0.5 bg-slate-500 my-4'></div>
       <div className='flex flex-col items-center'>
