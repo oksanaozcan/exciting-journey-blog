@@ -14,7 +14,7 @@ const FollowCard = ({authorArticles, isFollowings, isPublicProfilePage=false, au
   }, [])
 
   useEffect(() => {
-    if (auth.user.id == authorArticles.id) {
+    if (auth.user !== null && auth.user.id == authorArticles.id) {
       setIsDisabled(true)
     } else {
       setIsDisabled(false)
