@@ -86,9 +86,21 @@ export default function Register() {
                         handleChange={onHandleChange}
                         required
                     />
+                    {
+                      errors.password && errors.password == 'The password confirmation does not match.' &&
+                      <InputError message={lang.get('validation.confirmed')} className="mt-2" />
+                    }
+                    {
+                      errors.password && errors.password == 'The password must be at least 8 characters.' &&
+                      <InputError message={lang.get('validation.min.string')} className="mt-2" />
+                    }
+                    {
+                      errors.password && errors.password !== 'The password confirmation does not match.' && errors.password !== 'The password must be at least 8 characters.' &&
+                      <InputError message={errors.password} className="mt-2" />
+                    }
 
-                    <InputError message={errors.password} className="mt-2" />
-                    <InputError message={lang.get('')} className="mt-2" />
+                   
+                    
                 </div>
 
                 <div className="mt-4">
