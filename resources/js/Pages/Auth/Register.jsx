@@ -5,14 +5,20 @@ import InputLabel from '@/Components/InputLabel';
 import PrimaryButton from '@/Components/PrimaryButton';
 import TextInput from '@/Components/TextInput';
 import { Head, Link, useForm } from '@inertiajs/inertia-react';
+import { useContext } from 'react';
+import { LangContext } from '../../Context/LangContext';
 
 export default function Register() {
+  const {lang} = useContext(LangContext); 
+
     const { data, setData, post, processing, errors, reset } = useForm({
         name: '',
         email: '',
         password: '',
         password_confirmation: '',
     });
+
+    console.log(errors)
 
     useEffect(() => {
         return () => {
@@ -82,6 +88,7 @@ export default function Register() {
                     />
 
                     <InputError message={errors.password} className="mt-2" />
+                    <InputError message={lang.get('')} className="mt-2" />
                 </div>
 
                 <div className="mt-4">
