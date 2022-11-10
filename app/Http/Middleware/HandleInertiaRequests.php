@@ -6,6 +6,7 @@ use App\Models\User;
 use App\Types\PermissionType;
 use App\Types\RoleType;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Cache;
 use Inertia\Middleware;
 use Tightenco\Ziggy\Ziggy;
 
