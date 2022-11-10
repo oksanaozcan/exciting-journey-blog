@@ -9,14 +9,14 @@ use App\Models\Post;
 use App\Models\Tag;
 use App\Models\User;
 use App\Types\RoleType;
-use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Cache;
 
 class AdminController extends Controller
 {
   public function index()
   {
     $usersCount = User::all()->count();
-    $categoriesCount = Category::all()->count();
+    $categoriesCount = Cache::get('categories')->count();
     $postsCount = Post::all()->count();
     $tagsCount = Tag::all()->count();
     $commentsCount = Comment::all()->count();

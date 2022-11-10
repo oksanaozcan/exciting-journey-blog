@@ -15,6 +15,7 @@ use App\Models\Comment;
 use App\Models\Tag;
 use Illuminate\Support\Facades\Redirect;
 use App\Http\Resources\SinglePostResource;
+use Illuminate\Support\Facades\Cache;
 
 class PostController extends PostServiceController
 {
@@ -34,7 +35,7 @@ class PostController extends PostServiceController
 
   public function create()
   { 
-    $categories = CategoryResource::collection(Category::all());
+    $categories = CategoryResource::collection(Cache::get('categories'));
     $tags = TagResourse::collection(Tag::all());  
     return inertia('Admin/Posts/CreatePost', compact('categories', 'tags'));
   }
@@ -57,7 +58,7 @@ class PostController extends PostServiceController
 
   public function edit(Post $post)
   {
-    $categories = CategoryResource::collection(Category::all());
+    $categories = CategoryResource::collection(Cache::get('categories'));
     $tags = TagResourse::collection(Tag::all());  
 
     $postTags = TagResourse::collection($post->tags);
