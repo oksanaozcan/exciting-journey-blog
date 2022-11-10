@@ -20,7 +20,7 @@ class SinglePostResource extends JsonResource
           'id' => $this->id,
           'preview' => $this->preview,
           'title' => $this->title,
-          'category' => Category::find($this->category_id),
+          'category' => $this->category,
           'tags' => TagResource::collection($this->tags),
           'description' => $this->description,          
           'content' => $this->content,          
