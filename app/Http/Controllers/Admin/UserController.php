@@ -10,6 +10,7 @@ use App\Types\RoleType;
 use Illuminate\Http\Request;
 use Spatie\Permission\Models\Role;
 use Exception;
+use Illuminate\Support\Facades\Cache;
 
 class UserController extends Controller
 {   
@@ -73,6 +74,8 @@ class UserController extends Controller
       'roles' =>'nullable'
     ]);    
     $user->syncRoles($data);
+
+    Cache::forget('permissions');
 
     return redirect()->back();
   }

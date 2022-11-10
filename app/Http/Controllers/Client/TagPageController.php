@@ -7,20 +7,22 @@ use App\Http\Resources\PostResource;
 use App\Http\Resources\TagResource;
 use App\Models\Post;
 use App\Models\Tag;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
 class TagPageController extends Controller
 {
   public function index ()
-  {    
-    $tags = Tag::paginate(40);
-    $collection = TagResource::collection($tags);
+  {
+    $tags = Cache::rememberForever('tags', function () {
+      return TagResource::collection(Tag::paginate(40));
+    });
     
     return Inertia::render('AllTags', [
       'canLogin' => Route::has('login'),
       'canRegister' => Route::has('register'),      
-      'tags' => $collection
+      'tags' => $tags,
     ]);
   }
 

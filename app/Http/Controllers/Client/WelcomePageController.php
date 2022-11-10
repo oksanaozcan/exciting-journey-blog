@@ -14,14 +14,20 @@ class WelcomePageController extends Controller
 {
   public function index()
   {
-    $popularPosts = Post::withCount('likes')->orderBy('likes_count', 'DESC')->get()->take(5);
+    $latestPosts = Cache::rememberForever('latestPosts', function () {
+      return PostResource::collection(Post::latest()->limit(4)->get());
+    });
+
+    $popularPosts = Cache::remember('popularPosts', now()->addHours(4), function () {
+      return PostResource::collection(Post::withCount('likes')->orderBy('likes_count', 'DESC')->get()->take(5));
+    });
 
     return Inertia::render('Welcome', [
       'canLogin' => Route::has('login'),
       'canRegister' => Route::has('register'),     
-      'latestPosts' => Cache::get('latestPosts'),
+      'latestPosts' => $latestPosts,
       'categories' => CategoryResource::collection(Cache::get('categories')->shuffle()->take(8)),
-      'popularPosts' => PostResource::collection($popularPosts)
+      'popularPosts' => $popularPosts,
   ]);
   }
 }

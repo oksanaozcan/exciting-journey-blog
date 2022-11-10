@@ -10,6 +10,7 @@ class PostObserver
   protected function clearCache() 
   {
     Cache::forget('latestPosts');
+    Cache::forget('posts');
   }
 
   public function created(Post $post)

@@ -9,20 +9,22 @@ use App\Http\Resources\SinglePostResource;
 use App\Models\Comment;
 use App\Models\Post;
 use App\Models\PostUserLike;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
 class PostPageController extends Controller
 {
   public function index ()
-  {    
-    $posts = Post::orderByDesc('id')->paginate(5);
-    $collection = PostResource::collection($posts);   
+  {  
+    $posts = Cache::rememberForever('posts', function () {
+      return PostResource::collection(Post::orderByDesc('id')->paginate(5));
+    });
 
     return Inertia::render('AllPosts', [
       'canLogin' => Route::has('login'),
       'canRegister' => Route::has('register'),      
-      'posts' => $collection
+      'posts' => $posts,
     ]);
   }  
 

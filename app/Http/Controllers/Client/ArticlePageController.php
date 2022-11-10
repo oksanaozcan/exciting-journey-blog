@@ -12,16 +12,18 @@ use Inertia\Inertia;
 use App\Http\Resources\CommentResource;
 use App\Http\Resources\PublicUserProfileResource;
 use App\Models\User;
+use Illuminate\Support\Facades\Cache;
 
 class ArticlePageController extends Controller
 {
   public function index()
   {
-    $articles = Article::orderByDesc('id')->paginate(5);
-    $collection = ArticleResource::collection($articles);   
+    $allArticles = Cache::rememberForever('allArticles', function () {
+      return ArticleResource::collection(Article::orderByDesc('id')->paginate(5));
+    });    
 
     return Inertia::render('AllArticles', [        
-      'all_articles' => $collection
+      'all_articles' => $allArticles,
     ]);
   }
 
