@@ -16,7 +16,7 @@ class AdminController extends Controller
   public function index()
   {
     $usersCount = User::all()->count();
-    $categoriesCount = Cache::get('categories')->count();
+    $categoriesCount = Cache::get('categories', Category::all())->count();
     $postsCount = Post::all()->count();
     $tagsCount = Tag::all()->count();
     $commentsCount = Comment::all()->count();

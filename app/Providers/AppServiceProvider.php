@@ -29,11 +29,7 @@ class AppServiceProvider extends ServiceProvider
     public function boot()
     {
       JsonResource::withoutWrapping();
-      Paginator::useBootstrapFive();      
-
-      $categories = Cache::rememberForever('categories', function () {
-        return Category::all();
-      });
-      View::share('categories', $categories);      
+      Paginator::useBootstrapFive();
+            
     }
 }
