@@ -43,8 +43,7 @@ class ArticleController extends BaseDashboardPageController
   
   public function store(StoreRequest $request)
   {
-    $data = $request->validated();
-    
+    $data = $request->validated();    
     $res = $this->service->store($data);
     
     if ($res) {      

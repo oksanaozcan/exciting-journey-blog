@@ -5,13 +5,13 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\Category;
 use Illuminate\Http\Request;
-use App\Repositories\CategoryRepository;
+use App\Repositories\Interfaces\CategoryRepositoryInterface;
 
 class CategoryController extends Controller
 {
   private $categoryRepository;
 
-  public function __construct(CategoryRepository $categoryRepository)
+  public function __construct(CategoryRepositoryInterface $categoryRepository)
   {
     $this->categoryRepository = $categoryRepository;    
   }
@@ -24,7 +24,7 @@ class CategoryController extends Controller
 
   public function indexDeleted()
   {
-    $trashedCategories = Category::onlyTrashed()->get();
+    $trashedCategories = $this->categoryRepository->onlyTrashed();
     return view('admin.category.deleted', compact('trashedCategories'));
   }  
 
@@ -57,7 +57,7 @@ class CategoryController extends Controller
   
   public function delete(Category $category)
   {
-    $category->delete();
+    $this->categoryRepository->delete($category);
     return redirect()->route('admin.category.index');    
   } 
 }

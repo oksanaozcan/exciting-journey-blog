@@ -3,29 +3,30 @@
 namespace App\Http\Controllers\Client;
 
 use App\Http\Controllers\Controller;
-use App\Http\Resources\CategoryResource;
 use App\Http\Resources\PostResource;
 use App\Models\Category;
 use App\Models\Post;
-use Illuminate\Http\Request;
-use Illuminate\Foundation\Application;
-use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
-use PhpParser\Node\Expr\AssignOp\Pow;
+use App\Repositories\Interfaces\CategoryRepositoryInterface;
 
 class CategoryPageController extends Controller
 {
+  private $categoryRepository;
+
+  public function __construct(CategoryRepositoryInterface $categoryRepository)
+  {
+    $this->categoryRepository = $categoryRepository;    
+  }
+
   public function index ()
-  {    
-    $categories = Category::paginate(10);    
-    $collection = CategoryResource::collection($categories);
-    
+  { 
+    $categories = $this->categoryRepository->allWithFormating();
+
     return Inertia::render('AllCategories', [
       'canLogin' => Route::has('login'),
       'canRegister' => Route::has('register'),      
-      'categories' => $collection,
-      
+      'categories' => $categories,      
     ]);
   }
 
