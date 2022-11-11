@@ -2,6 +2,8 @@
 
 namespace App\Providers;
 
+use App\Events\CommentReceivedEvent;
+use App\Listeners\SendCommentReceivedNotification;
 use App\Models\Article;
 use App\Models\Category;
 use App\Models\Post;
@@ -43,6 +45,11 @@ class EventServiceProvider extends ServiceProvider
       Article::observe(ArticleObserver::class);
       Post::observe(PostObserver::class);
       Tag::observe(TagObserver::class);
+
+      Event::listen(
+        CommentReceivedEvent::class,
+        [SendCommentReceivedNotification::class, 'handle']
+      );
     }
 
     /**

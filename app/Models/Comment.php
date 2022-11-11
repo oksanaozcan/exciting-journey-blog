@@ -21,4 +21,15 @@ class Comment extends Model
     {
       return $this->belongsTo(User::class, 'user_id', 'id');
     }
+
+    public function getModel()
+    {
+      $modelType = $this->commentable_type;
+      if ($modelType == 'App\Models\Post') {
+        return Post::find($this->commentable_id);
+      }
+      if ($modelType == 'App\Models\Article') {
+        return Article::find($this->commentable_id);
+      }
+    }
 }

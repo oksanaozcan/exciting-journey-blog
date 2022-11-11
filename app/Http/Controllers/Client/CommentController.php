@@ -2,9 +2,11 @@
 
 namespace App\Http\Controllers\Client;
 
+use App\Events\CommentReceivedEvent;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Client\Comment\StoreRequest;
 use App\Models\Comment;
+use App\Models\User;
 use Illuminate\Support\Facades\Redirect;
 
 class CommentController extends Controller
@@ -21,6 +23,8 @@ class CommentController extends Controller
     ]);
 
     if ($comment) {     
+      $recipient = User::find($comment->getModel()->user_id);
+      event(new CommentReceivedEvent($comment, $recipient));
       return Redirect::back();
     }    
   }
