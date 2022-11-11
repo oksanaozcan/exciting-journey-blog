@@ -2,9 +2,15 @@
 
 namespace App\Providers;
 
+use App\Models\Article;
 use App\Models\Category;
+use App\Models\Post;
+use App\Models\Tag;
 use App\Models\User;
+use App\Observers\ArticleObserver;
 use App\Observers\CategoryObserver;
+use App\Observers\PostObserver;
+use App\Observers\TagObserver;
 use App\Observers\UserObserver;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Auth\Listeners\SendEmailVerificationNotification;
@@ -34,6 +40,9 @@ class EventServiceProvider extends ServiceProvider
       parent::boot();
       User::observe(UserObserver::class);
       Category::observe(CategoryObserver::class);
+      Article::observe(ArticleObserver::class);
+      Post::observe(PostObserver::class);
+      Tag::observe(TagObserver::class);
     }
 
     /**
