@@ -6,6 +6,7 @@ use Coderflex\Laravisit\Concerns\CanVisit;
 use Coderflex\Laravisit\Concerns\HasVisits;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\MorphMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Facades\DB;
 
@@ -15,7 +16,7 @@ class Post extends Model implements CanVisit
   protected $guarded = [];
 
   protected $with = ['category', 'tags'];
-  protected $withCount = ['comments', 'likes'];
+  protected $withCount = ['comments', 'likes', 'visits'];
 
   public function category() {              
     return $this->belongsTo(Category::class, 'category_id', 'id');
@@ -43,6 +44,6 @@ class Post extends Model implements CanVisit
   public function likes()
   {
     return $this->morphMany('App\Models\PostUserLike', 'likeable');
-  }
+  }   
 
 }

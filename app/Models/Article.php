@@ -14,7 +14,7 @@ class Article extends Model implements CanVisit
 
     protected $guarded = [];
 
-    protected $withCount = ['comments', 'likes'];
+    protected $withCount = ['comments', 'likes', 'visits'];
 
     public function comments()
     {

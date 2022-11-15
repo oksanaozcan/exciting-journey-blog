@@ -31,7 +31,7 @@ class PostResource extends JsonResource
           'author' => $this->user->name,
           'comments_count' => $this->comments_count,
           'likes_count' => $this->likes_count,
-          'visits_count' => count($this->visits),
+          'visits_count' => $this->visits_count,
         ];
     }
 }
