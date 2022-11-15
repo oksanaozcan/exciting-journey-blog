@@ -14,7 +14,7 @@ class Post extends Model implements CanVisit
   use HasFactory, SoftDeletes, HasVisits;
   protected $guarded = [];
 
-  protected $with = ['category'];
+  protected $with = ['category', 'tags'];
   protected $withCount = ['comments', 'likes'];
 
   public function category() {              
