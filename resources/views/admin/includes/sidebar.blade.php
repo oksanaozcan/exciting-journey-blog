@@ -198,7 +198,27 @@
               </a>
             </li>                    
           </ul>
-        </li>               
+        </li>          
+        
+        @can(['admin', 'writer']) 
+        <li class="nav-item">
+          <a href={{ route('admin.chat.index') }} class="nav-link"> 
+            <i class="nav-icon fas fa-sticky-note"></i>
+            <p>
+              Chat
+              <i class="fas fa-angle-left right"></i>
+            </p>
+          </a>
+          <ul class="nav nav-treeview">
+            <li class="nav-item">
+              <a href={{ route('admin.chat.index') }} class="nav-link">
+                <i class="far fa-circle nav-icon"></i>
+                <p>Chat</p>
+              </a>
+            </li>               
+          </ul>
+        </li>
+        @endcan
 
         <li class="nav-item">          
           <a class="nav-link" href="{{ route('logout') }}"

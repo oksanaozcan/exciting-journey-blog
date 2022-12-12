@@ -3,6 +3,7 @@
 use App\Http\Controllers\Admin\AdminController;
 use App\Http\Controllers\Admin\ArticleController as AdminArticleController;
 use App\Http\Controllers\Admin\CategoryController;
+use App\Http\Controllers\Admin\ChatController;
 use App\Http\Controllers\Admin\CommentController as AdminCommentController;
 use App\Http\Controllers\Admin\PostController;
 use App\Http\Controllers\Admin\TagController;
@@ -146,6 +147,10 @@ Route::middleware(['auth', 'verified'])->group(function () {
       Route::get('/', [AdminArticleController::class, 'index'])->middleware(['can:'.PermissionType::CAN_UPDATE_COMMENT])->name('admin.article.index');
       Route::get('/deleted', [AdminArticleController::class, 'indexDeleted'])->middleware(['can:'.PermissionType::CAN_UPDATE_COMMENT])->name('admin.article.deleted');
       Route::delete('/{article}', [AdminArticleController::class, 'delete'])->middleware(['can:'.PermissionType::CAN_UPDATE_COMMENT])->name('admin.article.delete');
+    });
+
+    Route::prefix('chat')->group(function () {
+      Route::get('/', [ChatController::class, 'index'])->middleware(['can:'.PermissionType::CAN_CREATE_POST])->name('admin.chat.index');
     });
 
   });

@@ -4,6 +4,7 @@ import UsersIcon from '@/Components/icons/UsersIcon';
 import CategoryIcon from '@/Components/icons/CategoryIcon';
 import TagIcon from '@/Components/icons/TagIcon';
 import PostIcon from '@/Components/icons/PostIcon';
+import ChatIcon from '@/Components/icons/ChatIcon';
 import CommentIcon from '@/Components/icons/CommentIcon';
 import ShieldCheckIcon from '@/Components/icons/ShieldCheckIcon';
 
@@ -156,6 +157,22 @@ const dropdownData = [
         title: 'Banned Readers',
         permissionFor: ['admin', 'moderator'],
       },      
+    ]
+  },
+  {
+    id: uuidv4(),
+    title: 'Chat',
+    icon: <ChatIcon/>,
+    dropdown: false,
+    permissionFor: ['admin', 'writer'],
+    inertiaLink: false,
+    links: [
+      {
+        id: uuidv4(),
+        route: 'admin.chat.index',
+        title: "Chat",
+        permissionFor: ['admin', 'writer'],
+      },           
     ]
   },
 
