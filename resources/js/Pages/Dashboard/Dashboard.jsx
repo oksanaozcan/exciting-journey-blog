@@ -1,11 +1,33 @@
+import Pusher from 'pusher-js';
 import React, {useMemo} from 'react';
 import Authenticated from '@/Layouts/Authenticated';
 import { Head} from '@inertiajs/inertia-react';
 import Profile from '@/Components/client/tabs/Profile';
 import SidebarDashboard from '@/Components/client/SidebarDashboard';
+import { useEffect } from 'react';
 
 export default function Dashboard({permissions, auth, errors, comments, admin, public_info}) {
   const publicInfo = useMemo(() => public_info, []);
+
+  useEffect(() => {  
+
+    // Pusher.logToConsole = true;
+
+    const pusher = new Pusher(import.meta.env.VITE_PUSHER_APP_KEY, {
+      cluster: 'eu'
+    });
+
+    var channel = pusher.subscribe('session-changed');
+    channel.bind("session-changed-event", function(data) {
+      alert(JSON.stringify(data));
+    });
+    
+    return (() => {
+      pusher.unsubscribe('session-changed');
+    });    
+    
+
+  }, []);
 
   return (
     <Authenticated

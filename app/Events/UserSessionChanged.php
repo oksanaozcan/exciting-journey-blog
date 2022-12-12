@@ -26,7 +26,12 @@ class UserSessionChanged implements ShouldBroadcast
   
   public function broadcastOn()
   {
-    // Log::debug($this->message);
-    return new Channel('session-changed');
+    // Log::debug("{$this->message} with new set");
+    return ['session-changed'];
+  }
+
+  public function broadcastAs()
+  {
+    return 'session-changed-event';
   }
 }
