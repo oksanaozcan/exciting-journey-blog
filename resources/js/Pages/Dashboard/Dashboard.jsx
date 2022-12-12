@@ -5,28 +5,36 @@ import { Head} from '@inertiajs/inertia-react';
 import Profile from '@/Components/client/tabs/Profile';
 import SidebarDashboard from '@/Components/client/SidebarDashboard';
 import { useEffect } from 'react';
+import { useState } from 'react';
+import Toast from '../../Components/ui/Toast';
+import { v4 as uuidv4 } from 'uuid';
 
 export default function Dashboard({permissions, auth, errors, comments, admin, public_info}) {
   const publicInfo = useMemo(() => public_info, []);
 
-  useEffect(() => {  
+  const [toasts, setToasts] = useState([]);
 
-    // Pusher.logToConsole = true;
+  const removeToast = (id) => {
+    let newToastsState = toasts.filter(item => item.id !== id);
+    setToasts(newToastsState);    
+  }
 
+  useEffect(() => {
     const pusher = new Pusher(import.meta.env.VITE_PUSHER_APP_KEY, {
       cluster: 'eu'
     });
 
-    var channel = pusher.subscribe('session-changed');
+    const channel = pusher.subscribe('session-changed');
     channel.bind("session-changed-event", function(data) {
-      alert(JSON.stringify(data));
+      setToasts(state => [...state, {
+        id: uuidv4(),
+        ...data
+      }]);
     });
     
     return (() => {
       pusher.unsubscribe('session-changed');
-    });    
-    
-
+    });
   }, []);
 
   return (
@@ -49,7 +57,14 @@ export default function Dashboard({permissions, auth, errors, comments, admin, p
               </div>
             </div>        
           </div>
-        </div>         
+        </div>       
+        <div className='fixed top-6 right-6 z-50 w-full max-w-xs'>
+          {
+            toasts && toasts.map(item => (
+              <Toast key={item.id} item={item} removeToast={removeToast}/>
+            ))
+          }         
+        </div>        
     </Authenticated>
   );
 }
